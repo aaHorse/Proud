@@ -1,0 +1,4 @@
+rootProject.name='Proud'
+include ':app'
+include ':core'
+include ':network'
