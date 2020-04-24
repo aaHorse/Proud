@@ -1,4 +1,4 @@
-package com.horse.proud.data.event
+package com.horse.proud.event
 
 /**
  * 强制用户返回登录界面的消息类。

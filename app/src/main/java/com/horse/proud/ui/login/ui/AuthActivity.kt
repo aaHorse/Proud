@@ -6,9 +6,9 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.core.proud.util.SharedUtil
-import com.horse.network.model.Callback
-import com.horse.network.model.GetBaseinfo
-import com.horse.network.model.Response
+import com.horse.proud.network.model.base.Callback
+import com.horse.proud.network.model.GetBaseinfo
+import com.horse.proud.network.model.base.Response
 import com.horse.proud.R
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.util.ResponseHandler
@@ -54,7 +54,7 @@ abstract class AuthActivity : BaseActivity(){
      * 获取当前登录用户的基本信息。
      * */
     protected fun getUserBaseinfo(){
-        GetBaseinfo.getResponse(object: Callback{
+        GetBaseinfo.getResponse(object: Callback {
             override fun onResponse(response: Response) {
                 if(activity == null){
                     return

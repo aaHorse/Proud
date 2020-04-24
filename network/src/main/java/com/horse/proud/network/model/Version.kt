@@ -1,4 +1,4 @@
-package com.horse.network.model
+package com.horse.proud.network.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName

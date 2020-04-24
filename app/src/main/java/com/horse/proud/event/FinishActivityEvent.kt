@@ -1,4 +1,4 @@
-package com.horse.proud.data.event
+package com.horse.proud.event
 
 /**
  * 销毁活动的事件信息

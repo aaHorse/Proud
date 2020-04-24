@@ -1,9 +1,10 @@
-package com.horse.network.request
+package com.horse.proud.network.request
 
 import com.horse.core.proud.Proud
-import com.horse.network.model.Callback
-import com.horse.network.model.GetBaseinfo
-import com.horse.network.util.NetworkConst
+import com.horse.proud.network.model.base.Callback
+import com.horse.proud.network.model.GetBaseinfo
+import com.horse.proud.network.request.base.Request
+import com.horse.proud.network.util.NetworkConst
 import okhttp3.Headers
 
 /**

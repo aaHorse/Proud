@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.horse.network.util
+package com.horse.proud.network.util
 
 /**
  * 网络通信模块的常量。

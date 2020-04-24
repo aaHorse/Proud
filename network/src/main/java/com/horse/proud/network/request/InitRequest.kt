@@ -1,10 +1,11 @@
-package com.horse.network.request
+package com.horse.proud.network.request
 
 import com.horse.core.proud.Proud
 import com.horse.core.proud.util.GlobalUtil
-import com.horse.network.model.Callback
-import com.horse.network.model.Init
-import com.horse.network.util.NetworkConst
+import com.horse.proud.network.model.base.Callback
+import com.horse.proud.network.model.Init
+import com.horse.proud.network.request.base.Request
+import com.horse.proud.network.util.NetworkConst
 import okhttp3.Headers
 
 /**
@@ -15,7 +16,7 @@ import okhttp3.Headers
  * @author liliyuan
  * @since 2020年4月8日19:15:22
  * */
-class InitRequest :Request() {
+class InitRequest : Request() {
 
     init {
         connectTimeout(5)

@@ -1,4 +1,4 @@
-package com.horse.proud.data.event
+package com.horse.proud.event
 
 /**
  * EventBus消息基类

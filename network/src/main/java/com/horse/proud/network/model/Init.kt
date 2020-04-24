@@ -1,7 +1,9 @@
-package com.horse.network.model
+package com.horse.proud.network.model
 
 import com.google.gson.annotations.SerializedName
-import com.horse.network.request.InitRequest
+import com.horse.proud.network.model.base.Callback
+import com.horse.proud.network.model.base.Response
+import com.horse.proud.network.request.InitRequest
 
 
 /**

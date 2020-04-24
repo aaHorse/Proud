@@ -1,4 +1,4 @@
-package com.horse.network.model
+package com.horse.proud.network.model.base
 
 /**
  * 请求结果的基类

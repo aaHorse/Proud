@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.horse.network.util
+package com.horse.proud.network.util
 
 import android.text.TextUtils
 import com.horse.core.proud.Const

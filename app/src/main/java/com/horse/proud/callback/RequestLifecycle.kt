@@ -1,4 +1,4 @@
-package com.horse.proud.data.network.callback
+package com.horse.proud.callback
 
 /**
  * 网络请求的生命周期

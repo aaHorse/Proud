@@ -4,10 +4,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
-import com.horse.network.model.Version
+import com.horse.proud.network.model.Version
 import com.horse.proud.R
-import com.horse.proud.data.event.FinishActivityEvent
-import com.horse.proud.data.event.MessageEvent
+import com.horse.proud.event.FinishActivityEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.home.MainActivity
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -30,6 +30,7 @@ class LoginActivity :AuthActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        forwardToMainActivity()
     }
 
     override fun forwardToMainActivity() {

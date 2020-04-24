@@ -4,10 +4,10 @@ import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToastOnUiThread
 import com.horse.core.proud.util.GlobalUtil
-import com.horse.network.exception.ResponseCodeException
-import com.horse.network.model.Response
+import com.horse.proud.network.exception.ResponseCodeException
+import com.horse.proud.network.model.base.Response
 import com.horse.proud.R
-import com.horse.proud.data.event.ForceToLoginEvent
+import com.horse.proud.event.ForceToLoginEvent
 import org.greenrobot.eventbus.EventBus
 import java.net.ConnectException
 import java.net.NoRouteToHostException

@@ -1,4 +1,4 @@
-package com.horse.network.util
+package com.horse.proud.network.util
 
 import android.annotation.SuppressLint
 import android.os.Build

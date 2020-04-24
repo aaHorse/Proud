@@ -1,14 +1,14 @@
-package com.horse.network.request
+package com.horse.proud.network.request.base
 
 import com.google.gson.GsonBuilder
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logVerbose
-import com.horse.network.exception.ResponseCodeException
-import com.horse.network.model.Callback
-import com.horse.network.model.OriginThreadCallback
-import com.horse.network.util.AuthUtil
-import com.horse.network.util.NetworkConst
-import com.horse.network.util.Utility
+import com.horse.proud.network.exception.ResponseCodeException
+import com.horse.proud.network.model.base.Callback
+import com.horse.proud.network.model.base.OriginThreadCallback
+import com.horse.proud.network.util.AuthUtil
+import com.horse.proud.network.util.NetworkConst
+import com.horse.proud.network.util.Utility
 import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -23,7 +23,9 @@ abstract class Request {
 
     private lateinit var okHttpClient: OkHttpClient
 
-    private val okHttpBuilder: OkHttpClient.Builder = OkHttpClient.Builder().addNetworkInterceptor(LoggingInterceptor())
+    private val okHttpBuilder: OkHttpClient.Builder = OkHttpClient.Builder().addNetworkInterceptor(
+        LoggingInterceptor()
+    )
 
     private var callback: Callback? = null
 
@@ -73,7 +75,7 @@ abstract class Request {
      * @param requestModel
      * 网络请求对应的实体类
      */
-    fun <T : com.horse.network.model.Response> inFlight(requestModel: Class<T>) {
+    fun <T : com.horse.proud.network.model.base.Response> inFlight(requestModel: Class<T>) {
         build()
         val requestBuilder = okhttp3.Request.Builder()
         if (method() == GET && getParams() != null) {
@@ -253,7 +255,7 @@ abstract class Request {
      * @param response
      * 服务器响应转换后的实体类
      */
-    private fun notifyResponse(response: com.horse.network.model.Response) {
+    private fun notifyResponse(response: com.horse.proud.network.model.base.Response) {
         callback?.let {
             if (it is OriginThreadCallback) {
                 it.onResponse(response)

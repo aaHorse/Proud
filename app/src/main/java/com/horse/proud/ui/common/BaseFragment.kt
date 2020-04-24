@@ -6,8 +6,8 @@ import android.widget.ProgressBar
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.horse.proud.data.network.callback.PermissionListener
-import com.horse.proud.data.network.callback.RequestLifecycle
+import com.horse.proud.callback.PermissionListener
+import com.horse.proud.callback.RequestLifecycle
 import java.util.ArrayList
 
 /**

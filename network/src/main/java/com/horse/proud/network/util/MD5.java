@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.horse.network.util;
+package com.horse.proud.network.util;
 
 import java.io.FileInputStream;
 import java.math.BigInteger;

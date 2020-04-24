@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.horse.network.request
+package com.horse.proud.network.request.base
 
 import com.horse.core.proud.extension.logVerbose
 import java.io.IOException
@@ -42,7 +42,8 @@ internal class LoggingInterceptor : Interceptor {
         val response = chain.proceed(request)
 
         val t2 = System.nanoTime()
-        logVerbose(TAG, "Received response for " + response.request().url() + " in "
+        logVerbose(
+            TAG, "Received response for " + response.request().url() + " in "
                 + (t2 - t1) / 1e6 + "ms\n" + response.headers())
         return response
     }

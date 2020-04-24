@@ -1,4 +1,4 @@
-package com.horse.network.model
+package com.horse.proud.network.model.base
 
 /**
  * 网络请求响应接口

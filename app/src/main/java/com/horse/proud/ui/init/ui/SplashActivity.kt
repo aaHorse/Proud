@@ -8,14 +8,14 @@ import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.core.proud.util.SharedUtil
-import com.horse.network.model.Init
-import com.horse.network.model.OriginThreadCallback
-import com.horse.network.model.Response
-import com.horse.network.model.Version
+import com.horse.proud.network.model.Init
+import com.horse.proud.network.model.base.OriginThreadCallback
+import com.horse.proud.network.model.base.Response
+import com.horse.proud.network.model.Version
 import com.horse.proud.R
 import com.horse.proud.ui.common.BaseActivity
-import com.horse.proud.data.event.FinishActivityEvent
-import com.horse.proud.data.event.MessageEvent
+import com.horse.proud.event.FinishActivityEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.login.ui.LoginActivity
 import com.horse.proud.util.ResponseHandler
@@ -75,7 +75,8 @@ class SplashActivity : BaseActivity(){
      * 向服务器发送初始化请求。
      * */
     private fun startInitRequest(){
-        Init.getResponse(object : OriginThreadCallback{
+        Init.getResponse(object :
+            OriginThreadCallback {
             override fun onResponse(response: Response) {
                 if(activity == null){
                     return
@@ -145,7 +146,8 @@ class SplashActivity : BaseActivity(){
                 GlobalUtil.sleep(MIN_WAIT_TIME - timeSpent)
             }
             runOnUiThread {
-                if(Proud.isLogin()){
+                //测试
+                if(!Proud.isLogin()){
                     MainActivity.actionStart(this)
                     finish()
                 }else{

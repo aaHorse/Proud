@@ -16,10 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.horse.proud.data.event.MessageEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.util.ActivityCollector
-import com.horse.proud.data.network.callback.PermissionListener
-import com.horse.proud.data.network.callback.RequestLifecycle
+import com.horse.proud.callback.PermissionListener
+import com.horse.proud.callback.RequestLifecycle
 import com.umeng.analytics.MobclickAgent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
