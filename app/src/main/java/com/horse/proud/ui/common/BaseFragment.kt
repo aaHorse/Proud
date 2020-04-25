@@ -1,11 +1,17 @@
 package com.horse.proud.ui.common
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.view.View
+import android.view.ViewStub
+import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import com.horse.proud.R
 import com.horse.proud.callback.PermissionListener
 import com.horse.proud.callback.RequestLifecycle
 import java.util.ArrayList
@@ -14,8 +20,7 @@ import java.util.ArrayList
  * @author liliyuan
  * @since 2020年4月7日15:43:28
  * */
-open class BaseFragment: Fragment(),
-    RequestLifecycle {
+open class BaseFragment: Fragment(), RequestLifecycle {
 
     private var mListener: PermissionListener? = null
 
@@ -51,18 +56,18 @@ open class BaseFragment: Fragment(),
      * 界面中的提示信息
      */
     protected fun showLoadErrorView(tip: String) {
-//        if (loadErrorView != null) {
-//            loadErrorView?.visibility = View.VISIBLE
-//            return
-//        }
-//        if (rootView != null) {
-//            val viewStub = rootView?.findViewById<ViewStub>(R.id.loadErrorView)
-//            if (viewStub != null) {
-//                loadErrorView = viewStub.inflate()
-//                val loadErrorText = loadErrorView?.findViewById<TextView>(R.id.loadErrorText)
-//                loadErrorText?.text = tip
-//            }
-//        }
+        if (loadErrorView != null) {
+            loadErrorView?.visibility = View.VISIBLE
+            return
+        }
+        if (rootView != null) {
+            val viewStub = rootView?.findViewById<ViewStub>(R.id.loadErrorView)
+            if (viewStub != null) {
+                loadErrorView = viewStub.inflate()
+                val loadErrorText = loadErrorView?.findViewById<TextView>(R.id.loadErrorText)
+                loadErrorText?.text = tip
+            }
+        }
     }
 
     /**
@@ -72,18 +77,18 @@ open class BaseFragment: Fragment(),
      * 重新加载点击事件回调
      */
     protected fun showBadNetworkView(listener: View.OnClickListener) {
-//        if (badNetworkView != null) {
-//            badNetworkView?.visibility = View.VISIBLE
-//            return
-//        }
-//        if (rootView != null) {
-//            val viewStub = rootView?.findViewById<ViewStub>(R.id.badNetworkView)
-//            if (viewStub != null) {
-//                badNetworkView = viewStub.inflate()
-//                val badNetworkRootView = badNetworkView?.findViewById<View>(R.id.badNetworkRootView)
-//                badNetworkRootView?.setOnClickListener(listener)
-//            }
-//        }
+        if (badNetworkView != null) {
+            badNetworkView?.visibility = View.VISIBLE
+            return
+        }
+        if (rootView != null) {
+            val viewStub = rootView?.findViewById<ViewStub>(R.id.badNetworkView)
+            if (viewStub != null) {
+                badNetworkView = viewStub.inflate()
+                val badNetworkRootView = badNetworkView?.findViewById<View>(R.id.badNetworkRootView)
+                badNetworkRootView?.setOnClickListener(listener)
+            }
+        }
     }
 
     /**
@@ -93,18 +98,18 @@ open class BaseFragment: Fragment(),
      * 界面中的提示信息
      */
     protected fun showNoContentView(tip: String) {
-//        if (noContentView != null) {
-//            noContentView?.visibility = View.VISIBLE
-//            return
-//        }
-//        if (rootView != null) {
-//            val viewStub = rootView?.findViewById<ViewStub>(R.id.noContentView)
-//            if (viewStub != null) {
-//                noContentView = viewStub.inflate()
-//                val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)
-//                noContentText?.text = tip
-//            }
-//        }
+        if (noContentView != null) {
+            noContentView?.visibility = View.VISIBLE
+            return
+        }
+        if (rootView != null) {
+            val viewStub = rootView?.findViewById<ViewStub>(R.id.noContentView)
+            if (viewStub != null) {
+                noContentView = viewStub.inflate()
+                val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)
+                noContentText?.text = tip
+            }
+        }
     }
 
     /**
@@ -117,21 +122,21 @@ open class BaseFragment: Fragment(),
      * 按钮的点击事件回调
      */
     protected fun showNoContentViewWithButton(tip: String, buttonText: String, listener: View.OnClickListener) {
-//        if (noContentView != null) {
-//            noContentView?.visibility = View.VISIBLE
-//            return
-//        }
-//        if (rootView != null) {
-//            val viewStub = rootView?.findViewById<ViewStub>(R.id.noContentViewWithButton)
-//            if (viewStub != null) {
-//                noContentView = viewStub.inflate()
-//                val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)
-//                val noContentButton = noContentView?.findViewById<Button>(R.id.noContentButton)
-//                noContentText?.text = tip
-//                noContentButton?.text = buttonText
-//                noContentButton?.setOnClickListener(listener)
-//            }
-//        }
+        if (noContentView != null) {
+            noContentView?.visibility = View.VISIBLE
+            return
+        }
+        if (rootView != null) {
+            val viewStub = rootView?.findViewById<ViewStub>(R.id.noContentViewWithButton)
+            if (viewStub != null) {
+                noContentView = viewStub.inflate()
+                val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)
+                val noContentButton = noContentView?.findViewById<Button>(R.id.noContentButton)
+                noContentText?.text = tip
+                noContentButton?.text = buttonText
+                noContentButton?.setOnClickListener(listener)
+            }
+        }
     }
 
     /**
@@ -163,6 +168,7 @@ open class BaseFragment: Fragment(),
      * @param listener
      * 用于接收授权结果的监听器
      */
+    @SuppressLint("UseRequireInsteadOfGet")
     protected fun handlePermissions(permissions: Array<String>?, listener: PermissionListener) {
         if (permissions == null || activity == null) {
             return

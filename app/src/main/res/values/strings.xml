@@ -13,5 +13,14 @@
     <string name="network_connect_timeout">网络连接超时</string>
     <string name="no_route_to_host">无法连接到服务器</string>
     <string name="network_response_code_error">服务器状态码异常：</string>
+    <string name="bad_network_view_tip">您的网络不给力，点击屏幕可重新加载</string>
+
+    <!-- 导航栏 -->
+    <string name="tab_item_task_text">任务查看</string>
+    <string name="tab_item_lost_and_found_text">失物招领</string>
+    <string name="tab_item_rental_text">物品租赁</string>
+
+    <string name="task_items_null">任务列表为空</string>
+    <string name="task_items_null_click">重试</string>
 
 </resources>

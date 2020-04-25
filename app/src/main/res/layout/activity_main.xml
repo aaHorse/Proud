@@ -5,16 +5,18 @@
         <variable name="viewModel" type="com.horse.proud.ui.home.TestViewModel" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/str"
-            android:text="@{viewModel.str}"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
-    </LinearLayout>
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            layout="@layout/bottom_navigation"
+            android:layout_alignParentBottom="true"
+            />
+
+    </RelativeLayout>
 
 </layout>

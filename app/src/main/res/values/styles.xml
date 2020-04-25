@@ -11,4 +11,9 @@
         <item name="qmui_skin_support_topbar_image_tint_color">@color/qmui_config_color_white</item>
     </style>
 
+    <style name="AppTheme.MaterialButton">
+        <item name="colorControlHighlight">@color/ripple_light</item>
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
 </resources>

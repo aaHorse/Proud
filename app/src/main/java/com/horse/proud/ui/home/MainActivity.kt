@@ -8,14 +8,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityMainBinding
-import com.horse.proud.repository.TestRepository
 import org.koin.android.ext.android.inject
 
-
+/**
+ * 主界面
+ *
+ * @author liliyuan
+ * @since 2020年4月24日19:55:22
+ * */
 class MainActivity : AppCompatActivity() {
 
-    //val viewModelFactory by inject<TestModelFactory>()
-    var viewModelFactory = TestModelFactory(TestRepository())
+    val viewModelFactory by inject<TestModelFactory>()
+    //var viewModelFactory = TestModelFactory(TestRepository())
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(TestViewModel::class.java) }
 
