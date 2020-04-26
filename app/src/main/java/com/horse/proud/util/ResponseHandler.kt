@@ -37,6 +37,8 @@ object ResponseHandler {
             showToastOnUiThread(GlobalUtil.getString(R.string.unknown_error))
             return true
         }
+        return false
+
         val status = response.status
         when(status){
             10001,10002,10003 ->{

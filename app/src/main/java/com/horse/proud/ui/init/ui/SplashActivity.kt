@@ -75,8 +75,7 @@ class SplashActivity : BaseActivity(){
      * 向服务器发送初始化请求。
      * */
     private fun startInitRequest(){
-        Init.getResponse(object :
-            OriginThreadCallback {
+        Init.getResponse(object : OriginThreadCallback {
             override fun onResponse(response: Response) {
                 if(activity == null){
                     return

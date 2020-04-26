@@ -30,8 +30,7 @@ import java.lang.ref.WeakReference
  * @author liliyuan
  * @since 2020年4月7日15:51:56
  * */
-open class BaseActivity : AppCompatActivity(),
-    RequestLifecycle {
+open class BaseActivity : AppCompatActivity(), RequestLifecycle {
 
     protected var isActive: Boolean = false
 

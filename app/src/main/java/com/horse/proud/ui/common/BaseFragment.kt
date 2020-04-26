@@ -218,7 +218,7 @@ open class BaseFragment: Fragment(), RequestLifecycle {
      */
     fun onCreateView(view: View): View {
         rootView = view
-        //loading = view.findViewById(R.id.loading)
+        loading = view.findViewById(R.id.loading)
         return view
     }
 
