@@ -7,6 +7,8 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import com.horse.proud.R
+import com.horse.proud.ui.lost.LostFragment
+import com.horse.proud.ui.rental.RentalFragment
 import com.horse.proud.ui.task.TaskFragment
 import kotlinx.android.synthetic.main.bottom_navigation.*
 
@@ -21,17 +23,17 @@ class MainActivity : AppCompatActivity() {
     /**
      * 任务发布列表 Fragment
      * */
-    private lateinit var taskFragment: TaskFragment
+    var taskFragment: TaskFragment? = null
 
     /**
      * 失物招领列表
      * */
-    private lateinit var taskFragment2: TaskFragment
+    var lostFragment: LostFragment? = null
 
     /**
      * 物品租赁列表
      * */
-    private lateinit var taskFragment3: TaskFragment
+    var rentalFragment: RentalFragment? = null
 
     /**
      * 当前默认选中
@@ -43,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         taskFragment = TaskFragment()
-        supportFragmentManager.beginTransaction().add(R.id.main_container, taskFragment)
+        supportFragmentManager.beginTransaction().add(R.id.main_container, taskFragment!!)
             .commit()
 
         tv_task.setOnClickListener(tabClickListener)
@@ -68,25 +70,25 @@ class MainActivity : AppCompatActivity() {
             R.id.tv_task -> {
                 if(taskFragment == null){
                     taskFragment = TaskFragment()
-                    transaction.add(R.id.main_container,taskFragment)
+                    transaction.add(R.id.main_container,taskFragment!!)
                 }else{
-                    transaction.show(taskFragment)
+                    transaction.show(taskFragment!!)
                 }
             }
             R.id.tv_lost_and_found -> {
-                if(taskFragment2 == null){
-                    taskFragment3 = TaskFragment()
-                    transaction.add(R.id.main_container,taskFragment2)
+                if(lostFragment == null){
+                    lostFragment = LostFragment()
+                    transaction.add(R.id.main_container,lostFragment!!)
                 }else{
-                    transaction.show(taskFragment2)
+                    transaction.show(lostFragment!!)
                 }
             }
             R.id.tv_rental -> {
-                if(taskFragment3 == null){
-                    taskFragment3 = TaskFragment()
-                    transaction.add(R.id.main_container,taskFragment3)
+                if(rentalFragment == null){
+                    rentalFragment = RentalFragment()
+                    transaction.add(R.id.main_container,rentalFragment!!)
                 }else{
-                    transaction.show(taskFragment3)
+                    transaction.show(rentalFragment!!)
                 }
             }
         }
@@ -97,10 +99,10 @@ class MainActivity : AppCompatActivity() {
         taskFragment?.let {
             transaction.hide(it)
         }
-        taskFragment2?.let {
+        lostFragment?.let {
             transaction.hide(it)
         }
-        taskFragment3?.let {
+        rentalFragment?.let {
             transaction.hide(it)
         }
     }
