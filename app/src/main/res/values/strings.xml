@@ -23,4 +23,9 @@
     <string name="task_items_null">任务列表为空</string>
     <string name="task_items_null_click">重试</string>
 
+    <string name="unfold">展开</string>
+    <string name="fold">收起</string>
+
+    <string name="compose">发布新东西</string>
+
 </resources>

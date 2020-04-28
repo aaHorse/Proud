@@ -1,9 +1,12 @@
 package com.horse.proud
 
 import android.app.Application
+import android.util.Log
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.logWarn
 import com.horse.proud.di.appModule
 import com.qmuiteam.qmui.arch.QMUISwipeBackActivityManager
+import com.squareup.leakcanary.LeakCanary
 import com.umeng.commonsdk.UMConfigure
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -35,5 +38,19 @@ class MyApplication:Application() {
 
         //
         LitePal.initialize(this)
+
+        //
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            logWarn(TAG,"In LeakCanary Analyzer Process")
+            return
+        }
+        LeakCanary.install(this)
     }
+
+    companion object{
+
+        private const val TAG = "MyApplication"
+
+    }
+
 }

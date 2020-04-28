@@ -28,6 +28,13 @@ android {
     dataBinding {
         enabled true
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 
 androidExtensions {
@@ -82,5 +89,30 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.5.0'
+
+    //
+    implementation 'cn.bingoogolapple:bga-photopicker:2.0.2@aar'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'cn.bingoogolapple:bga-baseadapter:2.0.0'
+
+    //
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
+
+    //
+    implementation 'pub.devrel:easypermissions:1.0.1'
+
+    //性能分析工具
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
+    //定位
+    implementation 'com.amap.api:location:latest.integration'
+    //地图
+    implementation 'com.amap.api:3dmap:latest.integration'
+    //搜索
+    implementation 'com.amap.api:search:latest.integration'
+
 
 }

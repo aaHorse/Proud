@@ -3,50 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.horse.proud">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
 
     <application
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:name="com.horse.proud.MyApplication"
+        android:name=".MyApplication"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:resizeableActivity="false"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:allowBackup="false"
-        tools:targetApi="n"
-        tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name="com.horse.proud.ui.home.MainActivity">
-
-        </activity>
-
-        <activity android:name="com.horse.proud.ui.init.ui.SplashActivity">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:targetApi="n">
+        <activity android:name=".ui.task.MapActivity"></activity>
+        <activity android:name=".ui.task.TaskActivity" />
+        <activity android:name=".ui.home.MainActivity" />
+        <activity android:name=".ui.init.ui.SplashActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.login.ui.LoginActivity" />
 
-        <activity android:name="com.horse.proud.ui.login.ui.LoginActivity">
-
-        </activity>
+        <service android:name="com.amap.api.location.APSService" />
 
         <meta-data
             android:name="APP_CHANNEL"
-            android:value="opensource"/>
+            android:value="opensource" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5c18feb8f1f5568cb70001f9"/>
+            android:value="5c18feb8f1f5568cb70001f9" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="opensource"/>
-
+            android:value="opensource" />
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="f3508edcaf477c3080f067f224d79ca3" />
     </application>
 
 </manifest>

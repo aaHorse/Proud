@@ -3,15 +3,20 @@ package com.horse.proud.ui.home
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.navigation.NavigationView
+import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.ui.lost.LostFragment
 import com.horse.proud.ui.rental.RentalFragment
+import com.horse.proud.ui.task.TaskActivity
 import com.horse.proud.ui.task.TaskFragment
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_navigation.*
-
 
 /**
  * 主界面
@@ -19,7 +24,7 @@ import kotlinx.android.synthetic.main.bottom_navigation.*
  * @author liliyuan
  * @since 2020年4月24日19:55:22
  * */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     /**
      * 任务发布列表 Fragment
      * */
@@ -51,6 +56,14 @@ class MainActivity : AppCompatActivity() {
         tv_task.setOnClickListener(tabClickListener)
         tv_lost_and_found.setOnClickListener(tabClickListener)
         tv_rental.setOnClickListener(tabClickListener)
+
+        navView.setNavigationItemSelectedListener(this)
+        navView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+            override fun onPreDraw(): Boolean {
+                navView.viewTreeObserver.removeOnPreDrawListener(this)
+                return false
+            }
+        })
 
     }
 
@@ -122,6 +135,30 @@ class MainActivity : AppCompatActivity() {
                 tv_rental.isSelected = true
             }
         }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var position = -1
+        when (item.itemId) {
+            R.id.compose -> {
+                position = 0
+                TaskActivity.actionStart(this)
+            }
+            R.id.user_home -> {
+                position = 1
+            }
+            R.id.draft -> {
+                position = 2
+            }
+            R.id.recommend_following -> {
+                position = 3
+            }
+            R.id.settings -> {
+                position = 4
+            }
+        }
+        showToast("点击位置：$position")
+        return true
     }
 
     companion object{
