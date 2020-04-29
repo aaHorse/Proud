@@ -8,9 +8,11 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewStub
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -21,6 +23,8 @@ import com.horse.proud.event.MessageEvent
 import com.horse.proud.util.ActivityCollector
 import com.horse.proud.callback.PermissionListener
 import com.horse.proud.callback.RequestLifecycle
+import com.horse.proud.event.ForceToLoginEvent
+import com.horse.proud.ui.login.ui.LoginActivity
 import com.umeng.analytics.MobclickAgent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -177,16 +181,16 @@ open class BaseActivity : AppCompatActivity(), RequestLifecycle {
      * @param tip 错误信息
      * */
     protected fun showLoadErrorView(tip: String) {
-//        if (loadErrorView != null) {
-//            loadErrorView?.visibility = View.VISIBLE
-//            return
-//        }
-//        val viewStub = findViewById<ViewStub>(R.id.loadErrorView)
-//        if (viewStub != null) {
-//            loadErrorView = viewStub.inflate()
-//            val loadErrorText = loadErrorView?.findViewById<TextView>(R.id.loadErrorText)
-//            loadErrorText?.text = tip
-//        }
+        if (loadErrorView != null) {
+            loadErrorView?.visibility = View.VISIBLE
+            return
+        }
+        val viewStub = findViewById<ViewStub>(R.id.loadErrorView)
+        if (viewStub != null) {
+            loadErrorView = viewStub.inflate()
+            val loadErrorText = loadErrorView?.findViewById<TextView>(R.id.loadErrorText)
+            loadErrorText?.text = tip
+        }
     }
 
     /**
@@ -195,16 +199,16 @@ open class BaseActivity : AppCompatActivity(), RequestLifecycle {
      * @param listener 重新加载
      * */
     protected fun showBadNetworkView(listener: View.OnClickListener) {
-//        if (badNetworkView != null) {
-//            badNetworkView?.visibility = View.VISIBLE
-//            return
-//        }
-//        val viewStub = findViewById<ViewStub>(R.id.badNetworkView)
-//        if (viewStub != null) {
-//            badNetworkView = viewStub.inflate()
-//            val badNetworkRootView = badNetworkView?.findViewById<View>(R.id.badNetworkRootView)
-//            badNetworkRootView?.setOnClickListener(listener)
-//        }
+        if (badNetworkView != null) {
+            badNetworkView?.visibility = View.VISIBLE
+            return
+        }
+        val viewStub = findViewById<ViewStub>(R.id.badNetworkView)
+        if (viewStub != null) {
+            badNetworkView = viewStub.inflate()
+            val badNetworkRootView = badNetworkView?.findViewById<View>(R.id.badNetworkRootView)
+            badNetworkRootView?.setOnClickListener(listener)
+        }
     }
 
     /**
@@ -213,16 +217,16 @@ open class BaseActivity : AppCompatActivity(), RequestLifecycle {
      * @param tip 空白界面的说明文字
      * */
     protected fun showNoContentView(tip: String) {
-//        if (noContentView != null) {
-//            noContentView?.visibility = View.VISIBLE
-//            return
-//        }
-//        val viewStub = findViewById<ViewStub>(R.id.noContentView)
-//        if (viewStub != null) {
-//            noContentView = viewStub.inflate()
-//            val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)
-//            noContentText?.text = tip
-//        }
+        if (noContentView != null) {
+            noContentView?.visibility = View.VISIBLE
+            return
+        }
+        val viewStub = findViewById<ViewStub>(R.id.noContentView)
+        if (viewStub != null) {
+            noContentView = viewStub.inflate()
+            val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)
+            noContentText?.text = tip
+        }
     }
 
     protected fun hideLoadErrorView() {
@@ -260,13 +264,13 @@ open class BaseActivity : AppCompatActivity(), RequestLifecycle {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onMessageEvent(messageEvent: MessageEvent) {
-//        if (messageEvent is ForceToLoginEvent) {
-//            if (isActive) { // 判断Activity是否在前台，防止非前台的Activity也处理这个事件，造成打开多个LoginActivity的问题。
-//                // force to login
-//                ActivityCollector.finishAll()
-//                LoginActivity.actionStart(this, false, null)
-//            }
-//        }
+        if (messageEvent is ForceToLoginEvent) {
+            if (isActive) { // 判断Activity是否在前台，防止非前台的Activity也处理这个事件，造成打开多个LoginActivity的问题。
+                // force to login
+                ActivityCollector.finishAll()
+                LoginActivity.actionStart(this, false, null)
+            }
+        }
     }
 
     open fun permissionsGranted() {

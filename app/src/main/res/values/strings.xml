@@ -28,4 +28,9 @@
 
     <string name="compose">发布新东西</string>
 
+    <string name="publish">发表</string>
+
+    <!-- 标题栏标题 -->
+    <string name="task_activity">发布任务</string>
+
 </resources>
