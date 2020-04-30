@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.horse.proud.ui.home.MainActivity">
+    tools:context="com.horse.proud.ui.home.MainActivity"
+    >
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -21,7 +22,8 @@
                 android:id="@+id/main_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/view_line"/>
+                android:layout_above="@+id/view_line"
+                />
 
             <View
                 android:id="@+id/view_line"
