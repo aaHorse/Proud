@@ -79,7 +79,7 @@ public class Proud {
         SharedUtil.clear(Const.User.BG_IMAGE);
         SharedUtil.clear(Const.User.DESCRIPTION);
         SharedUtil.clear(Const.User.NICKNAME);
-        SharedUtil.clear(Const.Feed.MAIN_PAGER_POSITION);
+        //SharedUtil.clear(Const.Feed.MAIN_PAGER_POSITION);
         Proud.refreshLoginState();
     }
 

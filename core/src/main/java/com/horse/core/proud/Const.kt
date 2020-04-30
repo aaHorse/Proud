@@ -34,14 +34,16 @@ interface Const {
 
     }
 
-    interface Feed {
+    /**
+     * 发布任务、失物招领、物品租赁列表
+     * */
+    interface Item {
         companion object {
 
-            const val MAIN_PAGER_POSITION = "mpp"
+            const val POSITION_LATITUDE = "latitude"
 
-            const val MAIN_LAST_USE_TIME = "mlut"
+            const val POSITION_LONGITUTE = "longitude"
 
-            const val MAIN_LAST_IGNORE_TIME = "mlit"
         }
 
     }

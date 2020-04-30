@@ -26,7 +26,9 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
 
-        <activity android:name=".ui.task.MapActivity"></activity>
+        <activity android:name=".ui.task.MapActivity"
+            android:label="标记地点"
+            />
 
         <activity android:name=".ui.task.TaskActivity"
             android:label="@string/task_activity"
