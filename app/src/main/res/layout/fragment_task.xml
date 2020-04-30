@@ -1,0 +1,45 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    >
+    <data>
+        <import type="android.view.View"/>
+        <variable name="viewModel" type="com.horse.proud.ui.task.TaskFragmentViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/wall"
+        >
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            />
+
+<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+
+        <include layout="@layout/loading" />
+
+        <include layout="@layout/view_stub_holder" />
+
+        <ViewStub
+            android:id="@+id/noContentViewWithButton"
+            android:layout="@layout/no_content_view_with_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </FrameLayout>
+
+</layout>

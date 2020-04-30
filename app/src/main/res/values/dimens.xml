@@ -1,0 +1,11 @@
+<resources>
+    
+    <dimen name="main_tab_item_image_and_text">3dp</dimen>
+
+    <dimen name="item_padding_left_and_right">10dp</dimen>
+
+    <dimen name="item_margin_top">10dp</dimen>
+
+    <dimen name="item_view_height">1dp</dimen>
+
+</resources>
