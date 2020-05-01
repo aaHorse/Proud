@@ -4,29 +4,24 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/compose"
+            android:id="@+id/task"
             android:icon="@drawable/ic_compose"
-            android:title="@string/compose" />
+            android:title="@string/new_task" />
 
         <item
-            android:id="@+id/user_home"
+            android:id="@+id/lost"
             android:icon="@drawable/ic_compose"
-            android:title="@string/compose" />
+            android:title="@string/new_lost" />
 
         <item
-            android:id="@+id/recommend_following"
+            android:id="@+id/found"
             android:icon="@drawable/ic_compose"
-            android:title="@string/compose" />
+            android:title="@string/new_found" />
 
         <item
-            android:id="@+id/draft"
+            android:id="@+id/rental"
             android:icon="@drawable/ic_compose"
-            android:title="@string/compose" />
-
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/ic_compose"
-            android:title="@string/compose" />
+            android:title="@string/new_rental" />
 
         <item
             android:id="@+id/none"

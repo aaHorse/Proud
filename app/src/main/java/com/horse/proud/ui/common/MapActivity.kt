@@ -1,15 +1,13 @@
-package com.horse.proud.ui.task
+package com.horse.proud.ui.common
 
 import android.app.Activity
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.provider.SyncStateContract
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -21,7 +19,6 @@ import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
-import com.horse.proud.ui.common.BaseActivity
 import kotlinx.android.synthetic.main.activity_map.*
 
 /**
@@ -181,7 +178,7 @@ class MapActivity : BaseActivity() {
         private const val TAG = "MapActivity"
 
         fun actionStartForResult(activity: Activity,requestCode:Int){
-            val intent = Intent(activity,MapActivity::class.java)
+            val intent = Intent(activity, MapActivity::class.java)
             activity.startActivityForResult(intent,requestCode)
         }
 

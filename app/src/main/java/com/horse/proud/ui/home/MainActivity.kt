@@ -11,7 +11,10 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
+import com.horse.proud.ui.lost.FoundActivity
+import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
+import com.horse.proud.ui.rental.RentalActivity
 import com.horse.proud.ui.rental.RentalFragment
 import com.horse.proud.ui.task.TaskActivity
 import com.horse.proud.ui.task.TaskFragment
@@ -140,21 +143,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         var position = -1
         when (item.itemId) {
-            R.id.compose -> {
+            R.id.task -> {
                 position = 0
                 TaskActivity.actionStart(this)
             }
-            R.id.user_home -> {
+            R.id.lost -> {
                 position = 1
+                FoundActivity.actionStart(this)
             }
-            R.id.draft -> {
+            R.id.found -> {
                 position = 2
+                LostActivity.actionStart(this)
             }
-            R.id.recommend_following -> {
+            R.id.rental -> {
                 position = 3
-            }
-            R.id.settings -> {
-                position = 4
+                RentalActivity.actionStart(this)
             }
         }
         showToast("点击位置：$position")

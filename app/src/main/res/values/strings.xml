@@ -26,7 +26,10 @@
     <string name="unfold">展开</string>
     <string name="fold">收起</string>
 
-    <string name="compose">发布新东西</string>
+    <string name="new_task">发布任务</string>
+    <string name="new_lost">发布失物招领</string>
+    <string name="new_found">发布寻物启事</string>
+    <string name="new_rental">发布物品租赁</string>
 
     <string name="publish">发表</string>
 

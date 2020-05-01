@@ -87,7 +87,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
     override fun loadFinished() {
         super.loadFinished()
         if (viewModel.rentalItems.isEmpty()) {
-            swipeRefresh.visibility = View.GONE
+            //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
@@ -103,7 +103,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
     private fun observe(){
         viewModel.dataChanged.observe(activity, Observer {
             if(viewModel.rentalItems.isEmpty()){
-                swipeRefresh.visibility = View.GONE
+                //swipeRefresh.visibility = View.GONE
                 recyclerView.visibility = View.GONE
                 //暂时回到主界面
                 showNoContentViewWithButton(

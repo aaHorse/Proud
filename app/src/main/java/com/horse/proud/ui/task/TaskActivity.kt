@@ -20,6 +20,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.ui.common.BaseActivity
+import com.horse.proud.ui.common.MapActivity
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.CheckableDialogBuilder
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MultiCheckableDialogBuilder
 import kotlinx.android.synthetic.main.activity_task.*

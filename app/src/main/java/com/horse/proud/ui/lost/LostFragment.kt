@@ -87,7 +87,7 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
     override fun loadFinished() {
         super.loadFinished()
         if (viewModel.lostItems.isEmpty()) {
-            swipeRefresh.visibility = View.GONE
+            //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
@@ -103,7 +103,7 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
     private fun observe(){
         viewModel.dataChanged.observe(activity, Observer {
             if(viewModel.lostItems.isEmpty()){
-                swipeRefresh.visibility = View.GONE
+                //swipeRefresh.visibility = View.GONE
                 recyclerView.visibility = View.GONE
                 //暂时回到主界面
                 showNoContentViewWithButton(
