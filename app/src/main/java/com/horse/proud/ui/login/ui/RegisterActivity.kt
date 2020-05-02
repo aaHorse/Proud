@@ -6,6 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.horse.proud.R
 
+/**
+ * 注册界面
+ *
+ * @author liliyuan
+ * @since 2020年5月2日14:21:59
+ * */
 class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

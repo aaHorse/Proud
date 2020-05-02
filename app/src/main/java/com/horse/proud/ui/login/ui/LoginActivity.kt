@@ -4,14 +4,19 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import androidx.lifecycle.ViewModelProviders
 import com.horse.proud.network.model.Version
 import com.horse.proud.R
+import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.home.MainActivity
+import com.horse.proud.ui.login.LoginActivityViewModel
+import com.horse.proud.ui.login.LoginActivityViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.android.ext.android.inject
 
 /**
  * 登录界面。
@@ -19,7 +24,7 @@ import org.greenrobot.eventbus.ThreadMode
  * @author liliyuan
  * @since 2020年4月21日06:14:51
  * */
-class LoginActivity :AuthActivity(){
+class LoginActivity :AuthActivity(), LoadDataListener {
 
     private lateinit var timer: CountDownTimer
 
@@ -28,9 +33,14 @@ class LoginActivity :AuthActivity(){
      * */
     private var isLogin = false
 
+    val viewModelFactory by inject<LoginActivityViewModelFactory>()
+
+    val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(LoginActivityViewModel::class.java) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        viewModel.login()
         btn_login.setOnClickListener {
             forwardToMainActivity()
         }
@@ -49,6 +59,10 @@ class LoginActivity :AuthActivity(){
         //启用加载 UI
         super.setupViews()
 
+    }
+
+    override fun onLoad() {
+        TODO("Not yet implemented")
     }
 
     /**
