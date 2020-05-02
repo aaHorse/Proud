@@ -25,9 +25,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
+        <activity android:name=".ui.login.ui.RegisterActivity"></activity>
         <activity
             android:name=".ui.lost.FoundActivity"
-            android:label="@string/new_lost"></activity>
+            android:label="@string/new_lost" />
         <activity
             android:name=".ui.rental.RentalActivity"
             android:label="@string/new_rental" />

@@ -19,4 +19,6 @@
 
 
     <color name="bga_pp_eighteen_maskColor">#00000000</color>
+    <color name="alpha90_green">#d027a8f0</color>
+    <color name="alpha70_green">#c0279de0</color>
 </resources>

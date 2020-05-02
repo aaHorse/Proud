@@ -1,6 +1,6 @@
 <resources>
 
-    <string name="app_name">Proud</string>
+    <string name="app_name">校园介子空间</string>
 
     <string name="unknown_error">发生未知错误!</string>
     <string name="login_status_expired">登录状态已过期</string>
@@ -35,5 +35,8 @@
 
     <!-- 标题栏标题 -->
     <string name="task_activity">发布任务</string>
+
+    <string name="number">输入学号</string>
+    <string name="password">输入密码</string>
 
 </resources>

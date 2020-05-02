@@ -40,7 +40,7 @@ class SplashActivity : BaseActivity(){
     /**
      * 判断是否正在跳转到下一个界面。
      */
-    var isForwarding = false
+    var isForwarding = true
 
     var hasNewVersion = false
 
@@ -136,9 +136,9 @@ class SplashActivity : BaseActivity(){
      * */
     @Synchronized
     fun forwardToNextActivity(hasNewVersion: Boolean, version: Version?) {
-        if(!isForwarding){
+        if(isForwarding){
             //如果正在跳转到下一个界面
-            isForwarding = true
+            isForwarding = false
             val currentTime = System.currentTimeMillis()
             val timeSpent = currentTime - enterTime
             if(timeSpent < MIN_WAIT_TIME){
@@ -146,7 +146,7 @@ class SplashActivity : BaseActivity(){
             }
             runOnUiThread {
                 //测试
-                if(!Proud.isLogin()){
+                if(Proud.isLogin()){
                     MainActivity.actionStart(this)
                     finish()
                 }else{

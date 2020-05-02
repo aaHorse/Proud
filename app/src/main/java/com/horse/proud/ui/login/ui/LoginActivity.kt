@@ -9,6 +9,7 @@ import com.horse.proud.R
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.home.MainActivity
+import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -30,7 +31,12 @@ class LoginActivity :AuthActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        forwardToMainActivity()
+        btn_login.setOnClickListener {
+            forwardToMainActivity()
+        }
+        tv_register_account.setOnClickListener {
+            RegisterActivity.actionStart(this)
+        }
     }
 
     override fun forwardToMainActivity() {
