@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.horse.proud.R
+import com.horse.proud.ui.common.BaseActivity
 
 /**
  * 注册界面
@@ -12,12 +13,14 @@ import com.horse.proud.R
  * @author liliyuan
  * @since 2020年5月2日14:21:59
  * */
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
     }
+
+
 
     companion object{
 

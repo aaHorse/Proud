@@ -36,7 +36,12 @@
     <!-- 标题栏标题 -->
     <string name="task_activity">发布任务</string>
 
+    <string name="name">输入密码</string>
     <string name="number">输入学号</string>
     <string name="password">输入密码</string>
+    <string name="password_sure">确认密码</string>
+
+    <string name="input_error">输入有误</string>
+
 
 </resources>

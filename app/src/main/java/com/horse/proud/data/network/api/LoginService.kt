@@ -1,14 +1,12 @@
 package com.horse.proud.data.network.api
 
 import com.horse.proud.data.model.login.Login
+import com.horse.proud.data.model.regist.Register
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
- * 登录和注册
+ * 登录和注册，两个功能对应的端口放在了一起
  *
  * @author liliyuan
  * @since 2020年5月2日15:09:14
@@ -16,7 +14,11 @@ import retrofit2.http.POST
 interface LoginService {
 
     @FormUrlEncoded
-    @POST("user/register")
-    fun login(@Field("username")username:String,@Field("password")password:String,@Field("repassword")repassword:String): Call<Login>
+    @POST("api/user/login")
+    fun login(@Field("accountNumber")accountNumber:String,@Field("password")password:String): Call<Login>
+
+    @FormUrlEncoded
+    @POST("api/user/register")
+    fun register(@Body register:Register): Call<Register>
 
 }

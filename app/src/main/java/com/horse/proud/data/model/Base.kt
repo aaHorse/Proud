@@ -18,7 +18,4 @@ open class Base {
 
     //lateinit var ok
 
-    @SerializedName("errorMsg")
-    lateinit var errorMsg:String
-
 }

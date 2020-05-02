@@ -4,10 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.horse.proud.network.model.Version
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
+import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.home.MainActivity
@@ -24,14 +27,7 @@ import org.koin.android.ext.android.inject
  * @author liliyuan
  * @since 2020年4月21日06:14:51
  * */
-class LoginActivity :AuthActivity(), LoadDataListener {
-
-    private lateinit var timer: CountDownTimer
-
-    /**
-     * 是否正在登录中。
-     * */
-    private var isLogin = false
+class LoginActivity :AuthActivity(){
 
     val viewModelFactory by inject<LoginActivityViewModelFactory>()
 
@@ -39,14 +35,17 @@ class LoginActivity :AuthActivity(), LoadDataListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        viewModel.login()
-        btn_login.setOnClickListener {
-            forwardToMainActivity()
-        }
+        val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this,R.layout.activity_login)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+    }
+
+    override fun setupViews() {
+        super.setupViews()
         tv_register_account.setOnClickListener {
             RegisterActivity.actionStart(this)
         }
+        observe()
     }
 
     override fun forwardToMainActivity() {
@@ -55,14 +54,10 @@ class LoginActivity :AuthActivity(), LoadDataListener {
         finish()
     }
 
-    override fun setupViews() {
-        //启用加载 UI
-        super.setupViews()
-
-    }
-
-    override fun onLoad() {
-        TODO("Not yet implemented")
+    private fun observe(){
+        viewModel.dataChanged.observe(this, Observer {
+            forwardToMainActivity()
+        })
     }
 
     /**

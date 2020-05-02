@@ -1,10 +1,12 @@
 package com.horse.proud.ui.login
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.extension.logError
-import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.util.GlobalUtil
+import com.horse.proud.R
 import com.horse.proud.data.LoginRepository
 import kotlinx.coroutines.launch
 
@@ -14,18 +16,29 @@ import kotlinx.coroutines.launch
  * */
 class LoginActivityViewModel(private val respository:LoginRepository):ViewModel() {
 
+    var number = MutableLiveData<String>()
+
+    var password = MutableLiveData<String>()
+
+    var dataChanged = MutableLiveData<Int>()
+
     fun login() {
         launch ({
-            var login = respository.login("123456","123456","123456")
-            showToast(login.errorMsg)
-
+            if(number.value.isNullOrBlank()||password.value.isNullOrBlank()){
+                showToast(GlobalUtil.getString(R.string.input_error))
+            }else{
+                val login = respository.login(number.value!!,password.value!!)
+                when(login.status){
+                    200L->{
+                        dataChanged.value = dataChanged.value?.plus(1)
+                    }
+                }
+            }
         }, {
-            showToast("出错")
+            showToast(GlobalUtil.getString(R.string.unknown_error))
             logError(TAG,it)
         })
     }
-
-
 
     private fun launch(block: suspend () -> Unit, error: suspend (Throwable) -> Unit) = viewModelScope.launch {
         try {

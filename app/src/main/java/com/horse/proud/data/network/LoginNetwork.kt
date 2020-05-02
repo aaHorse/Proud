@@ -1,5 +1,6 @@
 package com.horse.proud.data.network
 
+import com.horse.proud.data.model.regist.Register
 import com.horse.proud.data.network.api.LoginService
 import retrofit2.Call
 import retrofit2.Callback
@@ -8,12 +9,19 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+/**
+ * 注册和登录放在了一起
+ *
+ * @author liliyuan
+ * @since 2020年5月2日16:14:51
+ * */
 class LoginNetwork {
 
     private val service = ServiceCreator.create(LoginService::class.java)
 
-    //suspend fun fetchLostList() = service.getTask().await()
-    suspend fun fetchLogin(username:String,password:String,repassword:String) = service.login(username,password,repassword).await()
+    suspend fun fetchLogin(username:String,password:String) = service.login(username,password).await()
+
+    suspend fun fetchRegister(register: Register) = service.register(register).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

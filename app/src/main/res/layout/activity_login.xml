@@ -1,89 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.login.ui.LoginActivity"
-    android:orientation="vertical"
-    android:background="@drawable/background"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.horse.proud.ui.login.LoginActivityViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         >
 
-        <ImageView
-            android:layout_width="45dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:src="@drawable/avatar_default"
+                android:layout_marginLeft="30dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:text="@string/app_name"
+                android:textSize="25sp"
+                android:gravity="center"
+                android:layout_marginLeft="10dp"
+                />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/number"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:src="@drawable/avatar_default"
-            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/number"
+            android:inputType="number"
+            android:text="@{viewModel.number}"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:text="@string/app_name"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:text="@{viewModel.password}"
             />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="22dp"
+            android:text="登录"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:background="@drawable/bg_btn_login"
+            style="?android:attr/borderlessButtonStyle"
+            android:onClick="@{()->viewModel.login()}"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_forget_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="忘记密码？" />
+
+            <TextView
+                android:id="@+id/tv_register_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:text="注册" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/number"
-        android:inputType="number"
-        />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        />
-
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:layout_marginTop="22dp"
-        android:text="登录"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:background="@drawable/bg_btn_login"
-        style="?android:attr/borderlessButtonStyle" />
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/tv_forget_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="忘记密码？" />
-
-        <TextView
-            android:id="@+id/tv_register_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
-            android:text="注册" />
-
-    </RelativeLayout>
-
-
-</LinearLayout>
+</layout>
 
