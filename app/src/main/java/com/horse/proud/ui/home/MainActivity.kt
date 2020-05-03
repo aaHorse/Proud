@@ -2,6 +2,7 @@ package com.horse.proud.ui.home
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
+import com.horse.proud.ui.AboutActivity
 import com.horse.proud.ui.lost.FoundActivity
 import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
@@ -21,6 +23,7 @@ import com.horse.proud.ui.task.TaskActivity
 import com.horse.proud.ui.task.TaskFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_navigation.*
+import kotlinx.android.synthetic.main.nav_header.*
 
 /**
  * 主界面
@@ -72,7 +75,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 return false
             }
         })
-
     }
 
     private val tabClickListener =
@@ -163,6 +165,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.rental -> {
                 position = 3
                 RentalActivity.actionStart(this)
+            }
+            R.id.about -> {
+                position = 4
+                AboutActivity.actionStart(this)
             }
         }
         showToast("点击位置：$position")

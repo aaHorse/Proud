@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ED5E32</color>
+    <color name="colorPrimary">#000</color>
     <color name="colorPrimaryDark">#D45129</color>
     <color name="colorAccent">#FF9B07</color>
 
@@ -17,8 +17,11 @@
 
     <color name="primary_text">#444444</color>
 
-
     <color name="bga_pp_eighteen_maskColor">#00000000</color>
     <color name="alpha90_green">#d027a8f0</color>
     <color name="alpha70_green">#c0279de0</color>
+    
+    <!-- 让人舒服的颜色 -->
+    <color name="color_D6D5B7">#1afa29</color>
+    
 </resources>

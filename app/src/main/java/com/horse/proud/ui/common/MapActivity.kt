@@ -112,7 +112,7 @@ class MapActivity : BaseActivity() {
                     .position(LatLng(latitude,longitude))
                     .draggable(true)
                     .alpha(0.75f)
-                    .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources,R.drawable.avatar_default)))
+                    .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources,R.drawable.local)))
                     .setFlat(true))
 
                 aMap.moveCamera(CameraUpdateFactory.changeLatLng(LatLng(latitude,longitude)))

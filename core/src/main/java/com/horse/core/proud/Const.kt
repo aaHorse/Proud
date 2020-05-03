@@ -11,10 +11,19 @@ interface Const {
     interface Auth {
         companion object {
 
+            /**
+             * 登录的学号
+             * */
             const val USER_ID = "u_d"
 
+            //
             const val TOKEN = "t_k"
 
+            /**
+             * 登录类型：认证登录、游客登录
+             * 认证登录：1
+             * 游客登录：2
+             * */
             const val LOGIN_TYPE = "l_t"
         }
 

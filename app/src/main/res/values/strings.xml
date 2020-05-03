@@ -30,13 +30,14 @@
     <string name="new_lost">发布失物招领</string>
     <string name="new_found">发布寻物启事</string>
     <string name="new_rental">发布物品租赁</string>
+    <string name="about">关于我们</string>
 
     <string name="publish">发表</string>
 
     <!-- 标题栏标题 -->
     <string name="task_activity">发布任务</string>
 
-    <string name="name">输入密码</string>
+    <string name="name">输入姓名</string>
     <string name="number">输入学号</string>
     <string name="password">输入密码</string>
     <string name="password_sure">确认密码</string>
@@ -50,6 +51,9 @@
     <string name="comment_hint">评论</string>
     <string name="send">发送</string>
     <string name="position">查看位置</string>
+    <string name="describe">描述信息 . . .</string>
+    <string name="version">V 1.0.0</string>
+    <string name="why">开发缘由：本项目为软件工程专业的课程实践</string>
 
 
 </resources>

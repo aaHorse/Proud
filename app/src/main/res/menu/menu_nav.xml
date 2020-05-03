@@ -6,7 +6,8 @@
         <item
             android:id="@+id/task"
             android:icon="@drawable/ic_compose"
-            android:title="@string/new_task" />
+            android:title="@string/new_task"
+            />
 
         <item
             android:id="@+id/lost"
@@ -22,6 +23,11 @@
             android:id="@+id/rental"
             android:icon="@drawable/ic_compose"
             android:title="@string/new_rental" />
+
+        <item
+            android:id="@+id/about"
+            android:icon="@drawable/about"
+            android:title="@string/about" />
 
         <item
             android:id="@+id/none"

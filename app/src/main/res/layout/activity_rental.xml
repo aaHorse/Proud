@@ -6,21 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.rental.RentalActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    >
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:theme="@style/AppTheme.PopupOverlay"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#fff"
         />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:scrollbars="none"
         >
 
@@ -49,21 +57,30 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="测试"
+                    android:textSize="@dimen/item_tv_size_1"
+                    android:textStyle="bold"
                     />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    />
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
+                    android:textSize="@dimen/item_tv_size_4"
                     android:minLines="5"
                     android:gravity="top"
-                    android:lineHeight="1dp"
+                    android:hint="@string/describe"
                     />
 
             </LinearLayout>

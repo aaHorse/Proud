@@ -54,7 +54,7 @@ class SplashActivity : BaseActivity(){
     }
 
     override fun setupViews() {
-        startInitRequest()
+        //startInitRequest()
     }
 
     override fun onBackPressed() {
@@ -145,7 +145,6 @@ class SplashActivity : BaseActivity(){
                 GlobalUtil.sleep(MIN_WAIT_TIME - timeSpent)
             }
             runOnUiThread {
-                //测试
                 if(Proud.isLogin()){
                     MainActivity.actionStart(this)
                     finish()
@@ -164,12 +163,12 @@ class SplashActivity : BaseActivity(){
         /**
          * 应用程序在闪屏界面最短的停留时间。
          */
-        const val MIN_WAIT_TIME = 2000
+        const val MIN_WAIT_TIME = 1000
 
         /**
          * 应用程序在闪屏界面最长的停留时间。
          */
-        const val MAX_WAIT_TIME = 5000
+        const val MAX_WAIT_TIME = 2000
     }
 
 

@@ -9,6 +9,7 @@ import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity
@@ -46,6 +47,10 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+        )
         setContentView(R.layout.activity_lost)
     }
 

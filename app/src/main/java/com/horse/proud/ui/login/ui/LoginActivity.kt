@@ -3,16 +3,16 @@ package com.horse.proud.ui.login.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.CountDownTimer
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.horse.proud.network.model.Version
+import com.horse.core.proud.Const
+import com.horse.core.proud.util.SharedUtil
 import com.horse.proud.R
-import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
+import com.horse.proud.network.model.Version
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.login.LoginActivityViewModel
 import com.horse.proud.ui.login.LoginActivityViewModelFactory
@@ -59,6 +59,9 @@ class LoginActivity :AuthActivity(){
 
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
+            SharedUtil.save(Const.Auth.USER_ID,"221701414")
+            SharedUtil.save(Const.Auth.TOKEN,"token")
+            SharedUtil.save(Const.Auth.LOGIN_TYPE,2)
             forwardToMainActivity()
         })
     }

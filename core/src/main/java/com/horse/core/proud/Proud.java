@@ -26,7 +26,7 @@ public class Proud {
 
     private static boolean isLogin;
 
-    private static long userId;
+    private static String userId;
 
     private static String token;
 
@@ -87,7 +87,7 @@ public class Proud {
      * 获取当前登录用户的id。
      * @return 当前登录用户的id。
      */
-    public static long getUserId() {
+    public static String getUserId() {
         return userId;
     }
 
@@ -111,10 +111,10 @@ public class Proud {
      * 刷新用户的登录状态。
      */
     public static void refreshLoginState() {
-        long u = SharedUtil.read(Const.Auth.USER_ID, 0L);
+        String u = SharedUtil.read(Const.Auth.USER_ID, "");
         String t = SharedUtil.read(Const.Auth.TOKEN, "");
         int lt = SharedUtil.read(Const.Auth.LOGIN_TYPE, -1);
-        isLogin = u > 0 && !TextUtils.isEmpty(t) && lt >= 0;
+        isLogin = !TextUtils.isEmpty(u) && !TextUtils.isEmpty(t) && lt >= 0;
         if (isLogin) {
             userId = u;
             token = t;

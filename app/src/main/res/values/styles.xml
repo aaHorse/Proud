@@ -19,4 +19,12 @@
         <item name="colorButtonNormal">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <!-- 设置Menu菜单的字体颜色 -->
+        <item name="android:textColorPrimary">#000</item>
+        <item name="colorControlNormal">#000</item><!-- 主要是这个起作用,修改默认返回键的颜色-->
+        <!-- 设置Menu窗口不覆盖Toolbar视图 -->
+        <item name="overlapAnchor">false</item>
+    </style>
+
 </resources>

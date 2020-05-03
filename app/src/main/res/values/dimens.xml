@@ -8,6 +8,8 @@
 
     <dimen name="item_margin_top_2">20dp</dimen>
 
+    <dimen name="item_margin_top_3">30dp</dimen>
+
     <dimen name="item_view_height">1dp</dimen>
 
     <dimen name="item_margin_bottom">30dp</dimen>

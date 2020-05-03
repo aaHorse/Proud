@@ -5,7 +5,6 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/item_margin_bottom"
     android:orientation="vertical"
     >
 
@@ -205,7 +204,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/wall"
-        android:layout_marginTop="@dimen/item_margin_top_2"
+        android:layout_marginTop="@dimen/item_margin_top_3"
         />
 
 </LinearLayout >
