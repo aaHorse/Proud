@@ -2,6 +2,7 @@ package com.horse.proud.data.model.task
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.horse.proud.data.model.other.CommentItem
 import java.util.*
 import kotlin.collections.ArrayList
@@ -13,6 +14,9 @@ import kotlin.collections.ArrayList
  * @since 2020年4月30日11:45:37
  * */
 class TaskItem : Parcelable {
+
+    @SerializedName("data")
+    lateinit var taskList: ArrayList<TaskItem>
 
     var name:String? = null
 

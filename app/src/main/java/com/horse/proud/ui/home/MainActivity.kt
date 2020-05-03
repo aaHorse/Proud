@@ -72,8 +72,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private val tabClickListener =
         View.OnClickListener { v ->
+            changeSelect(v.id)
             if (v.id != currentId) {
-                changeSelect(v.id)
                 changeFragment(v.id)
                 currentId = v.id
             }
@@ -124,18 +124,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private fun changeSelect(resId:Int){
-        tv_task.isSelected = false
-        tv_lost_and_found.isSelected = false
-        tv_rental.isSelected = false
+        tv_task.isChecked = false
+        tv_lost_and_found.isChecked = false
+        tv_rental.isChecked = false
         when (resId) {
             R.id.tv_task -> {
-                tv_task.isSelected = true
+                tv_task.isChecked = true
             }
             R.id.tv_lost_and_found -> {
-                tv_lost_and_found.isSelected = true
+                tv_lost_and_found.isChecked = true
             }
             R.id.tv_rental -> {
-                tv_rental.isSelected = true
+                tv_rental.isChecked = true
             }
         }
     }

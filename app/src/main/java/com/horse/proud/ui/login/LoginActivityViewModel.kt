@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.extension.logError
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -16,18 +17,15 @@ import kotlinx.coroutines.launch
  * */
 class LoginActivityViewModel(private val respository:LoginRepository):ViewModel() {
 
-    var number = MutableLiveData<String>()
-
-    var password = MutableLiveData<String>()
-
     var dataChanged = MutableLiveData<Int>()
 
-    fun login() {
+    fun login(number:String?,password:String?) {
+        dataChanged.value = dataChanged.value?.plus(1)
         launch ({
-            if(number.value.isNullOrBlank()||password.value.isNullOrBlank()){
+            if(number.isNullOrBlank()||password.isNullOrBlank()){
                 showToast(GlobalUtil.getString(R.string.input_error))
             }else{
-                val login = respository.login(number.value!!,password.value!!)
+                val login = respository.login(number,password)
                 when(login.status){
                     200L->{
                         dataChanged.value = dataChanged.value?.plus(1)

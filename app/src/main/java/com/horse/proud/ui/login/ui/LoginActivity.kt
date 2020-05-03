@@ -45,6 +45,9 @@ class LoginActivity :AuthActivity(){
         tv_register_account.setOnClickListener {
             RegisterActivity.actionStart(this)
         }
+        btn_login.setOnClickListener {
+            viewModel.login(number.text.toString(),password.text.toString())
+        }
         observe()
     }
 
