@@ -11,7 +11,7 @@
         android:textColor="#000"
         android:maxLines="2"
         android:ellipsize="end"
-        android:textSize="15sp"
+        android:textSize="@dimen/item_tv_size_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 <!--    占位置的隐藏，并且高度设置的很小，用来获取行数-->
@@ -19,7 +19,7 @@
         android:id="@+id/view_seemore_tvlinecount"
         android:textColor="#000"
         android:visibility="invisible"
-        android:textSize="15sp"
+        android:textSize="@dimen/item_tv_size_4"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
 <!--    显示更多和收起-->
@@ -31,7 +31,7 @@
         android:visibility="gone"
         android:maxLines="2"
         android:ellipsize="end"
-        android:textSize="15sp"
+        android:textSize="@dimen/item_tv_size_4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

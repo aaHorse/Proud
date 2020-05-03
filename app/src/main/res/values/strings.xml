@@ -47,6 +47,9 @@
     <string name="register">注册</string>
     <string name="done">已领取</string>
     <string name="time">2020年4月27日08:45:12</string>
+    <string name="comment_hint">评论</string>
+    <string name="send">发送</string>
+    <string name="position">查看位置</string>
 
 
 </resources>

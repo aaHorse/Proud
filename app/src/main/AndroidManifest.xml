@@ -37,11 +37,13 @@
             android:label="@string/new_found" />
         <activity
             android:name=".ui.common.MapActivity"
-            android:label="标记地点" />
+            android:label="标记地点"
+            />
         <activity
             android:name=".ui.task.TaskActivity"
             android:label="@string/task_activity" />
-        <activity android:name=".ui.home.MainActivity" />
+        <activity android:name=".ui.home.MainActivity"
+            />
         <activity android:name=".ui.init.ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

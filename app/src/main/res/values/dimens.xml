@@ -6,19 +6,25 @@
 
     <dimen name="item_margin_top">10dp</dimen>
 
+    <dimen name="item_margin_top_2">20dp</dimen>
+
     <dimen name="item_view_height">1dp</dimen>
 
     <dimen name="item_margin_bottom">30dp</dimen>
 
-    <dimen name="item_padding">15dp</dimen>
+    <dimen name="item_padding">10dp</dimen>
 
     <dimen name="item_iv">45dp</dimen>
 
     <dimen name="item_margin_left">10dp</dimen>
 
-    <dimen name="item_tv_size_name">16sp</dimen>
+    <dimen name="item_tv_size_1">16sp</dimen>
 
-    <dimen name="item_tv_size_time">10dp</dimen>
+    <dimen name="item_tv_size_2">10sp</dimen>
+
+    <dimen name="item_tv_size_3">13dp</dimen>
+
+    <dimen name="item_tv_size_4">15dp</dimen>
 
     <dimen name="item_iv_icon">25dp</dimen>
 

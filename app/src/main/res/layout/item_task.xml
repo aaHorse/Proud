@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/item_margin_bottom"
+    android:orientation="vertical"
     >
 
     <LinearLayout
@@ -39,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:textSize="@dimen/item_tv_size_name"
+                    android:textSize="@dimen/item_tv_size_1"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold"
                     tools:text="志在愚乐" />
@@ -50,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:textSize="@dimen/item_tv_size_time"
+                    android:textSize="@dimen/item_tv_size_2"
                     android:textColor="@color/primary_text"
                     android:text="@string/time"
                     tools:ignore="SpUsage" />
@@ -61,6 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/done"
+                android:textSize="@dimen/item_tv_size_3"
                 android:layout_alignParentRight="true">
 
             </TextView>
@@ -79,14 +81,14 @@
             android:id="@+id/seemore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top"
+            android:layout_marginTop="@dimen/item_margin_top_2"
             />
 
         <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/npl_item_moment_photos"
-            android:layout_marginTop="@dimen/item_margin_top"
+            android:layout_marginTop="@dimen/item_margin_top_2"
             app:bga_npl_itemCornerRadius="0dp"
             app:bga_npl_itemSpanCount="3"
             app:bga_npl_itemWhiteSpacing="4dp"
@@ -99,7 +101,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top"
+            android:layout_marginTop="@dimen/item_margin_top_2"
             >
 
             <ImageView
@@ -112,9 +114,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/item_iv_icon"
-                android:text="查看位置"
+                android:text="@string/position"
                 android:layout_toRightOf="@id/iv_local"
                 android:gravity="center"
+                android:textSize="@dimen/item_tv_size_4"
                 />
 
             <ImageView
@@ -130,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18"
-                android:textSize="10sp"
+                android:textSize="@dimen/item_tv_size_2"
                 android:layout_toLeftOf="@id/iv_like"
                 android:layout_marginRight="10dp"
                 />
@@ -149,9 +152,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="18"
-                android:textSize="10sp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:textSize="@dimen/item_tv_size_2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
                 />
 
 
@@ -162,15 +165,47 @@
             android:id="@+id/rv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top"
+            android:layout_marginTop="@dimen/item_margin_top_2"
             />
 
-        <EditText
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@drawable/bg_et_comment"
-            />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/item_margin_top"
+            >
+
+            <EditText
+                android:id="@+id/et_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/bg_et_comment"
+                android:textCursorDrawable="@drawable/cursor"
+                android:maxLines="5"
+                android:hint="@string/comment_hint"
+                android:textColor="#000"
+                android:textSize="15sp"
+                />
+
+            <Button
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:text="@string/send"
+                android:background="@drawable/bg_btn_login"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="@dimen/item_padding"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/wall"
+        android:layout_marginTop="@dimen/item_margin_top_2"
+        />
+
+</LinearLayout >

@@ -38,6 +38,11 @@
 
     </LinearLayout>
 
+    <!-- 解决焦点问题 -->
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="45dp"
