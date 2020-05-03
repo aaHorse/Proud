@@ -5,14 +5,14 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
+    android:layout_marginBottom="@dimen/item_margin_bottom"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="15dp"
+        android:padding="@dimen/item_padding"
         >
 
         <RelativeLayout
@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/avatar"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="@dimen/iv"
+                android:layout_height="@dimen/iv"
                 android:src="@drawable/avatar_default" />
 
             <LinearLayout
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_toRightOf="@+id/avatar"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/item_margin_left"
                 >
 
                 <TextView
@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/item_tv_size_name"
                     android:textColor="@color/primary_text"
                     android:textStyle="bold"
                     tools:text="志在愚乐" />
@@ -50,17 +50,17 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:ellipsize="end"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/item_tv_size_time"
                     android:textColor="@color/primary_text"
-                    android:text="2020年4月27日08:45:12"
-                    />
+                    android:text="@string/time"
+                    tools:ignore="SpUsage" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="已领取"
+                android:text="@string/done"
                 android:layout_alignParentRight="true">
 
             </TextView>
@@ -72,21 +72,21 @@
             android:id="@+id/rv_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/item_margin_top"
             />
 
         <com.horse.proud.widget.SeeMoreView
             android:id="@+id/seemore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/item_margin_top"
             />
 
         <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/npl_item_moment_photos"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/item_margin_top"
             app:bga_npl_itemCornerRadius="0dp"
             app:bga_npl_itemSpanCount="3"
             app:bga_npl_itemWhiteSpacing="4dp"
@@ -99,19 +99,19 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/item_margin_top"
             >
 
             <ImageView
                 android:id="@+id/iv_local"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/item_iv_icon"
+                android:layout_height="@dimen/item_iv_icon"
                 android:src="@drawable/local_click"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="@dimen/item_iv_icon"
                 android:text="查看位置"
                 android:layout_toRightOf="@id/iv_local"
                 android:gravity="center"
@@ -119,8 +119,8 @@
 
             <ImageView
                 android:id="@+id/iv_comment"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/item_iv_icon"
+                android:layout_height="@dimen/item_iv_icon"
                 android:src="@drawable/comment"
                 android:layout_toLeftOf="@+id/tv_comment"
                 />
@@ -137,8 +137,8 @@
 
             <CheckBox
                 android:id="@+id/iv_like"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/item_iv_icon"
+                android:layout_height="@dimen/item_iv_icon"
                 android:background="@drawable/like_selector"
                 android:layout_toLeftOf="@+id/tv_like"
                 android:button="@null"
@@ -162,12 +162,14 @@
             android:id="@+id/rv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/item_margin_top"
             />
 
         <EditText
             android:layout_width="match_parent"
-            android:layout_height="145dp"/>
+            android:layout_height="45dp"
+            android:background="@drawable/bg_et_comment"
+            />
 
     </LinearLayout>
 

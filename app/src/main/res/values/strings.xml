@@ -45,6 +45,8 @@
     <string name="login">登录</string>
     <string name="forget">忘记密码？</string>
     <string name="register">注册</string>
+    <string name="done">已领取</string>
+    <string name="time">2020年4月27日08:45:12</string>
 
 
 </resources>
