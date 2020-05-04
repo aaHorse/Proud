@@ -11,7 +11,13 @@ import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.TaskRepository
 import com.horse.proud.data.model.task.TaskItem
+import com.horse.proud.util.DateUtil
 import kotlinx.coroutines.launch
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+
 
 /**
  * 发布任务
@@ -29,6 +35,8 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     var time:String = ""
 
+    var imagePath:String? = null
+
     fun publish(){
         launch({
             var task = TaskItem()
@@ -40,7 +48,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
             task.location = local
             task.image = ""
             task.done = 0
-            task.startTime = "2020年5月4日18:36:54"
+            task.startTime = DateUtil.nowDateTime
             task.endTime = time
             task.thumbUp = 0
             task.collect = 0
@@ -50,7 +58,9 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
             when(response.status){
                 200 ->{
-                    showToast("任务发布成功")
+                    upLoadImage(response.data)
+                    logWarn(TAG,response.data)
+                    logWarn(TAG,imagePath)
                 }
                 500 ->{
                     showToast("任务发布失败")
@@ -59,6 +69,37 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
         },{
             showToast(GlobalUtil.getString(R.string.unknown_error))
+            logError(TAG,it)
+        })
+    }
+
+    private fun upLoadImage(id:String){
+        launch({
+            imagePath?.let {
+                logWarn(TAG,it)
+                val file = File(it)
+                val requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file)
+
+                val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
+
+                val requestBody: RequestBody = RequestBody.create(
+                    MediaType.parse("multipart/form-data"),
+                    id
+                )
+
+
+                val response = repository.upLoadImage(part,requestBody)
+                when(response.status){
+                    200 ->{
+                        showToast("任务发布成功")
+                    }
+                    500 ->{
+                        showToast("任务发布失败")
+                    }
+                }
+            }
+        },{
+            showToast("图片上传失败")
             logError(TAG,it)
         })
     }

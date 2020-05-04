@@ -55,6 +55,7 @@
     <string name="version">V 1.0.0</string>
     <string name="why">开发缘由：本项目为软件工程专业的课程实践</string>
     <string name="press_again_to_exit">再按一次退出%1$s</string>
+    <string name="image_failed">图片上传失败</string>
 
 
 </resources>

@@ -4,6 +4,9 @@ import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.data.network.TaskNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.ResponseBody
 
 /**
  * 任务功能
@@ -19,6 +22,10 @@ class TaskRepository private constructor(private val network: TaskNetwork){
 
     suspend fun publish(task: TaskItem) = withContext(Dispatchers.IO){
         network.fetchTaskPublish(task)
+    }
+
+    suspend fun upLoadImage(part: MultipartBody.Part,requestBody: RequestBody) = withContext(Dispatchers.IO){
+        network.fetchTaskUpLoadImage(part,requestBody)
     }
 
     companion object{

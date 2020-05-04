@@ -1,12 +1,14 @@
 package com.horse.proud.data.network.api
 
+import com.horse.proud.data.model.Response
 import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.data.model.task.TaskList
 import com.horse.proud.data.model.task.TaskPublish
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
+
 
 /**
  * 任务接口
@@ -21,5 +23,9 @@ interface TaskService {
 
     @GET("api/task/query/all")
     fun getAll():Call<TaskList>
+
+    @Multipart
+    @POST("upload/task/setFileUpload")
+    fun uploadImage(@Part part: MultipartBody.Part,@Part("id")requestBody: RequestBody): Call<Response>
 
 }

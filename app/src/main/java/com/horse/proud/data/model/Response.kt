@@ -11,10 +11,13 @@ import com.google.gson.annotations.SerializedName
 open class Response {
 
     @SerializedName("status")
-    var status:Int = 500
+    var status:Int = 600
 
     @SerializedName("msg")
     lateinit var msg:String
+
+    @SerializedName("code")
+    lateinit var code:String
 
     //lateinit var ok
 

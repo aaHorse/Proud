@@ -2,6 +2,8 @@ package com.horse.proud.data.network
 
 import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.data.network.api.TaskService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +22,8 @@ class TaskNetwork {
     suspend fun fetchTaskPublish(task: TaskItem) = service.publish(task).await()
 
     suspend fun fetchTaskAll() = service.getAll().await()
+
+    suspend fun fetchTaskUpLoadImage(part: MultipartBody.Part,requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

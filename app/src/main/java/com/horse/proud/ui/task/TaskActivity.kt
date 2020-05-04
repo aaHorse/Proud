@@ -92,6 +92,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             when(requestCode){
                 RC_CHOOSE_PHOTO ->{
                     snpl_moment_add_photos.addMoreData(BGAPhotoPickerActivity.getSelectedPhotos(data))
+                    viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
                 }
                 RC_PHOTO_PREVIEW ->{
                     snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)
@@ -170,7 +171,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             val takePhotoDir = File(Proud.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
-                .maxChooseCount(12)
+                .maxChooseCount(1)
                 .selectedPhotos(null)//当前已选择图片的集合
                 .pauseOnScroll(false)//滚动列表时，是否暂停加载图片
                 .build()
