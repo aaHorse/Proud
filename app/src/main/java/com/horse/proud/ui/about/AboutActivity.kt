@@ -1,8 +1,7 @@
-package com.horse.proud.ui
+package com.horse.proud.ui.about
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.horse.proud.R
 import com.horse.proud.ui.common.BaseActivity
@@ -29,7 +28,8 @@ class AboutActivity : BaseActivity() {
         private const val TAG = "AboutActivity"
 
         fun actionStart(activity: Activity){
-            val intent = Intent(activity,AboutActivity::class.java)
+            val intent = Intent(activity,
+                AboutActivity::class.java)
             activity.startActivity(intent)
         }
 

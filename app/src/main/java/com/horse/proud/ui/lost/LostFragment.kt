@@ -86,6 +86,7 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
 
     override fun loadFinished() {
         super.loadFinished()
+        ll_bg.alpha = 0.3f
         if (viewModel.lostItems.isEmpty()) {
             //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE

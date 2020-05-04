@@ -203,7 +203,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/wall"
+        android:background="@color/qmui_config_color_red"
         android:layout_marginTop="@dimen/item_margin_top_3"
         />
 

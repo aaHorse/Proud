@@ -2,6 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/wall"
+    android:alpha="0.95"
     >
 
     <RelativeLayout

@@ -1,9 +1,11 @@
 package com.horse.proud.ui.task
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,10 +14,12 @@ import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
+import com.horse.core.proud.util.AndroidVersion
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentTaskBindingImpl
+import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.task.adapter.TaskAdapter
@@ -33,7 +37,7 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
 
     lateinit var taskFragment: TaskFragment
 
-    val viewModelFactory by inject<TaskFragmentViewModelFactory>()
+    private val viewModelFactory by inject<TaskFragmentViewModelFactory>()
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(TaskFragmentViewModel::class.java) }
 
@@ -86,6 +90,7 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
 
     override fun loadFinished() {
         super.loadFinished()
+        ll_bg.alpha = 0.3f
         if (viewModel.taskItems.isEmpty()) {
             //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE

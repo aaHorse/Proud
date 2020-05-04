@@ -86,6 +86,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
 
     override fun loadFinished() {
         super.loadFinished()
+        ll_bg.alpha = 0.3f
         if (viewModel.rentalItems.isEmpty()) {
             //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE

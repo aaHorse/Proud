@@ -11,6 +11,14 @@
         android:background="#fff"
         >
 
+        <LinearLayout
+            android:id="@+id/ll_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            android:orientation="vertical"
+            />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"

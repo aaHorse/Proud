@@ -9,14 +9,12 @@ import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.postDelayed
+import com.horse.core.proud.util.AndroidVersion
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.InfiniteScrollListener
 import com.horse.proud.callback.LoadDataListener
-import com.horse.proud.event.CleanCacheEvent
-import com.horse.proud.event.MessageEvent
-import com.horse.proud.event.RefreshMainActivityFeedsEvent
-import com.horse.proud.event.UnknownErrorEvent
+import com.horse.proud.event.*
 import com.horse.proud.ui.home.MainActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -79,6 +77,8 @@ abstract class BaseItemsFragment : BaseFragment(){
 
             override fun isNoMoreData() = isNoMoreData
         })
+
+        scrollChangeListener()
 
 /*        swipeRefreshLayout.setOnRefreshListener {
             refresh()
@@ -145,6 +145,25 @@ abstract class BaseItemsFragment : BaseFragment(){
     fun scrollToTop() {
         if (adapter.itemCount != 0) {
             recyclerView.smoothScrollToPosition(0)
+        }
+    }
+
+    /**
+     * 滑动监听
+     * */
+    private fun scrollChangeListener(){
+        if (AndroidVersion.hasMarshmallow()) {
+            recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+                var event = ScrollEvent()
+                if (v != null) {
+                    event.view = v
+                }
+                event.oldScrollX = oldScrollX
+                event.oldScrollY = oldScrollY
+                event.scrollX = scrollX
+                event.scrollY = scrollY
+                EventBus.getDefault().post(event)
+            }
         }
     }
 
