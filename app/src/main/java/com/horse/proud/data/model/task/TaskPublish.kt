@@ -1,17 +1,15 @@
-package com.horse.proud.data.model.login
+package com.horse.proud.data.model.task
 
 import com.google.gson.annotations.SerializedName
 import com.horse.proud.data.model.Response
 
 /**
- * 登录
- *
  * @author liliyuan
- * @since 2020年5月2日14:32:07
+ * @since 2020年5月4日13:27:56
  * */
-class Login:Response(){
+class TaskPublish :Response(){
 
     @SerializedName("data")
-    var data:Int = -1
+    lateinit var data:String
 
 }

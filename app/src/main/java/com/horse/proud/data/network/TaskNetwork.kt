@@ -1,5 +1,6 @@
 package com.horse.proud.data.network
 
+import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.data.network.api.TaskService
 import retrofit2.Call
 import retrofit2.Callback
@@ -16,7 +17,9 @@ class TaskNetwork {
 
     private val service = ServiceCreator.create(TaskService::class.java)
 
-    suspend fun fetchTaskList() = service.getTask().await()
+    suspend fun fetchTaskPublish(task: TaskItem) = service.publish(task).await()
+
+    suspend fun fetchTaskAll() = service.getAll().await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

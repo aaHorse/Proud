@@ -1,15 +1,15 @@
 package com.horse.proud.data.model.regist
 
 import com.google.gson.annotations.SerializedName
-import com.horse.proud.data.model.Base
+import com.horse.proud.data.model.Response
 
 /**
  * 注册
  *
  * @author liliyuan
- * @since 实践
+ * @since 2020年5月4日08:56:17
  * */
-class Register: Base() {
+class Register{
 
     @SerializedName("accountNumber")
     lateinit var number:String

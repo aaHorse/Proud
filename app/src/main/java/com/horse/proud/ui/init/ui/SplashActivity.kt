@@ -17,7 +17,7 @@ import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.home.MainActivity
-import com.horse.proud.ui.login.ui.LoginActivity
+import com.horse.proud.ui.login.LoginActivity
 import com.horse.proud.util.ResponseHandler
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode

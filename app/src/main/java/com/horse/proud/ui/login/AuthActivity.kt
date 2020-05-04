@@ -1,4 +1,4 @@
-package com.horse.proud.ui.login.ui
+package com.horse.proud.ui.login
 
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
@@ -43,10 +43,10 @@ abstract class AuthActivity : BaseActivity(){
      *
      * @param
      * */
-    protected fun saveAuthData(userId: Long, token: String, loginType: Int){
-        SharedUtil.save(Const.Auth.USER_ID, userId)
-        SharedUtil.save(Const.Auth.TOKEN,token)
-        SharedUtil.save(Const.Auth.LOGIN_TYPE,loginType)
+    protected fun saveAuthData(userId:Int){
+        SharedUtil.save(Const.Auth.USER_ID,userId)
+//        SharedUtil.save(Const.Auth.TOKEN,token)
+//        SharedUtil.save(Const.Auth.LOGIN_TYPE,loginType)
         Proud.refreshLoginState()
     }
 

@@ -13,7 +13,9 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
  * */
 object ServiceCreator {
 
-    private const val BASE_URL = "https://wanandroid.com/"
+    //private const val BASE_URL = "http://47.95.3.253:8080/space/"
+
+    private const val BASE_URL = "http://47.100.251.3/space/"
 
     private val httpClient = OkHttpClient.Builder()
 

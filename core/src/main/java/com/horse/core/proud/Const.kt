@@ -12,7 +12,7 @@ interface Const {
         companion object {
 
             /**
-             * 登录的学号
+             * 账号
              * */
             const val USER_ID = "u_d"
 
@@ -37,6 +37,8 @@ interface Const {
             const val AVATAR = "ar"
 
             const val BG_IMAGE = "bi"
+
+            const val NUMBER = "num"
 
             const val DESCRIPTION = "de"
         }

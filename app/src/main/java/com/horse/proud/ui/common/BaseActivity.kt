@@ -3,7 +3,6 @@ package com.horse.proud.ui.common
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
@@ -16,15 +15,13 @@ import android.widget.TextView
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import com.horse.proud.R
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.util.ActivityCollector
 import com.horse.proud.callback.PermissionListener
 import com.horse.proud.callback.RequestLifecycle
 import com.horse.proud.event.ForceToLoginEvent
-import com.horse.proud.ui.login.ui.LoginActivity
+import com.horse.proud.ui.login.LoginActivity
 import com.umeng.analytics.MobclickAgent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

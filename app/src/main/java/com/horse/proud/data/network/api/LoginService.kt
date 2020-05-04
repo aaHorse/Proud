@@ -1,5 +1,6 @@
 package com.horse.proud.data.network.api
 
+import com.horse.proud.data.model.Response
 import com.horse.proud.data.model.login.Login
 import com.horse.proud.data.model.regist.Register
 import retrofit2.Call
@@ -17,8 +18,7 @@ interface LoginService {
     @POST("api/user/login")
     fun login(@Field("accountNumber")accountNumber:String,@Field("password")password:String): Call<Login>
 
-    @FormUrlEncoded
     @POST("api/user/register")
-    fun register(@Body register:Register): Call<Register>
+    fun register(@Body register:Register): Call<Response>
 
 }

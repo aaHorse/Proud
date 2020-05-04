@@ -27,7 +27,7 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
 
     fun getTask() {
         launch ({
-            var taskList = repository.getTask()
+            var taskList = repository.getTaskList()
             for(task in taskList.taskList){
                 taskItems.add(task)
             }

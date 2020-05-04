@@ -1,4 +1,4 @@
-package com.horse.proud.ui.login.ui
+package com.horse.proud.ui.login
 
 import android.app.Activity
 import android.content.Intent
@@ -12,10 +12,9 @@ import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
+import com.horse.proud.event.RegisterSucceedEvent
 import com.horse.proud.network.model.Version
 import com.horse.proud.ui.home.MainActivity
-import com.horse.proud.ui.login.LoginActivityViewModel
-import com.horse.proud.ui.login.LoginActivityViewModelFactory
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -27,9 +26,9 @@ import org.koin.android.ext.android.inject
  * @author liliyuan
  * @since 2020年4月21日06:14:51
  * */
-class LoginActivity :AuthActivity(){
+class LoginActivity : AuthActivity(){
 
-    val viewModelFactory by inject<LoginActivityViewModelFactory>()
+    private val viewModelFactory by inject<LoginActivityViewModelFactory>()
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(LoginActivityViewModel::class.java) }
 
@@ -41,9 +40,10 @@ class LoginActivity :AuthActivity(){
     }
 
     override fun setupViews() {
-        super.setupViews()
         tv_register_account.setOnClickListener {
-            RegisterActivity.actionStart(this)
+            RegisterActivity.actionStart(
+                this
+            )
         }
         btn_login.setOnClickListener {
             viewModel.login(number.text.toString(),password.text.toString())
@@ -59,9 +59,7 @@ class LoginActivity :AuthActivity(){
 
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
-            SharedUtil.save(Const.Auth.USER_ID,"221701414")
-            SharedUtil.save(Const.Auth.TOKEN,"token")
-            SharedUtil.save(Const.Auth.LOGIN_TYPE,2)
+            saveAuthData(viewModel.login.data)
             forwardToMainActivity()
         })
     }
@@ -73,6 +71,9 @@ class LoginActivity :AuthActivity(){
     override fun onMessageEvent(messageEvent: MessageEvent) {
         if (messageEvent is FinishActivityEvent && LoginActivity::class.java == messageEvent.activityClass) {
             finish()
+        }else if(messageEvent is RegisterSucceedEvent){
+            number.setText(messageEvent.register.number)
+            password.setText(messageEvent.register.password)
         }
     }
 
@@ -87,7 +88,8 @@ class LoginActivity :AuthActivity(){
         val INTENT_VERSION = "intent_version"
 
         fun actionStart(activity: Activity,hasNewVersion:Boolean,version: Version?){
-            val intent = Intent(activity,LoginActivity::class.java).apply {
+            val intent = Intent(activity,
+                LoginActivity::class.java).apply {
                 putExtra(INTENT_HAS_NEW_VERSION,hasNewVersion)
                 putExtra(INTENT_VERSION,version)
             }

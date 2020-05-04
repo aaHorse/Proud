@@ -15,63 +15,55 @@ import kotlin.collections.ArrayList
  * */
 class TaskItem : Parcelable {
 
-    @SerializedName("data")
-    lateinit var taskList: ArrayList<TaskItem>
+    @SerializedName("user_id")
+    var userId:Int = 0
 
-    var name:String? = null
+    lateinit var title:String
 
-    var content: String? = "nulfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffl"
+    lateinit var content:String
 
-    var photos: ArrayList<String> = arrayListOf("http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-    )
+    lateinit var image:String
 
-    var type: ArrayList<String> = arrayListOf("类型1","类型2","类型3")
+    lateinit var label:String
 
-    var obj1:CommentItem = CommentItem()
+    lateinit var location:String
 
-    var obj2:CommentItem = CommentItem()
+    @SerializedName("is_done")
+    var done:Int = -1
 
-    var obj3:CommentItem = CommentItem()
+    @SerializedName("reword")
+    lateinit var reword:String
 
-    init{
-        obj1.name = "会飞的鱼"
-        obj1.content = "测试测测试测试测试测试测试测试测试测试测测试测测试测试测试测试测试测"
+    @SerializedName("start_time")
+    lateinit var startTime:String
 
-        obj2.name = "会飞的鱼"
-        obj3.content = "测试测测试测试测试测试测试测试测试测试测测试测测试测试测试测试测试测"
+    @SerializedName("end_time")
+    lateinit var endTime:String
 
-        obj3.name = "会飞的鱼"
-        obj3.content = "测试测测试测试测"
-    }
+    @SerializedName("thumb_up")
+    var thumbUp:Int = 0
 
-    var comments: ArrayList<CommentItem> = arrayListOf(obj1,obj2,obj3)
+    @SerializedName("collect")
+    var collect:Int = 0
 
+    @SerializedName("comment")
+    var comment:Int = 0
 
     override fun describeContents(): Int {
         return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(name)
-        dest.writeString(content)
-        dest.writeStringList(photos)
+//        dest.writeString(name)
+//        dest.writeString(content)
+//        dest.writeStringList(photos)
     }
 
     constructor() {}
 
     protected constructor(parcel: Parcel) {
-        content = parcel.readString()
-        photos = parcel.createStringArrayList() as ArrayList<String>
+//        content = parcel.readString()
+//        photos = parcel.createStringArrayList() as ArrayList<String>
     }
 
     companion object {

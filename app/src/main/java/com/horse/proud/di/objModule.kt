@@ -9,8 +9,10 @@ import com.horse.proud.data.network.LostNetwork
 import com.horse.proud.data.network.RentalNetwork
 import com.horse.proud.data.network.TaskNetwork
 import com.horse.proud.ui.login.LoginActivityViewModelFactory
+import com.horse.proud.ui.login.RegisterActivityViewModelFactory
 import com.horse.proud.ui.lost.LostFragmentViewModelFactory
 import com.horse.proud.ui.rental.RentalFragmentViewModelFactory
+import com.horse.proud.ui.task.TaskActivityViewModelFactory
 import com.horse.proud.ui.task.TaskFragmentViewModelFactory
 import org.koin.dsl.module
 
@@ -21,7 +23,15 @@ val appModule = module {
     }
 
     factory{
+        RegisterActivityViewModelFactory(LoginRepository.getInstance(LoginNetwork.getInstance()))
+    }
+
+    factory{
         TaskFragmentViewModelFactory(TaskRepository.getInstance(TaskNetwork.getInstance()))
+    }
+
+    factory{
+        TaskActivityViewModelFactory(TaskRepository.getInstance(TaskNetwork.getInstance()))
     }
 
     factory{

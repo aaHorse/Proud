@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName
  * @author liliyuan
  * @since 2020年5月2日14:26:10
  * */
-open class Base {
+open class Response {
 
     @SerializedName("status")
-    var status:Long = 500
+    var status:Int = 500
 
     @SerializedName("msg")
     lateinit var msg:String

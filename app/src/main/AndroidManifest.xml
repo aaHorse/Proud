@@ -28,7 +28,7 @@
         <activity android:name=".ui.about.AboutActivity"
             android:label="@string/about"
             />
-        <activity android:name=".ui.login.ui.RegisterActivity" />
+        <activity android:name=".ui.login.RegisterActivity" />
         <activity
             android:name=".ui.lost.FoundActivity"
             android:label="@string/new_lost" />
@@ -52,7 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.ui.LoginActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
 
         <service android:name="com.amap.api.location.APSService" />
 

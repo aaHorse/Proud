@@ -9,17 +9,17 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity
 import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
-import com.amap.api.location.AMapLocationClient
-import com.amap.api.location.AMapLocationClientOption
-import com.amap.api.location.AMapLocationListener
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
+import com.horse.proud.databinding.ActivityTaskBinding
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.CheckableDialogBuilder
@@ -30,6 +30,7 @@ import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 import java.util.*
+import org.koin.android.ext.android.inject
 
 
 /**
@@ -41,13 +42,9 @@ import java.util.*
 class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     BGASortableNinePhotoLayout.Delegate {
 
-    //声明AMapLocationClient类对象
-    lateinit var mLocationClient: AMapLocationClient
+    private val viewModelFactory by inject<TaskActivityViewModelFactory>()
 
-    //声明定位回调监听器
-    lateinit var mLocationListener: AMapLocationListener
-
-    lateinit var mLocationOption: AMapLocationClientOption
+    val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(TaskActivityViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,20 +52,16 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
         )
-        setContentView(R.layout.activity_task)
+        val binding = DataBindingUtil.setContentView<ActivityTaskBinding>(this,R.layout.activity_task)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 
     override fun setupViews() {
         setupToolbar()
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
-        setUpRecyclerView()
         setOnClickListener()
- /*       bt.setOnClickListener {
-
-            //choicePhotoWrapper()
-            //logWarn(TAG,Test.sHA1(this))
-        }*/
     }
 
     override fun onLoad() {
@@ -83,10 +76,11 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.publish->{
-                showToast("测试")
+                viewModel.publish()
             }
             else->{
-                showToast("测试2")
+                showToast("任务未发布")
+                finish()
             }
         }
         return true
@@ -104,7 +98,11 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
                 }
                 LOCATION_FOT_RESULT ->{
                     iv_local.setImageResource(R.drawable.local_click)
-                    showToast("定位回调")
+                    var latitude = data?.getDoubleExtra(Const.Item.POSITION_LATITUDE,-1.0)
+                    var longitude = data?.getDoubleExtra(Const.Item.POSITION_LONGITUTE,-1.0)
+                    if(latitude!=-1.0&&longitude!=-1.0){
+                        viewModel.local = "$latitude,$longitude"
+                    }
                 }
             }
         }else{
@@ -116,23 +114,17 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         }
     }
 
-    private fun setUpRecyclerView(){
-
-    }
-
     private fun setOnClickListener(){
         ll_local.setOnClickListener {
             getLocation()
         }
 
         ll_type.setOnClickListener {
-            showMultiChoiceDialog()
-            iv_type.setImageResource(R.drawable.type_click)
+            getType()
         }
 
         ll_time.setOnClickListener {
-            showSingleChoiceDialog()
-            iv_time.setImageResource(R.drawable.time_click)
+            getTime()
         }
     }
 
@@ -265,18 +257,20 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         }
     }
 
-    private fun showSingleChoiceDialog() {
+    private fun getTime() {
         val items = arrayOf("1天内过期", "2天内过期", "3天内过期")
         val checkedIndex = 1
         CheckableDialogBuilder(this)
             .setCheckedIndex(checkedIndex)
             .addItems(items) { dialog, which ->
                 dialog.dismiss()
+                viewModel.time = items[which]
+                iv_time.setImageResource(R.drawable.time_click)
             }
             .create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
     }
 
-    private fun showMultiChoiceDialog() {
+    private fun getType() {
         val items =
             arrayOf("选项1", "选项2", "选项3", "选项4", "选项5", "选项6")
         val builder = MultiCheckableDialogBuilder(this)
@@ -288,12 +282,15 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         builder.addAction(
             "提交"
         ) { dialog, index ->
-            var result = "你选择了 "
+            var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + builder.checkedItemIndexes[i] + "; "
+                result += "" + builder.checkedItemIndexes[i] + ","
             }
-            Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
             dialog.dismiss()
+            viewModel.type = result
+            if(!result.isEmpty()){
+                iv_type.setImageResource(R.drawable.type_click)
+            }
         }
         builder.create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
     }

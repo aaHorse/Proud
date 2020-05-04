@@ -29,11 +29,13 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
     }
 
     override fun fillData(helper: BGAViewHolderHelper, position: Int, taskItem: TaskItem) {
-        helper.setText(R.id.text, taskItem.name)
+        helper.setText(R.id.text, taskItem.title)
         taskItem.content?.let { helper.getView<SeeMoreView>(R.id.seemore).setText(it) }
         val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
         ninePhotoLayout.setDelegate(taskFragment)
-        ninePhotoLayout.data = taskItem.photos
+        val photos = ArrayList<String>()
+        photos.add(taskItem.image)
+        ninePhotoLayout.data = photos
 
 
         /*
@@ -44,7 +46,10 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         var linearLayoutManager = LinearLayoutManager(taskFragment.context)
         linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
         rv_type.layoutManager = linearLayoutManager
-        rv_type.adapter = TypeAdapter(taskItem.type)
+        var types = ArrayList<String>()
+        types.add("类型1")
+        types.add("类型2")
+        rv_type.adapter = TypeAdapter(types)
 
         /*
         * 嵌套评论对应的 RecyclerView
@@ -52,7 +57,16 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         var rv_comment:RecyclerView = helper.getView(R.id.rv_comment)
         rv_comment.setHasFixedSize(true)
         rv_comment.layoutManager = LinearLayoutManager(taskFragment.context)
-        rv_comment.adapter = CommentAdapter(taskItem.comments)
+        var comments = ArrayList<CommentItem>()
+        var item = CommentItem()
+        item.name = "会飞的鱼"
+        item.content = "评论111111111111111111111"
+        comments.add(item)
+        var item2 = CommentItem()
+        item2.name = "会飞的鱼"
+        item2.content = "评论222222222222222222222222222"
+        comments.add(item2)
+        rv_comment.adapter = CommentAdapter(comments)
     }
 
     private class TypeAdapter(items:ArrayList<String>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
