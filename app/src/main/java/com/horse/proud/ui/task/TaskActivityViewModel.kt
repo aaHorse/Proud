@@ -87,7 +87,6 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                     id
                 )
 
-
                 val response = repository.upLoadImage(part,requestBody)
                 when(response.status){
                     200 ->{

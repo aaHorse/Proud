@@ -14,6 +14,9 @@ import androidx.lifecycle.ViewModelProviders
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity
 import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
@@ -62,6 +65,9 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
         setOnClickListener()
+        Glide.with(this).load(R.drawable.avatar_default)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(avatar);
     }
 
     override fun onLoad() {

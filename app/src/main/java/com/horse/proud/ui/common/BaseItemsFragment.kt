@@ -70,7 +70,7 @@ abstract class BaseItemsFragment : BaseFragment(){
 
         recyclerView.addOnScrollListener(object: InfiniteScrollListener(layoutManager) {
             override fun onLoadMore() {
-                loadDataListener.onLoad()
+                //loadDataListener.onLoad()
             }
 
             override fun isDataLoading() = isLoadingMore

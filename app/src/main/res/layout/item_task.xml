@@ -60,9 +60,19 @@
                 android:id="@+id/done"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/done"
                 android:textSize="@dimen/item_tv_size_3"
                 android:layout_alignParentRight="true">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/item_tv_size_3"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/done"
+                >
 
             </TextView>
 
