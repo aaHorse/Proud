@@ -23,11 +23,15 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityTaskBinding
+import com.horse.proud.event.LikeEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.CheckableDialogBuilder
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MultiCheckableDialogBuilder
 import kotlinx.android.synthetic.main.activity_task.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks

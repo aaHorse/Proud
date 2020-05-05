@@ -27,4 +27,7 @@ interface RentalService {
     @POST("upload/good/setFileUpload")
     fun uploadImage(@Part part: MultipartBody.Part, @Part("id")requestBody: RequestBody): Call<Response>
 
+    @GET("api/rental/update/thumbUp")
+    fun like(@Query("id")id:String):Call<Response>
+
 }

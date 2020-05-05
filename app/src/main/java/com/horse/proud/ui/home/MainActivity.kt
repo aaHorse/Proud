@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.horse.core.proud.Const
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
+import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.about.AboutActivity
@@ -94,15 +96,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onMessageEvent(messageEvent: MessageEvent) {
-        if (messageEvent is ScrollEvent) {
-            //上滑 并且 正在显示底部栏
-            if (messageEvent.scrollY - messageEvent.oldScrollY > 0 && isBottomShow) {
-                isBottomShow = false
-                //将Y属性变为底部栏高度  (相当于隐藏了)
-                bottom.animate().translationY(bottom.height.toFloat());
-            } else if (messageEvent.scrollY - messageEvent.oldScrollY < 0 && !isBottomShow) {
-                isBottomShow = true;
-                bottom.animate().translationY(0.0f);
+        when(messageEvent){
+            is ScrollEvent -> {
+                //上滑 并且 正在显示底部栏
+                if (messageEvent.scrollY - messageEvent.oldScrollY > 0 && isBottomShow) {
+                    isBottomShow = false
+                    //将Y属性变为底部栏高度  (相当于隐藏了)
+                    bottom.animate().translationY(bottom.height.toFloat())
+                } else if (messageEvent.scrollY - messageEvent.oldScrollY < 0 && !isBottomShow) {
+                    isBottomShow = true;
+                    bottom.animate().translationY(0.0f);
+                }
             }
         }
     }

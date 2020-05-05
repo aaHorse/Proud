@@ -27,4 +27,7 @@ interface LostService {
     @POST("upload/lostfound/setFileUpload")
     fun uploadImage(@Part part: MultipartBody.Part, @Part("id")requestBody: RequestBody): Call<Response>
 
+    @GET("api/lost_and_found/update/thumbUp")
+    fun like(@Query("id")id:String):Call<Response>
+
 }

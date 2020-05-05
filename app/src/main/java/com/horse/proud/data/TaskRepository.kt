@@ -28,6 +28,10 @@ class TaskRepository private constructor(private val network: TaskNetwork){
         network.fetchTaskUpLoadImage(part,requestBody)
     }
 
+    suspend fun like(id:String) = withContext(Dispatchers.IO){
+        network.fetchLike(id)
+    }
+
     companion object{
 
         private lateinit var instance: TaskRepository

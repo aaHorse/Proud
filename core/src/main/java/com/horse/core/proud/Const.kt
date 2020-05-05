@@ -59,4 +59,21 @@ interface Const {
 
     }
 
+    /**
+     * 点赞事件
+     * */
+    interface Like{
+        companion object{
+
+            const val TASK = 0
+
+            const val LOST = 1
+
+            const val FOUND = 2
+
+            const val RENTAL = 3
+
+        }
+    }
+
 }

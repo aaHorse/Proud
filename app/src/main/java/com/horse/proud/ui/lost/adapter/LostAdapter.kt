@@ -15,15 +15,18 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.horse.core.proud.Const
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.data.model.lost.LostItem
 import com.horse.proud.data.model.other.CommentItem
+import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.lost.LostFragment
 import com.horse.proud.widget.SeeMoreView
 import kotlinx.android.synthetic.main.item_lost.view.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * 任务列表的 RecyclerView 适配器。
@@ -87,7 +90,11 @@ class LostAdapter(private val lostFragment: LostFragment, private var recyclerVi
 
         helper.getView<CheckBox>(R.id.iv_like).setOnClickListener {
             if(it.iv_like.isChecked){
-                showToast("点赞成功")
+                showToast("！！赞！！")
+                val evnet = LikeEvent()
+                evnet.category = Const.Like.LOST
+                evnet.id = item.id
+                EventBus.getDefault().post(evnet)
             }else{
                 showToast("取消点赞")
             }

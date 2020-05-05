@@ -25,6 +25,8 @@ class RentalNetwork {
 
     suspend fun fetchRentalUpLoadImage(part: MultipartBody.Part, requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
+    suspend fun fetchLike(id:String) = service.like(id).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {

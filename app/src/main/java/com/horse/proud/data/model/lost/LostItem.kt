@@ -14,6 +14,8 @@ import java.util.ArrayList
  * */
 class LostItem : Parcelable {
 
+    lateinit var id:String
+
     @SerializedName("userId")
     var userId:Int = 0
 

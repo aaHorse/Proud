@@ -10,17 +10,22 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentRentalBindingImpl
+import com.horse.proud.event.LikeEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.rental.adapter.RentalAdapter
 import kotlinx.android.synthetic.main.fragment_rental.*
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
 
 /**
@@ -158,6 +163,17 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
     ) {
         ninePhotoLayout!!.setIsExpand(true)
         ninePhotoLayout.flushItems()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    override fun onMessageEvent(messageEvent: MessageEvent) {
+        when(messageEvent){
+            is LikeEvent -> {
+                if(messageEvent.category == Const.Like.RENTAL){
+                    viewModel.like(messageEvent.id)
+                }
+            }
+        }
     }
 
     companion object{

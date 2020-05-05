@@ -28,4 +28,8 @@ interface TaskService {
     @POST("upload/task/setFileUpload")
     fun uploadImage(@Part part: MultipartBody.Part,@Part("id")requestBody: RequestBody): Call<Response>
 
+    @FormUrlEncoded
+    @POST("api/task/update/thumb_up")
+    fun like(@Field("id")id:String):Call<Response>
+
 }

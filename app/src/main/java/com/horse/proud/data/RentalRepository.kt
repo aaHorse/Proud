@@ -27,6 +27,10 @@ class RentalRepository private constructor(private val network: RentalNetwork){
         network.fetchRentalUpLoadImage(part,requestBody)
     }
 
+    suspend fun like(id:String) = withContext(Dispatchers.IO){
+        network.fetchLike(id)
+    }
+
     companion object{
 
         private lateinit var instance: RentalRepository

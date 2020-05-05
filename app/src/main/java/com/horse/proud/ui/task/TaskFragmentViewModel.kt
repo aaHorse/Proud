@@ -40,6 +40,14 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
         })
     }
 
+    fun like(id:String){
+        launch({
+            repository.like(id)
+        },{
+            logWarn(TAG, it.message, it)
+        })
+    }
+
     private fun launch(block: suspend () -> Unit, error: suspend (Throwable) -> Unit) = viewModelScope.launch {
         try {
             block()

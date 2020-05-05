@@ -15,6 +15,8 @@ import kotlin.collections.ArrayList
  * */
 class TaskItem : Parcelable {
 
+    lateinit var id:String
+
     @SerializedName("user_id")
     var userId:Int = 0
 

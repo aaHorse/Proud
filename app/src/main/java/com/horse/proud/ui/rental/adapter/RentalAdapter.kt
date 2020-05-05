@@ -15,14 +15,17 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.horse.core.proud.Const
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.rental.RentalItem
+import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.rental.RentalFragment
 import com.horse.proud.widget.SeeMoreView
 import kotlinx.android.synthetic.main.item_rental.view.*
+import org.greenrobot.eventbus.EventBus
 
 /**
  * 物品租赁的 RecyclerView 适配器。
@@ -89,7 +92,11 @@ class RentalAdapter(private val rentalFragment: RentalFragment, private var recy
 
         helper.getView<CheckBox>(R.id.iv_like).setOnClickListener {
             if(it.iv_like.isChecked){
-                showToast("点赞成功")
+                showToast("！！赞！！")
+                val evnet = LikeEvent()
+                evnet.category = Const.Like.RENTAL
+                evnet.id = item.id
+                EventBus.getDefault().post(evnet)
             }else{
                 showToast("取消点赞")
             }

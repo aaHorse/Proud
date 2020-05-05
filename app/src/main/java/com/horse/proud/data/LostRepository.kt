@@ -27,6 +27,10 @@ class LostRepository private constructor(private val network: LostNetwork){
         network.fetchLostUpLoadImage(part,requestBody)
     }
 
+    suspend fun like(id:String) = withContext(Dispatchers.IO){
+        network.fetchLike(id)
+    }
+
     companion object{
 
         private lateinit var instance: LostRepository

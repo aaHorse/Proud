@@ -23,6 +23,8 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityLostBinding
+import com.horse.proud.event.LikeEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog
@@ -35,6 +37,8 @@ import kotlinx.android.synthetic.main.activity_lost.ll_local
 import kotlinx.android.synthetic.main.activity_lost.ll_time
 import kotlinx.android.synthetic.main.activity_lost.ll_type
 import kotlinx.android.synthetic.main.activity_lost.snpl_moment_add_photos
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions

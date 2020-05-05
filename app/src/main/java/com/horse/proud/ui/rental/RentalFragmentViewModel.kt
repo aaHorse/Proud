@@ -40,6 +40,14 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
         })
     }
 
+    fun like(id:String){
+        launch({
+            repository.like(id)
+        },{
+            logWarn(TAG,it)
+        })
+    }
+
     private fun launch(block: suspend () -> Unit, error: suspend (Throwable) -> Unit) = viewModelScope.launch {
         try {
             block()

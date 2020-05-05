@@ -24,6 +24,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityRentalBinding
+import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
@@ -118,21 +119,6 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
                 }
             }
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    override fun onMessageEvent(messageEvent: MessageEvent) {
-//        if (messageEvent is ScrollEvent) {
-//            //上滑 并且 正在显示底部栏
-//            if (messageEvent.scrollY - messageEvent.oldScrollY > 0 && isBottomShow) {
-//                isBottomShow = false
-//                //将Y属性变为底部栏高度  (相当于隐藏了)
-//                bottom.animate().translationY(bottom.height.toFloat());
-//            } else if (messageEvent.scrollY - messageEvent.oldScrollY < 0 && !isBottomShow) {
-//                isBottomShow = true;
-//                bottom.animate().translationY(0.0f);
-//            }
-//        }
     }
 
     private fun setOnClickListener(){
