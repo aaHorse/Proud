@@ -90,12 +90,14 @@ class LostAdapter(private val lostFragment: LostFragment, private var recyclerVi
 
         helper.getView<CheckBox>(R.id.iv_like).setOnClickListener {
             if(it.iv_like.isChecked){
-                showToast("！！赞！！")
+                showToast("！ ！~ 赞 ~ ！ ！")
+                helper.getTextView(R.id.tv_like).text = "${++item.thumbUp}"
                 val evnet = LikeEvent()
                 evnet.category = Const.Like.LOST
                 evnet.id = item.id
                 EventBus.getDefault().post(evnet)
             }else{
+                helper.getTextView(R.id.tv_like).text = "${--item.thumbUp}"
                 showToast("取消点赞")
             }
         }

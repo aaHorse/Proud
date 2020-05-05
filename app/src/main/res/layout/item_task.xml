@@ -151,6 +151,7 @@
                 android:id="@+id/iv_like"
                 android:layout_width="@dimen/item_iv_icon"
                 android:layout_height="@dimen/item_iv_icon"
+                android:checked="false"
                 android:background="@drawable/like_selector"
                 android:layout_toLeftOf="@+id/tv_like"
                 android:button="@null"
