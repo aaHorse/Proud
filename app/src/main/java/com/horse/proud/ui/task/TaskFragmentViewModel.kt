@@ -12,10 +12,7 @@ import kotlinx.coroutines.launch
 
 class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(){
 
-    /**
-     * 监听 taskItems
-     * */
-    var dataChanged = MutableLiveData<Int>()
+    var flag:Int = 0
 
     var isLoadingMore = MutableLiveData<Boolean>()
 
@@ -25,18 +22,26 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
 
     var taskItems = ArrayList<TaskItem>()
 
+    var taskItemsChanged = MutableLiveData<Int>()
+
     fun getTask() {
         launch ({
             var taskList = repository.getTaskList()
-            for(task in taskList.taskList){
-                taskItems.add(task)
+            when(taskList.status){
+                200 -> {
+                    for(task in taskList.taskList){
+                        taskItems.add(task)
+                    }
+                    isLoadingMore.value = false
+                    taskItemsChanged.value = flag++
+                }
+                500 -> {
+                    loadFailed.value = flag++
+                }
             }
-            isLoadingMore.value = false
-            dataChanged.value = dataChanged.value?.plus(1)
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = dataChanged.value?.plus(1)
-            Toast.makeText(Proud.getContext(), it.message, Toast.LENGTH_SHORT).show()
+            loadFailed.value = flag++
         })
     }
 

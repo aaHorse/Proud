@@ -20,6 +20,7 @@ import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentTaskBindingImpl
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
+import com.horse.proud.event.RefreshEvent
 import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
@@ -96,7 +97,6 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
         super.loadFinished()
         ll_bg.alpha = 0.3f
         if (viewModel.taskItems.isEmpty()) {
-            //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
@@ -110,9 +110,8 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
      * 观察 ViewModel 中的数据变化
      * */
     private fun observe(){
-        viewModel.dataChanged.observe(activity, Observer {
+        viewModel.taskItemsChanged.observe(activity, Observer {
             if(viewModel.taskItems.isEmpty()){
-                //swipeRefresh.visibility = View.GONE
                 recyclerView.visibility = View.GONE
                 //暂时回到主界面
                 showNoContentViewWithButton(
@@ -175,6 +174,9 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 if(messageEvent.category == Const.Like.TASK){
                     viewModel.like(messageEvent.id)
                 }
+            }
+            is RefreshEvent -> {
+                refresh()
             }
         }
     }

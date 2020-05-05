@@ -12,10 +12,7 @@ import kotlinx.coroutines.launch
 
 class RentalFragmentViewModel(private val repository: RentalRepository) : ViewModel(){
 
-    /**
-     * 监听 rentalItems
-     * */
-    var dataChanged = MutableLiveData<Int>()
+    var flag:Int = 0
 
     var isLoadingMore = MutableLiveData<Boolean>()
 
@@ -25,6 +22,8 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
 
     var rentalItems = ArrayList<RentalItem>()
 
+    var rentalItemsChanged = MutableLiveData<Int>()
+
     fun getRentalList() {
         launch ({
             var rentalList = repository.getRentalList()
@@ -32,10 +31,10 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
                 rentalItems.add(item)
             }
             isLoadingMore.value = false
-            dataChanged.value = dataChanged.value?.plus(1)
+            rentalItemsChanged.value = flag++
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = dataChanged.value?.plus(1)
+            loadFailed.value = flag++
             Toast.makeText(Proud.getContext(), it.message, Toast.LENGTH_SHORT).show()
         })
     }

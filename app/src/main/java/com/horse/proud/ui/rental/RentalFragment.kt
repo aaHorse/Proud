@@ -19,6 +19,7 @@ import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentRentalBindingImpl
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
+import com.horse.proud.event.RefreshEvent
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.rental.adapter.RentalAdapter
@@ -107,7 +108,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
      * 观察 ViewModel 中的数据变化
      * */
     private fun observe(){
-        viewModel.dataChanged.observe(activity, Observer {
+        viewModel.rentalItemsChanged.observe(activity, Observer {
             if(viewModel.rentalItems.isEmpty()){
                 //swipeRefresh.visibility = View.GONE
                 recyclerView.visibility = View.GONE
@@ -172,6 +173,9 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
                 if(messageEvent.category == Const.Like.RENTAL){
                     viewModel.like(messageEvent.id)
                 }
+            }
+            is RefreshEvent -> {
+                refresh()
             }
         }
     }

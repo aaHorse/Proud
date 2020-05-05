@@ -16,10 +16,7 @@ import kotlinx.coroutines.launch
  * */
 class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(){
 
-    /**
-     * 监听 lostItems
-     * */
-    var dataChanged = MutableLiveData<Int>()
+    var flag:Int = 0
 
     var isLoadingMore = MutableLiveData<Boolean>()
 
@@ -29,6 +26,8 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
 
     var lostItems = ArrayList<LostItem>()
 
+    var lostItemsChanged = MutableLiveData<Int>()
+
     fun getLost() {
         launch ({
             var lostList = repository.getLostList()
@@ -36,10 +35,10 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
                 lostItems.add(item)
             }
             isLoadingMore.value = false
-            dataChanged.value = dataChanged.value?.plus(1)
+            lostItemsChanged.value = flag++
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = dataChanged.value?.plus(1)
+            loadFailed.value = flag++
             Toast.makeText(Proud.getContext(), it.message, Toast.LENGTH_SHORT).show()
         })
     }

@@ -19,6 +19,7 @@ import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentLostBindingImpl
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
+import com.horse.proud.event.RefreshEvent
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.lost.adapter.LostAdapter
@@ -93,7 +94,6 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
         super.loadFinished()
         ll_bg.alpha = 0.3f
         if (viewModel.lostItems.isEmpty()) {
-            //swipeRefresh.visibility = View.GONE
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
@@ -107,9 +107,8 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
      * 观察 ViewModel 中的数据变化
      * */
     private fun observe(){
-        viewModel.dataChanged.observe(activity, Observer {
+        viewModel.lostItemsChanged.observe(activity, Observer {
             if(viewModel.lostItems.isEmpty()){
-                //swipeRefresh.visibility = View.GONE
                 recyclerView.visibility = View.GONE
                 //暂时回到主界面
                 showNoContentViewWithButton(
@@ -172,6 +171,9 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 if(messageEvent.category == Const.Like.LOST||messageEvent.category == Const.Like.FOUND){
                     viewModel.like(messageEvent.id)
                 }
+            }
+            is RefreshEvent -> {
+                refresh()
             }
         }
     }

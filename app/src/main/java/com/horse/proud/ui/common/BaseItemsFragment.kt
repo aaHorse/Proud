@@ -5,10 +5,12 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.postDelayed
+import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.AndroidVersion
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -46,20 +48,20 @@ abstract class BaseItemsFragment : BaseFragment(){
 
     lateinit var activity: MainActivity
 
-    //lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     lateinit var recyclerView: RecyclerView
 
     internal lateinit var adapter: BGARecyclerViewAdapter<*>
 
-    internal lateinit var loadDataListener: LoadDataListener
+    private lateinit var loadDataListener: LoadDataListener
 
     internal lateinit var layoutManager: RecyclerView.LayoutManager
 
     internal fun initViews(rootView: View) {
         activity = getActivity() as MainActivity
         recyclerView = rootView.findViewById(R.id.recyclerView)
-        //swipeRefreshLayout = rootView.findViewById(R.id.swipeRefresh)
+        swipeRefreshLayout = rootView.findViewById(R.id.swipeRefreshLayout)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -77,13 +79,10 @@ abstract class BaseItemsFragment : BaseFragment(){
 
             override fun isNoMoreData() = isNoMoreData
         })
-
         scrollChangeListener()
-
-/*        swipeRefreshLayout.setOnRefreshListener {
+        swipeRefreshLayout.setOnRefreshListener {
             refresh()
-        }*/
-
+        }
         refresh()
     }
 
@@ -110,34 +109,36 @@ abstract class BaseItemsFragment : BaseFragment(){
         super.loadFinished()
         isLoadFailed = false
         recyclerView.visibility = View.VISIBLE
-/*        swipeRefreshLayout.visibility = View.VISIBLE
+        swipeRefreshLayout.visibility = View.VISIBLE
         if(swipeRefreshLayout.isRefreshing){
             swipeRefreshLayout.isRefreshing = false
-        }*/
+        }
     }
 
     override fun loadFailed(msg: String?) {
         super.loadFailed(msg)
         isLoadFailed = true
-        //swipeRefreshLayout.isRefreshing = false
         if(dataSetSize() == 0){
             if(msg == null){
-                //swipeRefreshLayout.visibility = View.GONE
+                swipeRefreshLayout.visibility = View.GONE
                 showBadNetworkView(View.OnClickListener {
-                    val event = RefreshMainActivityFeedsEvent()
+                    val event = RefreshEvent()
                     EventBus.getDefault().post(event)
+                    hideBadNetworkView()
                 })
-            }else{
-                adapter.notifyItemChanged(adapter.itemCount - 1)
             }
+        }else{
+            showToast(GlobalUtil.getString(R.string.network_connect_error))
+            adapter.notifyItemChanged(adapter.itemCount - 1)
         }
+        swipeRefreshLayout.isRefreshing = false
     }
 
     private fun reload() {
         if (adapter.itemCount <= 1) {
             startLoading()
         } else {
-            //swipeRefreshLayout.isRefreshing = true
+            swipeRefreshLayout.isRefreshing = true
         }
         refresh()
     }
