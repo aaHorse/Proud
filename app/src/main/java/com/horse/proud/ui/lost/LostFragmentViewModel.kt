@@ -31,11 +31,20 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
     fun getLost() {
         launch ({
             var lostList = repository.getLostList()
-            for(item in lostList.lostList){
-                lostItems.add(item)
+            when(lostList.status){
+                200 -> {
+                    lostItems.clear()
+                    for(item in lostList.lostList){
+                        lostItems.add(item)
+                    }
+                    isLoadingMore.value = false
+                    lostItemsChanged.value = flag++
+                }
+                500 -> {
+                    loadFailed.value = flag++
+                }
             }
-            isLoadingMore.value = false
-            lostItemsChanged.value = flag++
+
         }, {
             logWarn(TAG, it.message, it)
             loadFailed.value = flag++

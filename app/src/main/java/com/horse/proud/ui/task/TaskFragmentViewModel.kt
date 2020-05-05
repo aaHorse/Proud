@@ -29,6 +29,7 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
             var taskList = repository.getTaskList()
             when(taskList.status){
                 200 -> {
+                    taskItems.clear()
                     for(task in taskList.taskList){
                         taskItems.add(task)
                     }

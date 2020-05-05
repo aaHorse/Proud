@@ -27,15 +27,23 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
     fun getRentalList() {
         launch ({
             var rentalList = repository.getRentalList()
-            for(item in rentalList.rentalList){
-                rentalItems.add(item)
+            when(rentalList.status){
+                200 -> {
+                    rentalItems.clear()
+                    for(item in rentalList.rentalList){
+                        rentalItems.add(item)
+                    }
+                    isLoadingMore.value = false
+                    rentalItemsChanged.value = flag++
+                }
+                500 -> {
+                    loadFailed.value = flag++
+                }
             }
-            isLoadingMore.value = false
-            rentalItemsChanged.value = flag++
+
         }, {
             logWarn(TAG, it.message, it)
             loadFailed.value = flag++
-            Toast.makeText(Proud.getContext(), it.message, Toast.LENGTH_SHORT).show()
         })
     }
 

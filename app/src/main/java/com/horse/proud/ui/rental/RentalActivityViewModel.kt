@@ -20,7 +20,7 @@ import java.io.File
 
 /**
  * @author liliyuan
- * @since 2020年5月5日13:43:27
+ * @since 2020年5月6日07:36:46
  * */
 class RentalActivityViewModel(private val repository: RentalRepository) : ViewModel() {
 
@@ -44,6 +44,7 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
             item.label = type
             item.location = local
             item.image = ""
+            item.done = 0
             item.done = 0
             item.startTime = DateUtil.nowDateTime
             item.endTime = time
