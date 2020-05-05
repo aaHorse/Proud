@@ -108,8 +108,8 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 recyclerView.visibility = View.GONE
                 //暂时回到主界面
                 showNoContentViewWithButton(
-                    GlobalUtil.getString(R.string.task_items_null),
-                    GlobalUtil.getString(R.string.task_items_null_click),
+                    GlobalUtil.getString(R.string.items_null),
+                    GlobalUtil.getString(R.string.items_null_click),
                     View.OnClickListener { MainActivity.actionStart(activity) })
             }else{
                 loadFinished()

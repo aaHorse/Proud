@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class RentalFragmentViewModel(private val repository: RentalRepository) : ViewModel(){
 
     /**
-     * 监听 taskItems
+     * 监听 rentalItems
      * */
     var dataChanged = MutableLiveData<Int>()
 
@@ -25,11 +25,11 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
 
     var rentalItems = ArrayList<RentalItem>()
 
-    fun getTask() {
+    fun getRentalList() {
         launch ({
-            var rentalList = repository.getTask()
-            for(task in rentalList.rentalList){
-                rentalItems.add(task)
+            var rentalList = repository.getRentalList()
+            for(item in rentalList.rentalList){
+                rentalItems.add(item)
             }
             isLoadingMore.value = false
             dataChanged.value = dataChanged.value?.plus(1)

@@ -1,8 +1,10 @@
 package com.horse.proud.ui.lost.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,12 +12,18 @@ import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter
 import cn.bingoogolapple.baseadapter.BGARecyclerViewHolder
 import cn.bingoogolapple.baseadapter.BGAViewHolderHelper
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
+import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.data.model.lost.LostItem
 import com.horse.proud.data.model.other.CommentItem
+import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.lost.LostFragment
 import com.horse.proud.widget.SeeMoreView
+import kotlinx.android.synthetic.main.item_lost.view.*
 
 /**
  * 任务列表的 RecyclerView 适配器。
@@ -23,30 +31,83 @@ import com.horse.proud.widget.SeeMoreView
  * @author liliyuan
  * @since 2020年4月25日15:36:50
  * */
-class LostAdapter(private val lostFragment:LostFragment, private var recyclerView: RecyclerView?) : BGARecyclerViewAdapter<LostItem>(recyclerView, R.layout.item_lost) {
+class LostAdapter(private val lostFragment: LostFragment, private var recyclerView: RecyclerView?) : BGARecyclerViewAdapter<LostItem>(recyclerView, R.layout.item_lost) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BGARecyclerViewHolder {
         mInflater = LayoutInflater.from(lostFragment.context)
         return super.onCreateViewHolder(parent, viewType)
     }
 
-    override fun fillData(helper: BGAViewHolderHelper, position: Int, taskItem: LostItem) {
-        helper.setText(R.id.text, taskItem.name)
-        taskItem.content?.let { helper.getView<SeeMoreView>(R.id.seemore).setText(it) }
-        val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
-        ninePhotoLayout.setDelegate(lostFragment)
-        ninePhotoLayout.data = taskItem.photos
+    override fun fillData(helper: BGAViewHolderHelper, position: Int, item: LostItem) {
 
+        Glide.with(lostFragment.requireContext()).load(R.drawable.avatar_default)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(helper.getImageView(R.id.avatar));
+
+        if(!item.title.isNullOrEmpty()){
+            helper.setText(R.id.text, item.title)
+        }
+
+        val done = helper.getTextView(R.id.done)
+        if(item.isLost == 0){
+            done.text = "寻物启事"
+            done.setTextColor(Color.parseColor("#F4606C"))
+        }else{
+            done.text = "失物招领"
+            done.setTextColor(Color.parseColor("#19CAAD"))
+        }
+
+        if(!item.time.isNullOrEmpty()){
+            helper.getTextView(R.id.publish_time).text = item.time
+        }
+
+        if(!item.content.isNullOrEmpty()){
+            helper.getView<SeeMoreView>(R.id.seemore).setText(item.content)
+        }
+
+        if(!item.image.isNullOrEmpty()){
+            val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
+            ninePhotoLayout.setDelegate(lostFragment)
+            val photos = ArrayList<String>()
+            photos.add(item.image)
+            ninePhotoLayout.data = photos
+        }
+
+        helper.getImageView(R.id.iv_local).setOnClickListener {
+            if(item.location.isNullOrEmpty()){
+                showToast("该任务未标记地点")
+            }else{
+                MapActivity.actionStartForResult(lostFragment.activity,1)
+            }
+        }
+
+        helper.getTextView(R.id.tv_comment).text = "${item.comment}"
+
+        helper.getTextView(R.id.tv_like).text = "${item.thumbUp}"
+
+        helper.getView<CheckBox>(R.id.iv_like).setOnClickListener {
+            if(it.iv_like.isChecked){
+                showToast("点赞成功")
+            }else{
+                showToast("取消点赞")
+            }
+        }
 
         /*
         * 嵌套类型对应的 RecyclerView
         * */
-        var rv_type:RecyclerView = helper.getView(R.id.rv_type)
-        rv_type.setHasFixedSize(true)
-        var linearLayoutManager = LinearLayoutManager(lostFragment.context)
-        linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-        rv_type.layoutManager = linearLayoutManager
-        rv_type.adapter = TypeAdapter(taskItem.type)
+        if(!item.label.isNullOrEmpty()){
+            var types:List<String> = item.label.split(",")
+            types -= ""
+            if(types.isNotEmpty()){
+                var rvType:RecyclerView = helper.getView(R.id.rv_type)
+                rvType.setHasFixedSize(true)
+                var linearLayoutManager = LinearLayoutManager(lostFragment.context)
+                linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+                rvType.layoutManager = linearLayoutManager
+                rvType.adapter = TypeAdapter(types)
+            }
+        }
 
         /*
         * 嵌套评论对应的 RecyclerView
@@ -54,12 +115,21 @@ class LostAdapter(private val lostFragment:LostFragment, private var recyclerVie
         var rv_comment:RecyclerView = helper.getView(R.id.rv_comment)
         rv_comment.setHasFixedSize(true)
         rv_comment.layoutManager = LinearLayoutManager(lostFragment.context)
-        rv_comment.adapter = CommentAdapter(taskItem.comments)
+        var comments = ArrayList<CommentItem>()
+        var comment = CommentItem()
+        comment.name = "会飞的鱼"
+        comment.content = "评论111111111111111111111"
+        comments.add(comment)
+        var comment2 = CommentItem()
+        comment2.name = "会飞的鱼"
+        comment2.content = "评论222222222222222222222222222"
+        comments.add(comment2)
+        rv_comment.adapter = CommentAdapter(comments)
     }
 
-    private class TypeAdapter(items:ArrayList<String>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    private class TypeAdapter(items:List<String>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-        var items:ArrayList<String> = items
+        var items:List<String> = items
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             var view = mInflater.inflate(R.layout.item_type,parent,false)

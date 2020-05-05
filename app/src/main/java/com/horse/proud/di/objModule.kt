@@ -10,7 +10,10 @@ import com.horse.proud.data.network.RentalNetwork
 import com.horse.proud.data.network.TaskNetwork
 import com.horse.proud.ui.login.LoginActivityViewModelFactory
 import com.horse.proud.ui.login.RegisterActivityViewModelFactory
+import com.horse.proud.ui.lost.FoundActivityViewModelFactory
+import com.horse.proud.ui.lost.LostActivityViewModelFactory
 import com.horse.proud.ui.lost.LostFragmentViewModelFactory
+import com.horse.proud.ui.rental.RentalActivityViewModelFactory
 import com.horse.proud.ui.rental.RentalFragmentViewModelFactory
 import com.horse.proud.ui.task.TaskActivityViewModelFactory
 import com.horse.proud.ui.task.TaskFragmentViewModelFactory
@@ -39,7 +42,19 @@ val appModule = module {
     }
 
     factory{
+        LostActivityViewModelFactory(LostRepository.getInstance(LostNetwork.getInstance()))
+    }
+
+    factory{
+        FoundActivityViewModelFactory(LostRepository.getInstance(LostNetwork.getInstance()))
+    }
+
+    factory{
         RentalFragmentViewModelFactory(RentalRepository.getInstance(RentalNetwork.getInstance()))
+    }
+
+    factory{
+        RentalActivityViewModelFactory(RentalRepository.getInstance(RentalNetwork.getInstance()))
     }
 
 }

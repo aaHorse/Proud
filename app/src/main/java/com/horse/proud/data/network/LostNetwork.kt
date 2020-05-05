@@ -1,6 +1,9 @@
 package com.horse.proud.data.network
 
+import com.horse.proud.data.model.lost.LostItem
 import com.horse.proud.data.network.api.LostService
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +19,11 @@ class LostNetwork {
 
     private val service = ServiceCreator.create(LostService::class.java)
 
-    suspend fun fetchLostList() = service.getTask().await()
+    suspend fun fetchLostPublish(item: LostItem) = service.publish(item).await()
+
+    suspend fun fetchLostAll() = service.getAll().await()
+
+    suspend fun fetchLostUpLoadImage(part: MultipartBody.Part, requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

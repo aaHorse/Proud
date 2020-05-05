@@ -5,11 +5,11 @@ import com.horse.proud.data.model.Response
 
 /**
  * @author liliyuan
- * @since 2020年4月26日15:15:17
+ * @since 2020年5月5日13:18:37
  * */
-class RentalList: Response() {
+class RentalPublish : Response(){
 
     @SerializedName("data")
-    lateinit var rentalList: ArrayList<RentalItem>
+    lateinit var data:String
 
 }

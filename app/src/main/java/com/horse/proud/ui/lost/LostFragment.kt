@@ -62,11 +62,11 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
     }
 
     override fun loadItems() {
-        viewModel.getTask()
+        viewModel.getLost()
     }
 
     override fun refresh() {
-        viewModel.getTask()
+        viewModel.getLost()
     }
 
     override fun dataSetSize(): Int {
@@ -108,8 +108,8 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 recyclerView.visibility = View.GONE
                 //暂时回到主界面
                 showNoContentViewWithButton(
-                    GlobalUtil.getString(R.string.task_items_null),
-                    GlobalUtil.getString(R.string.task_items_null_click),
+                    GlobalUtil.getString(R.string.items_null),
+                    GlobalUtil.getString(R.string.items_null_click),
                     View.OnClickListener { MainActivity.actionStart(activity) })
             }else{
                 loadFinished()

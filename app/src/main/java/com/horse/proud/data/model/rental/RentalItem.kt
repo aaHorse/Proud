@@ -2,6 +2,7 @@ package com.horse.proud.data.model.rental
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.horse.proud.data.model.other.CommentItem
 
 /**
@@ -12,60 +13,61 @@ import com.horse.proud.data.model.other.CommentItem
  * */
 class RentalItem : Parcelable {
 
-    var name:String? = null
+    lateinit var id:String
 
-    var content: String? = "nulfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffl"
+    @SerializedName("userId")
+    var userId:Int = 0
 
-    var photos: ArrayList<String> = arrayListOf("http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-        ,"http://bgashare.bingoogolapple.cn/refreshlayout/images/staggered1.png"
-    )
+    lateinit var title:String
 
-    var type: ArrayList<String> = arrayListOf("类型1","类型2","类型3")
+    lateinit var content:String
 
-    var obj1: CommentItem = CommentItem()
+    lateinit var image:String
 
-    var obj2: CommentItem = CommentItem()
+    lateinit var label:String
 
-    var obj3: CommentItem = CommentItem()
+    lateinit var location:String
 
-    init{
-        obj1.name = "会飞的鱼"
-        obj1.content = "测试测测试测试测试测试测试测试测试测试测测试测测试测试测试测试测试测"
+    var unitPrice:Double = 0.00
 
-        obj2.name = "会飞的鱼"
-        obj3.content = "测试测测试测试测试测试测试测试测试测试测测试测测试测试测试测试测试测"
+    var newDegree:Int = 90
 
-        obj3.name = "会飞的鱼"
-        obj3.content = "测试测测试测试测"
-    }
+    @SerializedName("isDone")
+    var done:Int = -1
 
-    var comments: ArrayList<CommentItem> = arrayListOf(obj1,obj2,obj3)
+    @SerializedName("reword")
+    lateinit var reword:String
 
+    @SerializedName("startTime")
+    lateinit var startTime:String
+
+    @SerializedName("endTime")
+    lateinit var endTime:String
+
+    @SerializedName("thumbUp")
+    var thumbUp:Int = 0
+
+    @SerializedName("collect")
+    var collect:Int = 0
+
+    @SerializedName("comment")
+    var comment:Int = 0
 
     override fun describeContents(): Int {
         return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(name)
-        dest.writeString(content)
-        dest.writeStringList(photos)
+//        dest.writeString(name)
+//        dest.writeString(content)
+//        dest.writeStringList(photos)
     }
 
     constructor() {}
 
     protected constructor(parcel: Parcel) {
-        content = parcel.readString()
-        photos = parcel.createStringArrayList() as ArrayList<String>
+//        content = parcel.readString()
+//        photos = parcel.createStringArrayList() as ArrayList<String>
     }
 
     companion object {

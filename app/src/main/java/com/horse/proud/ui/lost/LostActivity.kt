@@ -3,28 +3,39 @@ package com.horse.proud.ui.lost
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProviders
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerPreviewActivity
 import cn.bingoogolapple.photopicker.widget.BGASortableNinePhotoLayout
-import com.amap.api.location.AMapLocationClient
-import com.amap.api.location.AMapLocationClientOption
-import com.amap.api.location.AMapLocationListener
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
+import com.horse.proud.databinding.ActivityLostBinding
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog
 import kotlinx.android.synthetic.main.activity_lost.*
+import kotlinx.android.synthetic.main.activity_lost.avatar
+import kotlinx.android.synthetic.main.activity_lost.iv_local
+import kotlinx.android.synthetic.main.activity_lost.iv_time
+import kotlinx.android.synthetic.main.activity_lost.iv_type
+import kotlinx.android.synthetic.main.activity_lost.ll_local
+import kotlinx.android.synthetic.main.activity_lost.ll_time
+import kotlinx.android.synthetic.main.activity_lost.ll_type
+import kotlinx.android.synthetic.main.activity_lost.snpl_moment_add_photos
+import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import java.io.File
@@ -37,13 +48,9 @@ import java.util.ArrayList
 class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.PermissionCallbacks,
     BGASortableNinePhotoLayout.Delegate {
 
-    //声明AMapLocationClient类对象
-    lateinit var mLocationClient: AMapLocationClient
+    private val viewModelFactory by inject<LostActivityViewModelFactory>()
 
-    //声明定位回调监听器
-    lateinit var mLocationListener: AMapLocationListener
-
-    lateinit var mLocationOption: AMapLocationClientOption
+    val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(LostActivityViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,20 +58,19 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
         )
-        setContentView(R.layout.activity_lost)
+        val binding = DataBindingUtil.setContentView<ActivityLostBinding>(this,R.layout.activity_lost)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 
     override fun setupViews() {
         setupToolbar()
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
-        setUpRecyclerView()
         setOnClickListener()
-        /*       bt.setOnClickListener {
-
-                   //choicePhotoWrapper()
-                   //logWarn(TAG,Test.sHA1(this))
-               }*/
+        Glide.with(this).load(R.drawable.avatar_default)
+            .apply(RequestOptions.bitmapTransform(CircleCrop()))
+            .into(avatar)
     }
 
     override fun onLoad() {
@@ -79,10 +85,11 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.publish->{
-                showToast("测试")
+                viewModel.publish()
             }
             else->{
-                showToast("测试2")
+                showToast("任务未发布")
+                finish()
             }
         }
         return true
@@ -90,17 +97,22 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK){
+        if(resultCode ==Activity.RESULT_OK){
             when(requestCode){
                 RC_CHOOSE_PHOTO ->{
                     snpl_moment_add_photos.addMoreData(BGAPhotoPickerActivity.getSelectedPhotos(data))
+                    viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
                 }
                 RC_PHOTO_PREVIEW ->{
                     snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)
                 }
                 LOCATION_FOT_RESULT ->{
                     iv_local.setImageResource(R.drawable.local_click)
-                    showToast("定位回调")
+                    var latitude = data?.getDoubleExtra(Const.Item.POSITION_LATITUDE,-1.0)
+                    var longitude = data?.getDoubleExtra(Const.Item.POSITION_LONGITUTE,-1.0)
+                    if(latitude!=-1.0&&longitude!=-1.0){
+                        viewModel.local = "$latitude,$longitude"
+                    }
                 }
             }
         }else{
@@ -112,23 +124,17 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         }
     }
 
-    private fun setUpRecyclerView(){
-
-    }
-
     private fun setOnClickListener(){
         ll_local.setOnClickListener {
             getLocation()
         }
 
         ll_type.setOnClickListener {
-            showMultiChoiceDialog()
-            iv_type.setImageResource(R.drawable.type_click)
+            getType()
         }
 
         ll_time.setOnClickListener {
-            showSingleChoiceDialog()
-            iv_time.setImageResource(R.drawable.time_click)
+            getTime()
         }
     }
 
@@ -172,9 +178,9 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         )
         if(EasyPermissions.hasPermissions(this, *perms)){
             val takePhotoDir = File(Proud.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
-            var photoPickerIntent: Intent = BGAPhotoPickerActivity.IntentBuilder(this)
+            var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
-                .maxChooseCount(12)
+                .maxChooseCount(1)
                 .selectedPhotos(null)//当前已选择图片的集合
                 .pauseOnScroll(false)//滚动列表时，是否暂停加载图片
                 .build()
@@ -197,7 +203,7 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         models: ArrayList<String>?
     ) {
         //预览图片
-        var photoPickerPreviewIntent: Intent = BGAPhotoPickerPreviewActivity.IntentBuilder(this)
+        var photoPickerPreviewIntent:Intent = BGAPhotoPickerPreviewActivity.IntentBuilder(this)
             .previewPhotos(models)
             .selectedPhotos(models)
             .maxChooseCount(snpl_moment_add_photos.maxItemCount)
@@ -261,18 +267,20 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         }
     }
 
-    private fun showSingleChoiceDialog() {
+    private fun getTime() {
         val items = arrayOf("1天内过期", "2天内过期", "3天内过期")
         val checkedIndex = 1
         QMUIDialog.CheckableDialogBuilder(this)
             .setCheckedIndex(checkedIndex)
             .addItems(items) { dialog, which ->
                 dialog.dismiss()
+                viewModel.time = items[which]
+                iv_time.setImageResource(R.drawable.time_click)
             }
             .create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
     }
 
-    private fun showMultiChoiceDialog() {
+    private fun getType() {
         val items =
             arrayOf("选项1", "选项2", "选项3", "选项4", "选项5", "选项6")
         val builder = QMUIDialog.MultiCheckableDialogBuilder(this)
@@ -284,12 +292,15 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         builder.addAction(
             "提交"
         ) { dialog, index ->
-            var result = "你选择了 "
+            var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + builder.checkedItemIndexes[i] + "; "
+                result += "" + builder.checkedItemIndexes[i] + ","
             }
-            Toast.makeText(this, result, Toast.LENGTH_SHORT).show()
             dialog.dismiss()
+            viewModel.type = result
+            if(!result.isEmpty()){
+                iv_type.setImageResource(R.drawable.type_click)
+            }
         }
         builder.create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
     }

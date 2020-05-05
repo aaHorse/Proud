@@ -15,6 +15,7 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.data.model.other.CommentItem
@@ -35,47 +36,55 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         return super.onCreateViewHolder(parent, viewType)
     }
 
-    override fun fillData(helper: BGAViewHolderHelper, position: Int, taskItem: TaskItem) {
+    override fun fillData(helper: BGAViewHolderHelper, position: Int, item: TaskItem) {
 
         Glide.with(taskFragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(helper.getImageView(R.id.avatar));
 
-        helper.setText(R.id.text, taskItem.title)
+        if(!item.title.isNullOrEmpty()){
+            helper.setText(R.id.text, item.title)
+        }
 
         val done = helper.getTextView(R.id.done)
-        if(taskItem.done == 0){
+        if(item.done == 0){
             done.text = "待领取"
             done.setTextColor(Color.parseColor("#F4606C"))
-            helper.getTextView(R.id.end).text = taskItem.endTime
+            if(!item.endTime.isNullOrEmpty()){
+                helper.getTextView(R.id.end).text = item.endTime
+            }
         }else{
             done.text = "已领取"
             done.setTextColor(Color.parseColor("#19CAAD"))
         }
 
-        helper.getTextView(R.id.publish_time).text = taskItem.startTime
+        if(!item.startTime.isNullOrEmpty()){
+            helper.getTextView(R.id.publish_time).text = item.startTime
+        }
 
-        taskItem.content?.let { helper.getView<SeeMoreView>(R.id.seemore).setText(it) }
+        if(!item.content.isNullOrEmpty()){
+            helper.getView<SeeMoreView>(R.id.seemore).setText(item.content)
+        }
 
-        if(taskItem.image.isNotEmpty()){
+        if(!item.image.isNullOrEmpty()){
             val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
             ninePhotoLayout.setDelegate(taskFragment)
             val photos = ArrayList<String>()
-            photos.add(taskItem.image)
+            photos.add(item.image)
             ninePhotoLayout.data = photos
         }
 
         helper.getImageView(R.id.iv_local).setOnClickListener {
-            if(taskItem.location.isEmpty()){
+            if(item.location.isNullOrEmpty()){
                 showToast("该任务未标记地点")
             }else{
                 MapActivity.actionStartForResult(taskFragment.activity,1)
             }
         }
 
-        helper.getTextView(R.id.tv_comment).text = "${taskItem.comment}"
+        helper.getTextView(R.id.tv_comment).text = "${item.comment}"
 
-        helper.getTextView(R.id.tv_like).text = "${taskItem.thumbUp}"
+        helper.getTextView(R.id.tv_like).text = "${item.thumbUp}"
 
         helper.getView<CheckBox>(R.id.iv_like).setOnClickListener {
             if(it.iv_like.isChecked){
@@ -88,15 +97,17 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         /*
         * 嵌套类型对应的 RecyclerView
         * */
-        var types:List<String> = taskItem.label.split(",")
-        types -= ""
-        if(types.isNotEmpty()){
-            var rvType:RecyclerView = helper.getView(R.id.rv_type)
-            rvType.setHasFixedSize(true)
-            var linearLayoutManager = LinearLayoutManager(taskFragment.context)
-            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-            rvType.layoutManager = linearLayoutManager
-            rvType.adapter = TypeAdapter(types)
+        if(!item.label.isNullOrEmpty()){
+            var types:List<String> = item.label.split(",")
+            types -= ""
+            if(types.isNotEmpty()){
+                var rvType:RecyclerView = helper.getView(R.id.rv_type)
+                rvType.setHasFixedSize(true)
+                var linearLayoutManager = LinearLayoutManager(taskFragment.context)
+                linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+                rvType.layoutManager = linearLayoutManager
+                rvType.adapter = TypeAdapter(types)
+            }
         }
 
         /*
@@ -106,14 +117,14 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         rv_comment.setHasFixedSize(true)
         rv_comment.layoutManager = LinearLayoutManager(taskFragment.context)
         var comments = ArrayList<CommentItem>()
-        var item = CommentItem()
-        item.name = "会飞的鱼"
-        item.content = "评论111111111111111111111"
-        comments.add(item)
-        var item2 = CommentItem()
-        item2.name = "会飞的鱼"
-        item2.content = "评论222222222222222222222222222"
-        comments.add(item2)
+        var comment = CommentItem()
+        comment.name = "会飞的鱼"
+        comment.content = "评论111111111111111111111"
+        comments.add(comment)
+        var comment2 = CommentItem()
+        comment2.name = "会飞的鱼"
+        comment2.content = "评论222222222222222222222222222"
+        comments.add(comment2)
         rv_comment.adapter = CommentAdapter(comments)
     }
 
@@ -170,6 +181,8 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
     companion object{
 
         lateinit var mInflater:LayoutInflater
+
+        private const val TAG = "TaskAdapter"
 
     }
 

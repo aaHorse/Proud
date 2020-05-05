@@ -1,8 +1,11 @@
 package com.horse.proud.data
 
+import com.horse.proud.data.model.rental.RentalItem
 import com.horse.proud.data.network.RentalNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 /**
  * 物品租赁功能
@@ -12,20 +15,27 @@ import kotlinx.coroutines.withContext
  * */
 class RentalRepository private constructor(private val network: RentalNetwork){
 
-    suspend fun getTask() = withContext(Dispatchers.IO){
-        network.fetchRentalList()
+    suspend fun getRentalList() = withContext(Dispatchers.IO){
+        network.fetchRentalAll()
+    }
+
+    suspend fun publish(item: RentalItem) = withContext(Dispatchers.IO){
+        network.fetchRentalPublish(item)
+    }
+
+    suspend fun upLoadImage(part: MultipartBody.Part, requestBody: RequestBody) = withContext(Dispatchers.IO){
+        network.fetchRentalUpLoadImage(part,requestBody)
     }
 
     companion object{
 
         private lateinit var instance: RentalRepository
 
-        fun getInstance(network: RentalNetwork): RentalRepository {
-            if(!Companion::instance.isInitialized){
+        fun getInstance(network: RentalNetwork):RentalRepository{
+            if(!::instance.isInitialized){
                 synchronized(RentalRepository::class.java){
-                    if(!Companion::instance.isInitialized){
-                        instance =
-                            RentalRepository(network)
+                    if(!::instance.isInitialized){
+                        instance = RentalRepository(network)
                     }
                 }
             }

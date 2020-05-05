@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(){
 
     /**
-     * 监听 taskItems
+     * 监听 lostItems
      * */
     var dataChanged = MutableLiveData<Int>()
 
@@ -29,11 +29,11 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
 
     var lostItems = ArrayList<LostItem>()
 
-    fun getTask() {
+    fun getLost() {
         launch ({
-            var lostList = repository.getTask()
-            for(task in lostList.lostList){
-                lostItems.add(task)
+            var lostList = repository.getLostList()
+            for(item in lostList.lostList){
+                lostItems.add(item)
             }
             isLoadingMore.value = false
             dataChanged.value = dataChanged.value?.plus(1)
@@ -54,7 +54,7 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
 
     companion object {
 
-        private const val TAG = "TaskFragmentViewModel"
+        private const val TAG = "LostFragmentViewModel"
 
     }
 

@@ -1,9 +1,13 @@
 package com.horse.proud.data.network.api
 
+import com.horse.proud.data.model.Response
+import com.horse.proud.data.model.rental.RentalItem
 import com.horse.proud.data.model.rental.RentalList
-import com.horse.proud.data.model.task.TaskList
+import com.horse.proud.data.model.rental.RentalPublish
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.http.GET
+import retrofit2.http.*
 
 /**
  * 任务接口
@@ -13,7 +17,14 @@ import retrofit2.http.GET
  * */
 interface RentalService {
 
-    @GET("wxarticle/chapters/json ")
-    fun getTask(): Call<RentalList>
+    @POST("api/rental/insert")
+    fun publish(@Body item: RentalItem): Call<RentalPublish>
+
+    @GET("api/rental/query/all")
+    fun getAll():Call<RentalList>
+
+    @Multipart
+    @POST("upload/good/setFileUpload")
+    fun uploadImage(@Part part: MultipartBody.Part, @Part("id")requestBody: RequestBody): Call<Response>
 
 }

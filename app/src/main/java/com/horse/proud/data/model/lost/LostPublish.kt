@@ -5,11 +5,11 @@ import com.horse.proud.data.model.Response
 
 /**
  * @author liliyuan
- * @since 2020年4月26日15:14:52
+ * @since 2020年5月5日13:09:58
  * */
-class LostList:Response() {
+class LostPublish : Response(){
 
     @SerializedName("data")
-    lateinit var lostList: ArrayList<LostItem>
+    lateinit var data:String
 
 }

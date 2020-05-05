@@ -1,4 +1,4 @@
-package com.horse.proud.ui.task
+package com.horse.proud.ui.rental
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,8 +9,8 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
-import com.horse.proud.data.TaskRepository
-import com.horse.proud.data.model.task.TaskItem
+import com.horse.proud.data.RentalRepository
+import com.horse.proud.data.model.rental.RentalItem
 import com.horse.proud.util.DateUtil
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
@@ -18,14 +18,11 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
 
-
 /**
- * 发布任务
- *
  * @author liliyuan
- * @since 2020年5月4日13:54:14
+ * @since 2020年5月5日13:43:27
  * */
-class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel() {
+class RentalActivityViewModel(private val repository: RentalRepository) : ViewModel() {
 
     var content = MutableLiveData<String>()
 
@@ -39,22 +36,22 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     fun publish(){
         launch({
-            var task = TaskItem()
-            task.userId = Proud.getUserId()
-            logWarn(TAG,"${task.userId}")
-            task.title = "会飞的鱼"
-            task.content = content.value.toString()
-            task.label = type
-            task.location = local
-            task.image = ""
-            task.done = 0
-            task.startTime = DateUtil.nowDateTime
-            task.endTime = time
-            task.thumbUp = 0
-            task.collect = 0
-            task.comment = 0
+            var item = RentalItem()
+            item.userId = Proud.getUserId()
+            logWarn(TAG,"${item.userId}")
+            item.title = "会飞的鱼"
+            item.content = content.value.toString()
+            item.label = type
+            item.location = local
+            item.image = ""
+            item.done = 0
+            item.startTime = DateUtil.nowDateTime
+            item.endTime = time
+            item.thumbUp = 0
+            item.collect = 0
+            item.comment = 0
 
-            val response = repository.publish(task)
+            val response = repository.publish(item)
 
             when(response.status){
                 200 ->{
@@ -113,7 +110,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     companion object{
 
-        private const val TAG = "TaskActivityViewModel"
+        private const val TAG = "RentalActivityViewModel"
 
     }
 
