@@ -56,6 +56,7 @@
     <string name="why">开发缘由：本项目为软件工程专业的课程实践</string>
     <string name="press_again_to_exit">再按一次退出%1$s</string>
     <string name="image_failed">图片上传失败</string>
+    <string name="drag_map">拖动标记地点</string>
 
 
 </resources>

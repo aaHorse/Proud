@@ -18,6 +18,7 @@ import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import kotlinx.android.synthetic.main.activity_map.*
 
@@ -53,25 +54,16 @@ class MapActivity : BaseActivity() {
 
     override fun setupViews() {
         setupToolbar()
+        quite.setOnClickListener {
+            canceled()
+        }
+        sure.setOnClickListener {
+            success()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar,menu)
-        menu?.findItem(R.id.publish)?.title = "确定"
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.publish->{
-                showToast("测试")
-                success()
-            }
-            else->{
-                showToast("测试2")
-                canceled()
-            }
-        }
         return true
     }
 
@@ -82,18 +74,18 @@ class MapActivity : BaseActivity() {
         configLocation()
         aMap.setOnMarkerDragListener(object : OnMarkerDragListener {
             override fun onMarkerDragStart(arg0: Marker) {
-                // TODO Auto-generated method stub
+                showToast(GlobalUtil.getString(R.string.drag_map))
             }
 
             override fun onMarkerDragEnd(arg0: Marker) {
-                var string = "${arg0.position.latitude}"
-                showToast(string)
+                //var string = "${arg0.position.latitude}"
+                //showToast(string)
                 latitude = arg0.position.latitude
                 longitude = arg0.position.longitude
             }
 
             override fun onMarkerDrag(arg0: Marker) {
-                // TODO Auto-generated method stub
+                showToast(GlobalUtil.getString(R.string.drag_map))
             }
         })
 
@@ -116,6 +108,7 @@ class MapActivity : BaseActivity() {
                     .setFlat(true))
 
                 aMap.moveCamera(CameraUpdateFactory.changeLatLng(LatLng(latitude,longitude)))
+
             }else{
                 //定位失败
                 showToast("定位失败：${it.errorInfo}")

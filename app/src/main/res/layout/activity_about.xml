@@ -28,7 +28,7 @@
         android:layout_height="45dp"
         android:src="@mipmap/icon"
         android:layout_gravity="center"
-        android:layout_marginTop="75dp"
+        android:layout_marginTop="50dp"
         />
 
     <TextView

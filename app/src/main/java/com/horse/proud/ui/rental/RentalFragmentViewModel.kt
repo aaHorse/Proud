@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.proud.data.RentalRepository
+import com.horse.proud.data.model.Response
+import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.rental.RentalItem
 import kotlinx.coroutines.launch
 
@@ -33,8 +35,7 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
                     for(item in rentalList.rentalList){
                         rentalItems.add(item)
                     }
-                    isLoadingMore.value = false
-                    rentalItemsChanged.value = flag++
+                    getComments()
                 }
                 500 -> {
                     loadFailed.value = flag++
@@ -45,6 +46,47 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
             logWarn(TAG, it.message, it)
             loadFailed.value = flag++
         })
+    }
+
+    fun publishComment(comment: CommentItem){
+        launch({
+            var response: Response = repository.publishComment(comment)
+            when(response.status){
+                200 -> {
+                    //showToast("成功")
+                }
+                500 -> {
+                    //showToast("失败1")
+                }
+            }
+        },{
+            logWarn(TAG,it)
+            //showToast("失败2")
+        })
+    }
+
+    private fun getComments(){
+        for((index,item) in rentalItems.withIndex()){
+            launch({
+                logWarn(TAG,item.id)
+                val commentList = repository.getComments(item.id)
+                when(commentList.status){
+                    200 -> {
+                        item.comments = commentList
+                        logWarn(TAG,"$index")
+                        if(index == rentalItems.size-1){
+                            isLoadingMore.value = false
+                            rentalItemsChanged.value = flag++
+                        }
+                    }
+                    500 -> {
+                        logWarn(TAG,commentList.msg)
+                    }
+                }
+            },{
+                logWarn(TAG,it)
+            })
+        }
     }
 
     fun like(id:String){

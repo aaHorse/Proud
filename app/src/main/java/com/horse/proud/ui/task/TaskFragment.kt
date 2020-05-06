@@ -18,10 +18,7 @@ import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentTaskBindingImpl
-import com.horse.proud.event.LikeEvent
-import com.horse.proud.event.MessageEvent
-import com.horse.proud.event.RefreshEvent
-import com.horse.proud.event.ScrollEvent
+import com.horse.proud.event.*
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.task.adapter.TaskAdapter
@@ -113,11 +110,10 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
         viewModel.taskItemsChanged.observe(activity, Observer {
             if(viewModel.taskItems.isEmpty()){
                 recyclerView.visibility = View.GONE
-                //暂时回到主界面
                 showNoContentViewWithButton(
                     GlobalUtil.getString(R.string.items_null),
                     GlobalUtil.getString(R.string.items_null_click),
-                    View.OnClickListener { MainActivity.actionStart(activity) })
+                    View.OnClickListener { refresh() })
             }else{
                 loadFinished()
                 hideNoContentView()
@@ -177,6 +173,11 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
             }
             is RefreshEvent -> {
                 refresh()
+            }
+            is CommentEvent -> {
+                if(messageEvent.category == Const.Like.TASK){
+                    viewModel.publishComment(messageEvent.comment)
+                }
             }
         }
     }

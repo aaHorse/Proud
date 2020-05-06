@@ -4,6 +4,8 @@ import com.horse.proud.data.model.Response
 import com.horse.proud.data.model.lost.LostItem
 import com.horse.proud.data.model.lost.LostList
 import com.horse.proud.data.model.lost.LostPublish
+import com.horse.proud.data.model.other.CommentItem
+import com.horse.proud.data.model.other.CommentList
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -29,5 +31,11 @@ interface LostService {
 
     @GET("api/lost_and_found/update/thumbUp")
     fun like(@Query("id")id:String):Call<Response>
+
+    @GET("api/query/lostfound/comment/table_id/{path}")
+    fun getComments(@Path("path")table_id:String):Call<CommentList>
+
+    @POST("api/lostfound/comment/insert")
+    fun publishComment(@Body comment: CommentItem):Call<Response>
 
 }

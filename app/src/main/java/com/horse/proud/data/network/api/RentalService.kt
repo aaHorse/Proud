@@ -1,6 +1,8 @@
 package com.horse.proud.data.network.api
 
 import com.horse.proud.data.model.Response
+import com.horse.proud.data.model.other.CommentItem
+import com.horse.proud.data.model.other.CommentList
 import com.horse.proud.data.model.rental.RentalItem
 import com.horse.proud.data.model.rental.RentalList
 import com.horse.proud.data.model.rental.RentalPublish
@@ -29,5 +31,11 @@ interface RentalService {
 
     @GET("api/rental/update/thumbUp")
     fun like(@Query("id")id:String):Call<Response>
+
+    @GET("api/query/good/comment/table_id/{path}")
+    fun getComments(@Path("path")table_id:String):Call<CommentList>
+
+    @POST("api/good/comment/insert")
+    fun publishComment(@Body comment: CommentItem):Call<Response>
 
 }

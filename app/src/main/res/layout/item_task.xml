@@ -199,6 +199,7 @@
                 />
 
             <Button
+                android:id="@+id/send"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:text="@string/send"

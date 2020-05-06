@@ -205,7 +205,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 AboutActivity.actionStart(this)
             }
         }
-        showToast("点击位置：$position")
         return true
     }
 

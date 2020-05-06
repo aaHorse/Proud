@@ -1,6 +1,8 @@
 package com.horse.proud.data.network.api
 
 import com.horse.proud.data.model.Response
+import com.horse.proud.data.model.other.CommentItem
+import com.horse.proud.data.model.other.CommentList
 import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.data.model.task.TaskList
 import com.horse.proud.data.model.task.TaskPublish
@@ -31,5 +33,11 @@ interface TaskService {
     @FormUrlEncoded
     @POST("api/task/update/thumb_up")
     fun like(@Field("id")id:String):Call<Response>
+
+    @GET("api/query/task/comment/table_id/{path}")
+    fun getComments(@Path("path")table_id:String):Call<CommentList>
+
+    @POST("api/task/comment/insert")
+    fun publishComment(@Body comment:CommentItem):Call<Response>
 
 }

@@ -23,7 +23,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityTaskBinding
-import com.horse.proud.event.LikeEvent
+import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
@@ -86,7 +86,11 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.publish->{
-                viewModel.publish()
+                if(content.text.isNotEmpty()){
+                    viewModel.publish()
+                }else{
+                    showToast("请添加描述信息")
+                }
             }
             else->{
                 showToast("任务未发布")
@@ -109,8 +113,8 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
                 }
                 LOCATION_FOT_RESULT ->{
                     iv_local.setImageResource(R.drawable.local_click)
-                    var latitude = data?.getDoubleExtra(Const.Item.POSITION_LATITUDE,-1.0)
-                    var longitude = data?.getDoubleExtra(Const.Item.POSITION_LONGITUTE,-1.0)
+                    val latitude = data?.getDoubleExtra(Const.Item.POSITION_LATITUDE,-1.0)
+                    val longitude = data?.getDoubleExtra(Const.Item.POSITION_LONGITUTE,-1.0)
                     if(latitude!=-1.0&&longitude!=-1.0){
                         viewModel.local = "$latitude,$longitude"
                     }
@@ -269,7 +273,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     }
 
     private fun getTime() {
-        val items = arrayOf("1天内过期", "2天内过期", "3天内过期")
+        val items = arrayOf("1天内过期", "2天内过期", "3天内过期","5天内过期","不过期")
         val checkedIndex = 1
         CheckableDialogBuilder(this)
             .setCheckedIndex(checkedIndex)
@@ -282,28 +286,31 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     }
 
     private fun getType() {
-        val items =
-            arrayOf("选项1", "选项2", "选项3", "选项4", "选项5", "选项6")
+        val items = arrayOf("取快递", "找联系方式", "兼职发布", "其他")
         val builder = MultiCheckableDialogBuilder(this)
-            .setCheckedItems(intArrayOf(1, 3))
-            .addItems(items) { dialog, which -> }
-        builder.addAction(
-            "取消"
-        ) { dialog, index -> dialog.dismiss() }
-        builder.addAction(
-            "提交"
-        ) { dialog, index ->
+            .addItems(items) { _, _ -> }
+
+        builder.addAction("取消") { dialog, _ -> dialog.dismiss() }
+
+        builder.addAction("提交") { dialog, _ ->
             var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + builder.checkedItemIndexes[i] + ","
+                result += "" + items[i] + ","
             }
             dialog.dismiss()
             viewModel.type = result
-            if(!result.isEmpty()){
+            if(result.isNotEmpty()){
                 iv_type.setImageResource(R.drawable.type_click)
             }
         }
         builder.create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    override fun onMessageEvent(messageEvent: MessageEvent) {
+        if (messageEvent is FinishActivityEvent && messageEvent.category == Const.Like.TASK) {
+            finish()
+        }
     }
 
 

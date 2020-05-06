@@ -4,7 +4,9 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,14 +18,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
+import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.task.TaskItem
+import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
-import com.horse.proud.ui.common.MapActivity
+import com.horse.proud.ui.common.ViewLocationActivity
 import com.horse.proud.ui.task.TaskFragment
+import com.horse.proud.util.DateUtil
 import com.horse.proud.widget.SeeMoreView
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.greenrobot.eventbus.EventBus
@@ -41,11 +46,13 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
 
     override fun fillData(helper: BGAViewHolderHelper, position: Int, item: TaskItem) {
 
+        var adapter:CommentAdapter ?= null
+
         Glide.with(taskFragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(helper.getImageView(R.id.avatar));
 
-        if(!item.title.isNullOrEmpty()){
+        if(item.title.isNotEmpty()){
             helper.setText(R.id.text, item.title)
         }
 
@@ -53,7 +60,7 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         if(item.done == 0){
             done.text = "待领取"
             done.setTextColor(Color.parseColor("#F4606C"))
-            if(!item.endTime.isNullOrEmpty()){
+            if(item.endTime.isNotEmpty()){
                 helper.getTextView(R.id.end).text = item.endTime
             }
         }else{
@@ -61,27 +68,37 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
             done.setTextColor(Color.parseColor("#19CAAD"))
         }
 
-        if(!item.startTime.isNullOrEmpty()){
+        if(item.startTime.isNotEmpty()){
             helper.getTextView(R.id.publish_time).text = item.startTime
         }
 
-        if(!item.content.isNullOrEmpty()){
+        if(item.content.isNotEmpty()){
             helper.getView<SeeMoreView>(R.id.seemore).setText(item.content)
         }
 
-        if(!item.image.isNullOrEmpty()){
+        item.image?.let {
             val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
             ninePhotoLayout.setDelegate(taskFragment)
             val photos = ArrayList<String>()
-            photos.add(item.image)
+            photos.add(item.image!!)
             ninePhotoLayout.data = photos
         }
 
+
         helper.getImageView(R.id.iv_local).setOnClickListener {
-            if(item.location.isNullOrEmpty()){
+            if(item.location.isEmpty()){
                 showToast("该任务未标记地点")
             }else{
-                MapActivity.actionStartForResult(taskFragment.activity,1)
+                logWarn(TAG,item.location)
+                var locations = item.location.split(",")
+                locations -= ""
+                if(locations.size == 2){
+                    val latitude:Double = locations[0].toDouble()
+                    val longitude:Double = locations[1].toDouble()
+                    ViewLocationActivity.actionStartForResult(latitude,longitude,taskFragment.activity,1)
+                }else{
+                    showToast("该地点暂时无法查看")
+                }
             }
         }
 
@@ -91,7 +108,7 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
 
         helper.getView<CheckBox>(R.id.iv_like).setOnClickListener {
             if(it.iv_like.isChecked){
-                showToast("！ ！~ 赞 ~ ！ ！")
+                showToast("！ ！ ~ 赞 ~ ！ ！")
                 helper.getTextView(R.id.tv_like).text = "${++item.thumbUp}"
                 val evnet = LikeEvent()
                 evnet.category = Const.Like.TASK
@@ -106,7 +123,8 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         /*
         * 嵌套类型对应的 RecyclerView
         * */
-        if(!item.label.isNullOrEmpty()){
+        if(item.label.isNotEmpty()){
+            logWarn(TAG,item.label)
             var types:List<String> = item.label.split(",")
             types -= ""
             if(types.isNotEmpty()){
@@ -122,19 +140,38 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         /*
         * 嵌套评论对应的 RecyclerView
         * */
-        var rv_comment:RecyclerView = helper.getView(R.id.rv_comment)
-        rv_comment.setHasFixedSize(true)
-        rv_comment.layoutManager = LinearLayoutManager(taskFragment.context)
-        var comments = ArrayList<CommentItem>()
-        var comment = CommentItem()
-        comment.name = "会飞的鱼"
-        comment.content = "评论111111111111111111111"
-        comments.add(comment)
-        var comment2 = CommentItem()
-        comment2.name = "会飞的鱼"
-        comment2.content = "评论222222222222222222222222222"
-        comments.add(comment2)
-        rv_comment.adapter = CommentAdapter(comments)
+        item.comments?.let {
+            val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
+            rvComment.setHasFixedSize(true)
+            rvComment.layoutManager = LinearLayoutManager(taskFragment.context)
+            adapter = CommentAdapter(it.commentList)
+            rvComment.adapter = adapter
+            helper.getTextView(R.id.tv_comment).text = "${it.commentList.size}"
+        }
+
+        helper.getView<Button>(R.id.send).setOnClickListener {
+            val content:String = helper.getView<EditText>(R.id.et_comment).text.toString()
+            if (!content.isBlank()){
+                val comment = CommentItem()
+                comment.id = "1"
+                comment.userId = Proud.getUserId()
+                comment.content = content
+                comment.time = DateUtil.nowDateTime
+                comment.itemId = item.id
+                val event = CommentEvent()
+                event.category = Const.Like.TASK
+                event.comment = comment
+                EventBus.getDefault().post(event)
+
+                item.comments!!.commentList.add(comment)
+                if(adapter!=null){
+                    helper.getView<EditText>(R.id.et_comment).setText("")
+                    notifyItemChanged(position)
+                }
+            }else{
+                showToast("评论不能为空")
+            }
+        }
     }
 
     private class TypeAdapter(items:List<String>):RecyclerView.Adapter<RecyclerView.ViewHolder>(){
@@ -176,7 +213,7 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder as CommentItemViewHolder
-            holder.comment_name.text = items[position].name
+            holder.comment_name.text = "${items[position].userId}"
             holder.comment_content.text = items[position].content
         }
 

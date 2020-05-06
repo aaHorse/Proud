@@ -4,6 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.horse.proud.data.model.other.CommentItem
+import com.horse.proud.data.model.other.CommentList
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -24,7 +25,7 @@ class TaskItem : Parcelable {
 
     lateinit var content:String
 
-    lateinit var image:String
+    var image:String ?= null
 
     lateinit var label:String
 
@@ -50,6 +51,11 @@ class TaskItem : Parcelable {
 
     @SerializedName("comment")
     var comment:Int = 0
+
+    /**
+     * 评论内容，在另外一个接口获取到，然后在这里赋值
+     * */
+    var comments:CommentList?=null
 
     override fun describeContents(): Int {
         return 0

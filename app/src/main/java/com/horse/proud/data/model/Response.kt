@@ -16,9 +16,6 @@ open class Response {
     @SerializedName("msg")
     lateinit var msg:String
 
-    @SerializedName("code")
-    lateinit var code:String
-
     //lateinit var ok
 
 }

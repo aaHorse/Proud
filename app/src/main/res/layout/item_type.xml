@@ -11,10 +11,11 @@
 
     <TextView
         android:id="@+id/tv_type"
-        android:layout_width="75dp"
+        android:layout_width="85dp"
         android:layout_height="25dp"
         android:gravity="center"
         android:textSize="@dimen/item_tv_size_4"
+        android:textColor="@color/color_19CAAD"
         />
 
 </androidx.cardview.widget.CardView>

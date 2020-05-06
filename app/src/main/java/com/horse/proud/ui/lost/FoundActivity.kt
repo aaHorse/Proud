@@ -24,19 +24,13 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityFoundBinding
+import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.common.MapActivity
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog
-import kotlinx.android.synthetic.main.activity_found.avatar
-import kotlinx.android.synthetic.main.activity_found.iv_local
-import kotlinx.android.synthetic.main.activity_found.iv_time
-import kotlinx.android.synthetic.main.activity_found.iv_type
-import kotlinx.android.synthetic.main.activity_found.ll_local
-import kotlinx.android.synthetic.main.activity_found.ll_time
-import kotlinx.android.synthetic.main.activity_found.ll_type
-import kotlinx.android.synthetic.main.activity_found.snpl_moment_add_photos
+import kotlinx.android.synthetic.main.activity_found.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.koin.android.ext.android.inject
@@ -90,7 +84,11 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.publish->{
-                viewModel.publish()
+                if(content.text.isNotEmpty()){
+                    viewModel.publish()
+                }else{
+                    showToast("请添加描述信息")
+                }
             }
             else->{
                 showToast("任务未发布")
@@ -273,7 +271,7 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
     }
 
     private fun getTime() {
-        val items = arrayOf("1天内过期", "2天内过期", "3天内过期")
+        val items = arrayOf("1天内过期", "2天内过期", "3天内过期","5天内过期","不过期")
         val checkedIndex = 1
         QMUIDialog.CheckableDialogBuilder(this)
             .setCheckedIndex(checkedIndex)
@@ -286,28 +284,29 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
     }
 
     private fun getType() {
-        val items =
-            arrayOf("选项1", "选项2", "选项3", "选项4", "选项5", "选项6")
+        val items = arrayOf("图书", "数码电子", "钥匙", "衣物", "学生证", "其他")
         val builder = QMUIDialog.MultiCheckableDialogBuilder(this)
-            .setCheckedItems(intArrayOf(1, 3))
             .addItems(items) { dialog, which -> }
-        builder.addAction(
-            "取消"
-        ) { dialog, index -> dialog.dismiss() }
-        builder.addAction(
-            "提交"
-        ) { dialog, index ->
+        builder.addAction("取消") { dialog, index -> dialog.dismiss() }
+        builder.addAction("提交") { dialog, index ->
             var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + builder.checkedItemIndexes[i] + ","
+                result += "" + items[i] + ","
             }
             dialog.dismiss()
             viewModel.type = result
-            if(!result.isEmpty()){
+            if(result.isNotEmpty()){
                 iv_type.setImageResource(R.drawable.type_click)
             }
         }
         builder.create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    override fun onMessageEvent(messageEvent: MessageEvent) {
+        if (messageEvent is FinishActivityEvent && messageEvent.category == Const.Like.FOUND) {
+            finish()
+        }
     }
 
 

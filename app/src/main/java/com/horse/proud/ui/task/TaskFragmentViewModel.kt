@@ -1,12 +1,13 @@
 package com.horse.proud.ui.task
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
+import com.horse.core.proud.extension.showToast
 import com.horse.proud.data.TaskRepository
+import com.horse.proud.data.model.Response
+import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.task.TaskItem
 import kotlinx.coroutines.launch
 
@@ -30,11 +31,10 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
             when(taskList.status){
                 200 -> {
                     taskItems.clear()
-                    for(task in taskList.taskList){
-                        taskItems.add(task)
+                    for(item in taskList.taskList){
+                        taskItems.add(item)
                     }
-                    isLoadingMore.value = false
-                    taskItemsChanged.value = flag++
+                    getComments()
                 }
                 500 -> {
                     loadFailed.value = flag++
@@ -44,6 +44,47 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
             logWarn(TAG, it.message, it)
             loadFailed.value = flag++
         })
+    }
+
+    fun publishComment(comment:CommentItem){
+        launch({
+            var response:Response = repository.publishComment(comment)
+            when(response.status){
+                200 -> {
+                    //showToast("成功")
+                }
+                500 -> {
+                    //showToast("失败1")
+                }
+            }
+        },{
+            logWarn(TAG,it)
+            //showToast("失败2")
+        })
+    }
+
+    private fun getComments(){
+        for((index,item) in taskItems.withIndex()){
+            launch({
+                logWarn(TAG,item.id)
+                val commentList = repository.getComments(item.id)
+                when(commentList.status){
+                    200 -> {
+                        item.comments = commentList
+                        logWarn(TAG,"$index")
+                        if(index == taskItems.size-1){
+                            isLoadingMore.value = false
+                            taskItemsChanged.value = flag++
+                        }
+                    }
+                    500 -> {
+                        logWarn(TAG,commentList.msg)
+                    }
+                }
+            },{
+                logWarn(TAG,it)
+            })
+        }
     }
 
     fun like(id:String){

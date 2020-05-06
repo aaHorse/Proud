@@ -1,5 +1,7 @@
 package com.horse.proud.data.model.other
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * 评论
  *
@@ -8,8 +10,25 @@ package com.horse.proud.data.model.other
  * */
 class CommentItem {
 
-    var name = "会飞的鱼"
+    lateinit var id:String
 
-    var content = "测试测测试测试测试测试测试测试测试测试测测试测测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试试测试试测试测试测试测试测试测试测试测试测试测试测试测试试测试"
+    @SerializedName("user_id")
+    var userId:Int = -1
+
+    lateinit var content:String
+
+    @SerializedName("publish_time")
+    lateinit var time:String
+
+    /**
+     * 条目对应 id
+     */
+    @SerializedName("table_id")
+    lateinit var itemId:String
+
+    @SerializedName("thumb_up")
+    var thumbUp:Int = 0
+
+    var comment:Int = 0
 
 }

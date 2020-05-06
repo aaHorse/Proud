@@ -16,7 +16,7 @@
             android:layout_width="70dp"
             android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/no_content_image" />
+            android:src="@mipmap/icon" />
 
         <TextView
             android:id="@+id/noContentText"
@@ -27,7 +27,7 @@
             android:layout_marginBottom="16dp"
             android:textSize="12sp"
             android:textColor="@color/secondary_text"
-            tools:text="您还没有关注任何人"/>
+            tools:text="空空空"/>
 
         <Button
             android:id="@+id/noContentButton"

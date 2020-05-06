@@ -3,6 +3,7 @@ package com.horse.proud.ui.lost
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
@@ -11,11 +12,13 @@ import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.LostRepository
 import com.horse.proud.data.model.lost.LostItem
+import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.util.DateUtil
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 /**
@@ -88,6 +91,9 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
                 when(response.status){
                     200 ->{
                         showToast("任务发布成功")
+                        val finishActivityEvent = FinishActivityEvent()
+                        finishActivityEvent.category = Const.Like.LOST
+                        EventBus.getDefault().post(finishActivityEvent)
                     }
                     500 ->{
                         showToast("任务发布失败")

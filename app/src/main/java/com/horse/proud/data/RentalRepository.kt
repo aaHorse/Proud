@@ -1,5 +1,6 @@
 package com.horse.proud.data
 
+import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.rental.RentalItem
 import com.horse.proud.data.network.RentalNetwork
 import kotlinx.coroutines.Dispatchers
@@ -29,6 +30,14 @@ class RentalRepository private constructor(private val network: RentalNetwork){
 
     suspend fun like(id:String) = withContext(Dispatchers.IO){
         network.fetchLike(id)
+    }
+
+    suspend fun getComments(id:String) = withContext(Dispatchers.IO){
+        network.fetchGetComments(id)
+    }
+
+    suspend fun publishComment(comment: CommentItem) = withContext(Dispatchers.IO){
+        network.fetchPublishComment(comment)
     }
 
     companion object{

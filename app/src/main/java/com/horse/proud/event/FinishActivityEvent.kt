@@ -1,5 +1,7 @@
 package com.horse.proud.event
 
+import androidx.lifecycle.ViewModel
+
 /**
  * 销毁活动的事件信息
  *
@@ -8,6 +10,6 @@ package com.horse.proud.event
  * */
 class FinishActivityEvent : MessageEvent() {
 
-    var activityClass: Class<*>? = null
+    var category:Int = -1
 
 }

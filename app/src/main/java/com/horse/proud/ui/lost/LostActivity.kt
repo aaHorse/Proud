@@ -23,6 +23,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityLostBinding
+import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.common.BaseActivity
@@ -89,7 +90,11 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.publish->{
-                viewModel.publish()
+                if(content.text.isNotEmpty()){
+                    viewModel.publish()
+                }else{
+                    showToast("请添加描述信息")
+                }
             }
             else->{
                 showToast("任务未发布")
@@ -272,7 +277,7 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
     }
 
     private fun getTime() {
-        val items = arrayOf("1天内过期", "2天内过期", "3天内过期")
+        val items = arrayOf("1天内过期", "2天内过期", "3天内过期","5天内过期","不过期")
         val checkedIndex = 1
         QMUIDialog.CheckableDialogBuilder(this)
             .setCheckedIndex(checkedIndex)
@@ -286,27 +291,29 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
 
     private fun getType() {
         val items =
-            arrayOf("选项1", "选项2", "选项3", "选项4", "选项5", "选项6")
+            arrayOf("图书", "数码电子", "钥匙", "衣物", "学生证", "其他")
         val builder = QMUIDialog.MultiCheckableDialogBuilder(this)
-            .setCheckedItems(intArrayOf(1, 3))
             .addItems(items) { dialog, which -> }
-        builder.addAction(
-            "取消"
-        ) { dialog, index -> dialog.dismiss() }
-        builder.addAction(
-            "提交"
-        ) { dialog, index ->
+        builder.addAction("取消") { dialog, index -> dialog.dismiss() }
+        builder.addAction("提交") { dialog, index ->
             var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + builder.checkedItemIndexes[i] + ","
+                result += "" + items[i] + ","
             }
             dialog.dismiss()
             viewModel.type = result
-            if(!result.isEmpty()){
+            if(result.isNotEmpty()){
                 iv_type.setImageResource(R.drawable.type_click)
             }
         }
         builder.create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    override fun onMessageEvent(messageEvent: MessageEvent) {
+        if (messageEvent is FinishActivityEvent && messageEvent.category == Const.Like.LOST) {
+            finish()
+        }
     }
 
 

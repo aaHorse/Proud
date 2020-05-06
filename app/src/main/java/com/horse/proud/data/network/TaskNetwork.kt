@@ -1,5 +1,6 @@
 package com.horse.proud.data.network
 
+import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.data.network.api.TaskService
 import okhttp3.MultipartBody
@@ -26,6 +27,10 @@ class TaskNetwork {
     suspend fun fetchTaskUpLoadImage(part: MultipartBody.Part,requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
     suspend fun fetchLike(id:String) = service.like(id).await()
+
+    suspend fun fetchGetComments(id:String) = service.getComments(id).await()
+
+    suspend fun fetchPublishComment(comment:CommentItem) = service.publishComment(comment).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

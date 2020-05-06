@@ -66,7 +66,7 @@ class SplashActivity : BaseActivity(){
      * */
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onMessageEvent(messageEvent: MessageEvent) {
-        if (messageEvent is FinishActivityEvent && LoginActivity::class.java == messageEvent.activityClass) {
+        if (messageEvent is FinishActivityEvent) {
             finish()
         }
     }

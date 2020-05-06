@@ -17,6 +17,7 @@ import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentLostBindingImpl
+import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.RefreshEvent
@@ -174,6 +175,11 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
             }
             is RefreshEvent -> {
                 refresh()
+            }
+            is CommentEvent -> {
+                if(messageEvent.category == Const.Like.LOST){
+                    viewModel.publishComment(messageEvent.comment)
+                }
             }
         }
     }
