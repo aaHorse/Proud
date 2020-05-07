@@ -75,9 +75,8 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
 
     private fun upLoadImage(id:String){
         launch({
-            imagePath?.let {
-                logWarn(TAG,it)
-                val file = File(it)
+            if(imagePath!=null){
+                val file = File(imagePath)
                 val requestFile = RequestBody.create(MediaType.parse("multipart/jpg"), file)
 
                 val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
@@ -88,17 +87,19 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
                 )
 
                 val response = repository.upLoadImage(part,requestBody)
-                when(response.status){
-                    200 ->{
+                when(response.code){
+                    "1000" ->{
                         showToast("任务发布成功")
                         val finishActivityEvent = FinishActivityEvent()
                         finishActivityEvent.category = Const.Like.LOST
                         EventBus.getDefault().post(finishActivityEvent)
                     }
-                    500 ->{
-                        showToast("任务发布失败")
-                    }
                 }
+            }else{
+                showToast("任务发布成功")
+                val finishActivityEvent = FinishActivityEvent()
+                finishActivityEvent.category = Const.Like.LOST
+                EventBus.getDefault().post(finishActivityEvent)
             }
         },{
             showToast("图片上传失败")

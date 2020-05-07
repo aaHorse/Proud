@@ -31,4 +31,9 @@ class CommentItem {
 
     var comment:Int = 0
 
+    /**
+     * 昵称，后面添加的
+     * */
+    var name:String = "空空空"
+
 }

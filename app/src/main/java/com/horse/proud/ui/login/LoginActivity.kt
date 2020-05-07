@@ -32,6 +32,11 @@ class LoginActivity : AuthActivity(){
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(LoginActivityViewModel::class.java) }
 
+    /**
+     * 迫不得已，在这里获取name
+     * */
+    private var name = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivityLoginBinding>(this,R.layout.activity_login)
@@ -59,7 +64,7 @@ class LoginActivity : AuthActivity(){
 
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
-            saveAuthData(viewModel.login.data)
+            saveAuthData(viewModel.login.data,name)
             forwardToMainActivity()
         })
     }
@@ -74,6 +79,7 @@ class LoginActivity : AuthActivity(){
         }else if(messageEvent is RegisterSucceedEvent){
             number.setText(messageEvent.register.number)
             password.setText(messageEvent.register.password)
+            name = messageEvent.register.name
         }
     }
 

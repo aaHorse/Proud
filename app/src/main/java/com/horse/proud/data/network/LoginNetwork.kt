@@ -19,7 +19,7 @@ class LoginNetwork {
 
     private val service = ServiceCreator.create(LoginService::class.java)
 
-    suspend fun fetchLogin(username:String,password:String) = service.login(username,password).await()
+    suspend fun fetchLogin(number:String,password:String) = service.login(number,password).await()
 
     suspend fun fetchRegister(register: Register) = service.register(register).await()
 

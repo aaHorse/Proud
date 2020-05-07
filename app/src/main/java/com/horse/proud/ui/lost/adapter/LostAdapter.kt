@@ -211,7 +211,7 @@ class LostAdapter(private val lostFragment: LostFragment, private var recyclerVi
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder as CommentItemViewHolder
-            //holder.comment_name.text = items[position].name
+            holder.comment_name.text = "${items[position].userId}"
             holder.comment_content.text = items[position].content
         }
 

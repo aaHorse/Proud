@@ -213,7 +213,7 @@ class RentalAdapter(private val rentalFragment: RentalFragment, private var recy
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder as CommentItemViewHolder
-            //holder.comment_name.text = items[position].name
+            holder.comment_name.text = "${items[position].userId}"
             holder.comment_content.text = items[position].content
         }
 

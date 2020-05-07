@@ -24,21 +24,21 @@ class Register{
     var sex:Int = 0
 
     @SerializedName("phoneNumber")
-    lateinit var phoneNumber:String
+    var phoneNumber:String = "10086"
 
     /**
      * 头像
      * */
     @SerializedName("head")
-    lateinit var head:String
+    var head:String = ""
 
     @SerializedName("address")
-    lateinit var address:String
+    var address:String = ""
 
     /**
      * 一句话简介
      * */
     @SerializedName("info")
-    lateinit var info:String
+    var info:String = "太强了"
 
 }

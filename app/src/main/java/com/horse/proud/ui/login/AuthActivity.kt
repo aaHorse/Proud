@@ -43,8 +43,9 @@ abstract class AuthActivity : BaseActivity(){
      *
      * @param
      * */
-    protected fun saveAuthData(userId:Int){
+    fun saveAuthData(userId:Int,name:String){
         SharedUtil.save(Const.Auth.USER_ID,userId)
+        SharedUtil.save(Const.Auth.NAME,name)
 //        SharedUtil.save(Const.Auth.TOKEN,token)
 //        SharedUtil.save(Const.Auth.LOGIN_TYPE,loginType)
         Proud.refreshLoginState()

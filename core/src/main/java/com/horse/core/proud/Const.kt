@@ -25,6 +25,11 @@ interface Const {
              * 游客登录：2
              * */
             const val LOGIN_TYPE = "l_t"
+
+            /**
+             * 姓名
+             * */
+            const val NAME = "name"
         }
 
     }

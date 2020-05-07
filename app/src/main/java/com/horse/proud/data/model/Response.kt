@@ -16,6 +16,12 @@ open class Response {
     @SerializedName("msg")
     lateinit var msg:String
 
+    /**
+     * 上传图片用，成功返回 “1000”
+     * */
+    @SerializedName("code")
+    var code:String = "0"
+
     //lateinit var ok
 
 }

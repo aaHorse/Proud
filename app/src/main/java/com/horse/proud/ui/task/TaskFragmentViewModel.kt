@@ -9,6 +9,7 @@ import com.horse.proud.data.TaskRepository
 import com.horse.proud.data.model.Response
 import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.task.TaskItem
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(){

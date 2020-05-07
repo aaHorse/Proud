@@ -28,6 +28,8 @@ public class Proud {
 
     private static int userId;
 
+    private static String name;
+
     private static String token;
 
     private static int loginType = -1;
@@ -109,16 +111,25 @@ public class Proud {
     }
 
     /**
+     * 获取当前用户的姓名
+     * */
+    public static String getName(){
+        return name;
+    }
+
+    /**
      * 刷新用户的登录状态。
      */
     public static void refreshLoginState() {
         int u = SharedUtil.read(Const.Auth.USER_ID, -1);
+        String n = SharedUtil.read(Const.Auth.NAME, "会飞的鱼");
         //String t = SharedUtil.read(Const.Auth.TOKEN, "");
         //int lt = SharedUtil.read(Const.Auth.LOGIN_TYPE, -1);
         //isLogin = !TextUtils.isEmpty(u) && !TextUtils.isEmpty(t) && lt >= 0;
         isLogin = u>0;
         if (isLogin) {
             userId = u;
+            name = n;
             //token = t;
             //loginType = lt;
         }
