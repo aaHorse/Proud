@@ -36,7 +36,7 @@ class MapActivity : BaseActivity() {
     private lateinit var mLocationClient: AMapLocationClient
 
     //声明定位回调监听器
-    private lateinit var mLocationListener: AMapLocationListener
+    private var mLocationListener: AMapLocationListener ?= null
 
     private lateinit var mLocationOption: AMapLocationClientOption
 
@@ -116,6 +116,7 @@ class MapActivity : BaseActivity() {
             }
             mLocationClient.stopLocation()
             map.visibility = View.VISIBLE
+            mLocationListener = null
         }
         mLocationClient.setLocationListener(mLocationListener)
 
