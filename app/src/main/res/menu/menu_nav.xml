@@ -25,6 +25,11 @@
             android:title="@string/new_rental" />
 
         <item
+            android:id="@+id/setting"
+            android:icon="@drawable/setting"
+            android:title="@string/setting"/>
+
+        <item
             android:id="@+id/about"
             android:icon="@drawable/about"
             android:title="@string/about" />

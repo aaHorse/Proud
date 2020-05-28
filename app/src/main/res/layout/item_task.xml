@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/item_padding"
+        android:padding="@dimen/size_1"
         >
 
         <RelativeLayout
@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_toRightOf="@+id/avatar"
-                android:layout_marginLeft="@dimen/item_margin_left"
+                android:layout_marginLeft="@dimen/size_1"
                 >
 
                 <TextView
@@ -83,21 +83,21 @@
             android:id="@+id/rv_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top"
+            android:layout_marginTop="@dimen/size_1"
             />
 
         <com.horse.proud.widget.SeeMoreView
             android:id="@+id/seemore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top_2"
+            android:layout_marginTop="@dimen/size_2"
             />
 
         <cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/npl_item_moment_photos"
-            android:layout_marginTop="@dimen/item_margin_top_2"
+            android:layout_marginTop="@dimen/size_2"
             app:bga_npl_itemCornerRadius="0dp"
             app:bga_npl_itemSpanCount="3"
             app:bga_npl_itemWhiteSpacing="4dp"
@@ -110,7 +110,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top_2"
+            android:layout_marginTop="@dimen/size_2"
             >
 
             <ImageView
@@ -175,14 +175,14 @@
             android:id="@+id/rv_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_margin_top_2"
+            android:layout_marginTop="@dimen/size_2"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/item_margin_top"
+            android:layout_marginTop="@dimen/size_1"
             >
 
             <EditText
@@ -205,7 +205,7 @@
                 android:text="@string/send"
                 android:background="@drawable/bg_btn_login"
                 android:textColor="@android:color/white"
-                android:layout_marginLeft="@dimen/item_padding"
+                android:layout_marginLeft="@dimen/size_1"
                 />
 
         </LinearLayout>
@@ -216,7 +216,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/qmui_config_color_red"
-        android:layout_marginTop="@dimen/item_margin_top_3"
+        android:layout_marginTop="@dimen/size_3"
         />
 
 </LinearLayout >

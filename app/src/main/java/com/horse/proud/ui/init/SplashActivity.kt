@@ -1,4 +1,4 @@
-package com.horse.proud.ui.init.ui
+package com.horse.proud.ui.init
 
 import android.os.Bundle
 import android.text.TextUtils

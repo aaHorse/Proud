@@ -7,7 +7,6 @@
     <string name="get_baseinfo_failed_user_not_exist">获取用户信息失败，用户不存在</string>
     <string name="get_baseinfo_failed">获取用户信息失败，请重新登录</string>
 
-
     <!-- 网络 -->
     <string name="network_connect_error">网络连接异常</string>
     <string name="network_connect_timeout">网络连接超时</string>
@@ -30,7 +29,13 @@
     <string name="new_lost">发布失物招领</string>
     <string name="new_found">发布寻物启事</string>
     <string name="new_rental">发布物品租赁</string>
+    <string name="setting">设置</string>
     <string name="about">关于我们</string>
+
+    <string name="setting_0">编辑个人信息</string>
+    <string name="setting_1">查看个人发布</string>
+    <string name="setting_2">退出登录</string>
+
 
     <string name="publish">发表</string>
 

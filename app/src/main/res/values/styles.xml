@@ -2,8 +2,6 @@
 
     <style name="AppTheme" parent="QMUI.Compat.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-
-
         <item name="qmui_skin_support_topbar_bg">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_title_color">@color/qmui_config_color_white</item>
         <item name="qmui_skin_support_topbar_subtitle_color">@color/qmui_config_color_75_white
@@ -25,6 +23,10 @@
         <item name="colorControlNormal">#000</item><!-- 主要是这个起作用,修改默认返回键的颜色-->
         <!-- 设置Menu窗口不覆盖Toolbar视图 -->
         <item name="overlapAnchor">false</item>
+    </style>
+
+    <style name="MenuDialog" parent="QMUI.Dialog">
+        <!--<item name="android:background">@drawable/background</item>-->
     </style>
 
 </resources>

@@ -25,7 +25,10 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="n">
-        <activity android:name=".ui.common.ViewLocationActivity"></activity>
+        <activity android:name=".ui.setting.ShowMessagesActivity"></activity>
+        <activity android:name=".ui.setting.OverViewPublishedActivity" />
+        <activity android:name=".ui.setting.EditPersonalInfoActivity" />
+        <activity android:name=".ui.common.ViewLocationActivity" />
         <activity
             android:name=".ui.about.AboutActivity"
             android:label="@string/about" />
@@ -46,7 +49,7 @@
             android:name=".ui.task.TaskActivity"
             android:label="@string/task_activity" />
         <activity android:name=".ui.home.MainActivity" />
-        <activity android:name=".ui.init.ui.SplashActivity">
+        <activity android:name=".ui.init.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

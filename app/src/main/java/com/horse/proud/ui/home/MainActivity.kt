@@ -7,16 +7,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
-import android.widget.ScrollView
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
-import com.horse.core.proud.Const
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
-import com.horse.proud.event.LikeEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.about.AboutActivity
@@ -26,8 +23,13 @@ import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
 import com.horse.proud.ui.rental.RentalActivity
 import com.horse.proud.ui.rental.RentalFragment
+import com.horse.proud.ui.setting.EditPersonalInfoActivity
+import com.horse.proud.ui.setting.OverViewPublishedActivity
 import com.horse.proud.ui.task.TaskActivity
 import com.horse.proud.ui.task.TaskFragment
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
+import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_navigation.*
 import org.greenrobot.eventbus.Subscribe
@@ -200,12 +202,53 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 position = 3
                 RentalActivity.actionStart(this)
             }
-            R.id.about -> {
+            R.id.setting -> {
                 position = 4
+                getSettingType()
+            }
+            R.id.about -> {
+                position = 5
                 AboutActivity.actionStart(this)
             }
         }
         return true
+    }
+
+    private fun getSettingType() {
+        val items = arrayOf(
+            GlobalUtil.getString(R.string.setting_0),
+            GlobalUtil.getString(R.string.setting_1),
+            GlobalUtil.getString(R.string.setting_2))
+        QMUIDialog.MenuDialogBuilder(this)
+            .addItems(items) { dialog, which ->
+                dialog.dismiss()
+                when(which){
+                    0 -> {
+                        EditPersonalInfoActivity.actionStart(this)
+                    }
+                    1 -> {
+                        OverViewPublishedActivity.actionStart(this)
+                    }
+                    2 -> {
+                        exit()
+                    }
+                }
+            }.create(R.style.MenuDialog).show()
+    }
+
+    /**
+     * 退出登录
+     * */
+    private fun exit() {
+        MessageDialogBuilder(this)
+            .setTitle("退出登录")
+            .setMessage("确定要退出吗？")
+            .addAction("取消") { dialog, index ->
+                dialog.dismiss()
+            }
+            .addAction(0, "退出", QMUIDialogAction.ACTION_PROP_NEGATIVE) { dialog, index ->
+                dialog.dismiss()
+            }.create(R.style.MenuDialog).show()
     }
 
     override fun onBackPressed() {

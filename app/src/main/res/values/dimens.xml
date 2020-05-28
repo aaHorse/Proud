@@ -1,35 +1,47 @@
 <resources>
-    
-    <dimen name="main_tab_item_image_and_text">3dp</dimen>
 
-    <dimen name="item_padding_left_and_right">10dp</dimen>
+    <!--发布任务、失物招领、物品租赁，3个模块的item使用-->
 
-    <dimen name="item_margin_top">10dp</dimen>
+    <!--评论、类型距离上部的距离-->
+    <!--item左右padding-->
+    <!--发送按钮margin左-->
+    <!--item头像margin左-->
+    <dimen name="size_1">10dp</dimen>
 
-    <dimen name="item_margin_top_2">20dp</dimen>
+    <!--item每部分内容之间的上下距离-->
+    <dimen name="size_2">20dp</dimen>
 
-    <dimen name="item_margin_top_3">30dp</dimen>
+    <!--分割红线距离评论的高度-->
+    <dimen name="size_3">30dp</dimen>
 
-    <dimen name="item_view_height">1dp</dimen>
-
-    <dimen name="item_margin_bottom">30dp</dimen>
-
-    <dimen name="item_padding">10dp</dimen>
-
+    <!--item中头像大小-->
     <dimen name="item_iv">45dp</dimen>
 
-    <dimen name="item_margin_left">10dp</dimen>
 
+
+    <!--全局字体大小设置-->
+
+    <!--昵称-->
     <dimen name="item_tv_size_1">16sp</dimen>
 
+    <!--任务发布时间标记-->
+    <!--评论、点赞数字-->
     <dimen name="item_tv_size_2">10sp</dimen>
 
-    <dimen name="item_tv_size_3">13dp</dimen>
+    <!--任务状态标记、以及下面的时间标记-->
+    <dimen name="item_tv_size_3">13sp</dimen>
 
-    <dimen name="item_tv_size_4">15dp</dimen>
+    <!--任务描述文字-->
+    <dimen name="item_tv_size_4">15sp</dimen>
 
+
+
+    <!--评论、点赞、查看位置按钮的大小设置-->
     <dimen name="item_iv_icon">25dp</dimen>
 
+
+
+    <!--头像大小-->
     <dimen name="iv">45dp</dimen>
 
 </resources>
