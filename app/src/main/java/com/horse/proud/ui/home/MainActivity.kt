@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
+import com.horse.core.proud.Const
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -42,6 +43,16 @@ import org.greenrobot.eventbus.ThreadMode
  * @since 2020年4月24日19:55:22
  * */
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+
+    /**
+     * 标志位
+     * 查看全部发布：0
+     * 查看个人发布：1
+     * 查看失物招领：2
+     * 查看物品租赁：3
+     * */
+    var flag:Int = 0
+
     /**
      * 任务发布列表 Fragment
      * */
@@ -75,13 +86,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
         )
+        flag = intent.getIntExtra(Const.ACTIVITY_FLAG,0)
         setContentView(R.layout.activity_main)
+        //上面这个方法下面的代码不会被执行
     }
 
     override fun setupViews() {
-        taskFragment = TaskFragment()
-        supportFragmentManager.beginTransaction().add(R.id.main_container, taskFragment!!)
-            .commit()
+        changeFragment(getFragmentResId())
 
         tv_task.setOnClickListener(tabClickListener)
         tv_lost_and_found.setOnClickListener(tabClickListener)
@@ -100,21 +111,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onMessageEvent(messageEvent: MessageEvent) {
         when(messageEvent){
             is ScrollEvent -> {
-                //上滑 并且 正在显示底部栏
-                if (messageEvent.scrollY - messageEvent.oldScrollY > 0 && isBottomShow) {
-                    isBottomShow = false
-                    //将Y属性变为底部栏高度  (相当于隐藏了)
-                    bottom.animate().translationY(bottom.height.toFloat())
-                } else if (messageEvent.scrollY - messageEvent.oldScrollY < 0 && !isBottomShow) {
-                    isBottomShow = true;
-                    bottom.animate().translationY(0.0f);
+                with(messageEvent){
+                    if (scrollY - oldScrollY > 0 && isBottomShow) {
+                        //上滑
+                        isBottomShow = false
+                        bottom.animate().translationY(bottom.height.toFloat())
+                    } else if(scrollY - oldScrollY < 0 && !isBottomShow) {
+                        //下滑
+                        isBottomShow = true
+                        bottom.animate().translationY(0.0f)
+                    }
+                    null
                 }
             }
         }
     }
 
-    private val tabClickListener =
-        View.OnClickListener { v ->
+    private val tabClickListener = View.OnClickListener { v ->
             changeSelect(v.id)
             if (v.id != currentId) {
                 changeFragment(v.id)
@@ -122,7 +135,17 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
 
+    private fun getFragmentResId():Int{
+        return when(flag){
+            1 -> R.id.tv_task
+            2 -> R.id.tv_lost_and_found
+            3 -> R.id.tv_rental
+            else -> R.id.tv_task
+        }
+    }
+
     private fun changeFragment(resId: Int){
+        changeSelect(resId)
         var transaction:FragmentTransaction = supportFragmentManager.beginTransaction()
         hideFragments(transaction)
         when (resId) {
@@ -152,6 +175,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
         }
         transaction.commit()
+        if(flag != 0 && ll_toolbar.visibility != View.VISIBLE){
+            setupToolbar()
+            ll_toolbar.visibility = View.VISIBLE
+            main_container.animate().translationY(ll_toolbar.height.toFloat())
+        }
     }
 
     private fun hideFragments(transaction: FragmentTransaction){
@@ -184,30 +212,23 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        var position = -1
         when (item.itemId) {
             R.id.task -> {
-                position = 0
                 TaskActivity.actionStart(this)
             }
             R.id.lost -> {
-                position = 1
                 FoundActivity.actionStart(this)
             }
             R.id.found -> {
-                position = 2
                 LostActivity.actionStart(this)
             }
             R.id.rental -> {
-                position = 3
                 RentalActivity.actionStart(this)
             }
             R.id.setting -> {
-                position = 4
                 getSettingType()
             }
             R.id.about -> {
-                position = 5
                 AboutActivity.actionStart(this)
             }
         }
@@ -269,8 +290,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         private const val TAG = "MainActivity"
 
-        fun actionStart(activity: Activity){
+        fun actionStart(activity: Activity,flag:Int = 0){
             val intent = Intent(activity,MainActivity::class.java)
+            intent.putExtra(Const.ACTIVITY_FLAG,flag)
             activity.startActivity(intent)
         }
 

@@ -6,42 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".ui.setting.OverViewPublishedActivity"
     android:orientation="vertical"
-    android:background="@drawable/background"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/AppTheme.PopupOverlay"
-        app:popupTheme="@style/AppTheme.PopupOverlay"
-        />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/qmui_config_color_red"
-        />
-
-    <ImageView
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:src="@mipmap/icon"
-        android:layout_gravity="center"
-        android:layout_marginTop="50dp"
-        />
-
-    <TextView
-        android:id="@+id/label"
+    <LinearLayout
+        android:id="@+id/ll_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/bad_network_view_tip"
-        />
+        android:orientation="vertical"
+        android:background="@color/wall"
+        >
 
-    <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
-        android:id="@+id/published_type"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/AppTheme.PopupOverlay"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/qmui_config_color_red"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/background"
+        >
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@mipmap/icon"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            />
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/bad_network_view_tip"
+            />
+
+        <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
+            android:id="@+id/published_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 
 </LinearLayout>

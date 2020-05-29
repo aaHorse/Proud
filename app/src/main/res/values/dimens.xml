@@ -44,4 +44,6 @@
     <!--头像大小-->
     <dimen name="iv">45dp</dimen>
 
+    <dimen name="alpha_setting">0.5</dimen>
+
 </resources>

@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import com.horse.proud.R
 import com.horse.proud.ui.common.BaseActivity
+import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.lost.LostFragment
 import com.horse.proud.ui.rental.RentalFragment
 import com.horse.proud.ui.task.TaskFragment
@@ -28,43 +29,46 @@ class OverViewPublishedActivity : BaseActivity() {
      * */
     lateinit var mGroupListView: QMUIGroupListView
 
-    /**
-     * 任务发布列表 Fragment
-     * */
-    var taskFragment: TaskFragment? = null
-
-    /**
-     * 失物招领列表
-     * */
-    var lostFragment: LostFragment? = null
-
-    /**
-     * 物品租赁列表
-     * */
-    var rentalFragment: RentalFragment? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_over_view_published)
     }
 
     override fun setupViews() {
+        setupToolbar()
         mGroupListView = published_type
         initGroupListView()
     }
 
     private fun initGroupListView(){
         val height = QMUIResHelper.getAttrDimen(this, com.qmuiteam.qmui.R.attr.qmui_list_item_height)
-        val itemWithDetailBelowWithChevronWithIcon =
-            mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
-                "Item 7",
-                "在标题下方的详细信息",
-                QMUICommonListItemView.VERTICAL,
-                QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
-                height)
+        val task = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
+            "任务发布",
+            "累计发布任务：8个",
+            QMUICommonListItemView.VERTICAL,
+            QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
+            height)
+        val lost = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
+            "失物招领",
+            "累计发布失物招领：8个",
+            QMUICommonListItemView.VERTICAL,
+            QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
+            height)
+        val rental = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
+            "物品租赁",
+            "累计发布物品租赁：8个",
+            QMUICommonListItemView.VERTICAL,
+            QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
+            height)
         QMUIGroupListView.newSection(this)
-            .addItemView(itemWithDetailBelowWithChevronWithIcon){v ->
-                //
+            .addItemView(task){v ->
+                MainActivity.actionStart(this,1)
+            }
+            .addItemView(lost){v ->
+                MainActivity.actionStart(this,2)
+            }
+            .addItemView(rental){v ->
+                MainActivity.actionStart(this,3)
             }
             .addTo(mGroupListView)
     }

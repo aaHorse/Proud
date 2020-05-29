@@ -31,6 +31,8 @@
     <string name="new_rental">发布物品租赁</string>
     <string name="setting">设置</string>
     <string name="about">关于我们</string>
+    <string name="published">个人发布</string>
+    <string name="edit">编辑</string>
 
     <string name="setting_0">编辑个人信息</string>
     <string name="setting_1">查看个人发布</string>

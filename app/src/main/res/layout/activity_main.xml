@@ -18,10 +18,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <LinearLayout
+                android:id="@+id/ll_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:background="@color/wall"
+                >
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:theme="@style/AppTheme.PopupOverlay"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/qmui_config_color_red"
+                    />
+
+            </LinearLayout>
+
             <FrameLayout
                 android:id="@+id/main_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/ll_toolbar"
                 />
 
             <include

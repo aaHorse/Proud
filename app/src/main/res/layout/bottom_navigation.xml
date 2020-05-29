@@ -23,7 +23,6 @@
             android:background="@drawable/tab_item_task_selector"
             android:button="@null"
             android:layout_alignParentStart="true"
-            android:checked="true"
             />
 
         <CheckBox

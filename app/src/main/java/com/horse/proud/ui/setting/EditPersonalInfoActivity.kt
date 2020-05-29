@@ -19,6 +19,10 @@ class EditPersonalInfoActivity : BaseActivity() {
         setContentView(R.layout.activity_edit_personal_info)
     }
 
+    override fun setupViews() {
+        setupToolbar()
+    }
+
     companion object{
 
         fun actionStart(activity: Activity){

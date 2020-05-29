@@ -8,6 +8,15 @@ package com.horse.core.proud
  * */
 interface Const {
 
+    companion object{
+
+        /**
+         * 活动间跳转标志位
+         * */
+        const val ACTIVITY_FLAG = "a_f"
+
+    }
+
     interface Auth {
         companion object {
 
@@ -80,9 +89,5 @@ interface Const {
 
         }
     }
-
-    /**
-     *
-     * */
 
 }
