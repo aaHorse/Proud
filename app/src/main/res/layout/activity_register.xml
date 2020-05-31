@@ -1,114 +1,262 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="viewModel"
             type="com.horse.proud.ui.login.RegisterActivityViewModel" />
     </data>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.login.LoginActivity"
-        android:orientation="vertical"
-        android:background="@drawable/background"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:orientation="horizontal"
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            android:alpha="@dimen/alpha_setting"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".ui.login.LoginActivity"
+            android:orientation="vertical"
+            android:background="@drawable/background"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             >
 
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:src="@mipmap/icon"
-                android:layout_marginLeft="20dp"
-                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal"
+                >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="45dp"
-                android:text="@string/app_name"
-                android:textSize="25sp"
-                android:gravity="center"
-                android:layout_marginLeft="10dp"
-                />
+                <ImageView
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@mipmap/icon"
+                    android:layout_marginLeft="20dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/app_name"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!-- 解决焦点问题 -->
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+
+            <!--姓名-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/name"
+                    />
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="text"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!--学号-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/number"
+                    />
+
+                <EditText
+                    android:id="@+id/et_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="number"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!--密码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/password"
+                    />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="textPassword"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!--确认密码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/password_sure"
+                    />
+
+                <EditText
+                    android:id="@+id/et_repassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:inputType="textPassword"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!--手机号码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/phone_number"
+                    />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    android:inputType="number"
+                    android:layout_marginLeft="10dp"
+                    tools:ignore="LabelFor" />
+
+                <Button
+                    android:id="@+id/edit_phone"
+                    android:layout_width="45dp"
+                    android:layout_height="30dp"
+                    android:text="@string/sure_phone"
+                    android:textColor="@android:color/white"
+                    android:textSize="15sp"
+                    android:background="@drawable/bg_btn_login"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </LinearLayout>
+
+            <!--验证码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:text="@string/comfir"
+                    android:gravity="center"
+                    />
+
+                <me.leefeng.libverify.VerificationView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="45dp"
+                    app:vTextCount="4"
+                    app:vTextSize="20dp"
+                    android:layout_marginHorizontal="10dp"
+                    app:vCursorDrawable="@drawable/cursor_color"
+                    android:id="@+id/verificationView2"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/ok"
+                    />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_verify"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="22dp"
+                android:text="校园卡验证"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:background="@drawable/bg_btn_login"
+                style="?android:attr/borderlessButtonStyle" />
+
+            <Button
+                android:id="@+id/btn_visit"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="22dp"
+                android:text="游客进入"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:background="@drawable/bg_btn_login"
+                style="?android:attr/borderlessButtonStyle" />
+
 
         </LinearLayout>
 
-        <!-- 解决焦点问题 -->
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
-
-        <EditText
-            android:id="@+id/et_name"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/name"
-            android:inputType="text"
-            />
-
-        <EditText
-            android:id="@+id/et_number"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/number"
-            android:inputType="number"
-            />
-
-        <EditText
-            android:id="@+id/et_password"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            />
-
-        <EditText
-            android:id="@+id/et_repassword"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/password_sure"
-            android:inputType="textPassword"
-            />
-
-        <Button
-            android:id="@+id/btn_verify"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="22dp"
-            android:text="校园卡验证"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:background="@drawable/bg_btn_login"
-            style="?android:attr/borderlessButtonStyle" />
-
-        <Button
-            android:id="@+id/btn_visit"
-            android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:layout_marginTop="22dp"
-            android:text="游客进入"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:background="@drawable/bg_btn_login"
-            style="?android:attr/borderlessButtonStyle" />
-
-
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>
 

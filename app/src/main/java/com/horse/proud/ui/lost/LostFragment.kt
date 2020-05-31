@@ -93,7 +93,6 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
 
     override fun loadFinished() {
         super.loadFinished()
-        ll_bg.alpha = 0.3f
         if (viewModel.lostItems.isEmpty()) {
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),

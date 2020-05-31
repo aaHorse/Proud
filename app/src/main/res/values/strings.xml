@@ -44,10 +44,12 @@
     <!-- 标题栏标题 -->
     <string name="task_activity">发布任务</string>
 
-    <string name="name">输入姓名</string>
-    <string name="number">输入学号</string>
-    <string name="password">输入密码</string>
-    <string name="password_sure">确认密码</string>
+    <string name="name">姓名：</string>
+    <string name="name_des">真实姓名</string>
+    <string name="number">学号：</string>
+    <string name="number_des">真实学号</string>
+    <string name="password">密码：</string>
+    <string name="password_sure">确认密码：</string>
 
     <string name="input_error">输入有误</string>
     <string name="login">登录</string>
@@ -64,6 +66,15 @@
     <string name="press_again_to_exit">再按一次退出%1$s</string>
     <string name="image_failed">图片上传失败</string>
     <string name="drag_map">拖动标记地点</string>
+    
+    <!--编辑个人信息-->
+    <string name="nickname">昵称：</string>
+    <string name="slogen">个性签名：</string>
+    <string name="phone_number">手机号码：</string>
+    <string name="comfir">验证码：</string>
+    <string name="edit_phone">修改</string>
+    <string name="sure_phone">确认</string>
+    <string name="sure">确认修改</string>
 
 
 </resources>

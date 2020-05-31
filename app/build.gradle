@@ -124,5 +124,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 
+    //手机验证码输入框
+    implementation 'com.github.limxing:Kotlin-VerificationView:1.3'
 
 }

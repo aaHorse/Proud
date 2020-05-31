@@ -92,7 +92,6 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
 
     override fun loadFinished() {
         super.loadFinished()
-        ll_bg.alpha = 0.3f
         if (viewModel.taskItems.isEmpty()) {
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
