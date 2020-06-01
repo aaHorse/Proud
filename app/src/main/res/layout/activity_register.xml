@@ -175,6 +175,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/et_phone"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="45dp"
@@ -183,7 +184,7 @@
                     tools:ignore="LabelFor" />
 
                 <Button
-                    android:id="@+id/edit_phone"
+                    android:id="@+id/bt_phone"
                     android:layout_width="45dp"
                     android:layout_height="30dp"
                     android:text="@string/sure_phone"
