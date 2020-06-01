@@ -179,8 +179,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     private fun choicePhotoWrapper(){
         val perms: Array<String> = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-        )
+            Manifest.permission.CAMERA)
         if(EasyPermissions.hasPermissions(this, *perms)){
             val takePhotoDir = File(Proud.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)

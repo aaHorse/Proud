@@ -1,4 +1,4 @@
 rootProject.name='Proud'
-include ':app'
+include ':app', ':ocr_ui'
 include ':core'
 include ':network'

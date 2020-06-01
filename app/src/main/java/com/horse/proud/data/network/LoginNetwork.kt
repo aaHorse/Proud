@@ -1,10 +1,16 @@
 package com.horse.proud.data.network
 
+import com.horse.proud.data.model.login.Token
+import com.horse.proud.data.model.login.WordsResult
 import com.horse.proud.data.model.regist.Register
 import com.horse.proud.data.network.api.LoginService
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -22,6 +28,28 @@ class LoginNetwork {
     suspend fun fetchLogin(number:String,password:String) = service.login(number,password).await()
 
     suspend fun fetchRegister(register: Register) = service.register(register).await()
+
+    suspend fun fetchAccessToken(type:String,ak:String,sk:String): Token {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://aip.baidubce.com/")
+            .client(OkHttpClient.Builder().build())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(LoginService::class.java)
+        return service.getAccessToken(type,ak,sk).await()
+    }
+
+    suspend fun fetchPhotoToWords(token:String,image:String):WordsResult{
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://aip.baidubce.com/")
+            .client(OkHttpClient.Builder().build())
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val service = retrofit.create(LoginService::class.java)
+        return service.photoToWords(token, image).await()
+    }
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

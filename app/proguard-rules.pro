@@ -29,3 +29,6 @@
 -keep   class com.amap.api.trace.**{*;}
 
 -keep   class com.amap.api.services.**{*;}
+
+-keep class com.baidu.ocr.sdk.**{*;}
+-dontwarn com.baidu.ocr.**

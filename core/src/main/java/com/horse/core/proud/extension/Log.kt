@@ -52,6 +52,12 @@ fun Any.logError(msg: String?, tr: Throwable) {
     }
 }
 
+fun Any.logError(tag: String?, msg: String?) {
+    if (level <= ERROR) {
+        Log.i(tag, msg.toString())
+    }
+}
+
 fun logVerbose(tag: String, msg: String?) {
     if (level <= VERBOSE) {
         Log.v(tag, msg.toString())

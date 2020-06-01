@@ -1,5 +1,6 @@
 package com.horse.proud.data
 
+import com.horse.proud.data.model.login.Token
 import com.horse.proud.data.model.regist.Register
 import com.horse.proud.data.network.LoginNetwork
 import com.horse.proud.data.network.LostNetwork
@@ -20,6 +21,14 @@ class LoginRepository private constructor(private val network: LoginNetwork){
 
     suspend fun register(register: Register) = withContext(Dispatchers.IO){
         network.fetchRegister(register)
+    }
+
+    suspend fun getAccessToken(type:String,ak:String,sk:String) = withContext(Dispatchers.IO){
+        network.fetchAccessToken(type,ak,sk)
+    }
+
+    suspend fun photoToWords(token: String,image:String) = withContext(Dispatchers.IO){
+        network.fetchPhotoToWords(token, image)
     }
 
     companion object{

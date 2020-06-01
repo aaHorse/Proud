@@ -6,8 +6,10 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.horse.core.proud.Const
-import com.horse.core.proud.util.SharedUtil
+import com.baidu.ocr.sdk.OCR
+import com.baidu.ocr.sdk.OnResultListener
+import com.baidu.ocr.sdk.exception.OCRError
+import com.baidu.ocr.sdk.model.AccessToken
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
@@ -46,9 +48,7 @@ class LoginActivity : AuthActivity(){
 
     override fun setupViews() {
         tv_register_account.setOnClickListener {
-            RegisterActivity.actionStart(
-                this
-            )
+            RegisterActivity.actionStart(this)
         }
         btn_login.setOnClickListener {
             viewModel.login(number.text.toString(),password.text.toString())
@@ -67,6 +67,7 @@ class LoginActivity : AuthActivity(){
             saveAuthData(viewModel.login.data,name)
             forwardToMainActivity()
         })
+
     }
 
     /**
