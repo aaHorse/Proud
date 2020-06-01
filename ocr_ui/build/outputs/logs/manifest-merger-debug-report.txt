@@ -1,0 +1,59 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:4:1-22:12
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:4:1-22:12
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:4:1-22:12
+	package
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:5:11-37
+		INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+		INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:4:11-69
+uses-permission#android.permission.CAMERA
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:7:5-64
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:7:22-62
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:8:5-79
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:8:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:9:5-80
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:9:22-78
+uses-feature#android.hardware.camera2.full
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:10:5-65
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:10:19-63
+uses-feature#android.hardware.camera
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:11:5-59
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:11:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:12:5-70
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:12:19-67
+application
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:14:5-20:19
+activity#com.baidu.ocr.ui.camera.CameraActivity
+ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:16:9-18:79
+	android:configChanges
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:17:13-59
+	android:theme
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:18:13-77
+	android:name
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:16:19-72
+uses-sdk
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+		INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+		ADDED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+		INJECTED from E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml

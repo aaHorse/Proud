@@ -1,0 +1,44 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--   ~ Copyright (C) 2017 Baidu, Inc. All Rights Reserved. -->
+3<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+4    package="com.baidu.ocr.ui" >
+5
+6    <uses-sdk
+7        android:minSdkVersion="19"
+7-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+8        android:targetSdkVersion="26" />
+8-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml
+9
+10    <uses-permission android:name="android.permission.CAMERA" />
+10-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:7:5-64
+10-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:7:22-62
+11    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+11-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:8:5-79
+11-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:8:22-77
+12    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+12-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:9:5-80
+12-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:9:22-78
+13
+14    <uses-feature android:name="android.hardware.camera2.full" />
+14-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:10:5-65
+14-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:10:19-63
+15    <uses-feature android:name="android.hardware.camera" />
+15-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:11:5-59
+15-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:11:19-57
+16    <uses-feature android:name="android.hardware.camera.autofocus" />
+16-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:12:5-70
+16-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:12:19-67
+17
+18    <application>
+18-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:14:5-20:19
+19        <activity
+19-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:16:9-18:79
+20            android:name="com.baidu.ocr.ui.camera.CameraActivity"
+20-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:16:19-72
+21            android:configChanges="screenSize|orientation"
+21-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:17:13-59
+22            android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" />
+22-->E:\better\Proud\ocr_ui\src\main\AndroidManifest.xml:18:13-77
+23    </application>
+24
+25</manifest>
