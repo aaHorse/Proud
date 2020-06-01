@@ -8,6 +8,7 @@ import com.horse.proud.data.network.LoginNetwork
 import com.horse.proud.data.network.LostNetwork
 import com.horse.proud.data.network.RentalNetwork
 import com.horse.proud.data.network.TaskNetwork
+import com.horse.proud.ui.login.ForgetPasswordActivityViewModelFactory
 import com.horse.proud.ui.login.LoginActivityViewModelFactory
 import com.horse.proud.ui.login.RegisterActivityViewModelFactory
 import com.horse.proud.ui.lost.FoundActivityViewModelFactory
@@ -27,6 +28,10 @@ val appModule = module {
 
     factory{
         RegisterActivityViewModelFactory(LoginRepository.getInstance(LoginNetwork.getInstance()))
+    }
+
+    factory{
+        ForgetPasswordActivityViewModelFactory(LoginRepository.getInstance(LoginNetwork.getInstance()))
     }
 
     factory{

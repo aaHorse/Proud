@@ -6,10 +6,6 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.baidu.ocr.sdk.OCR
-import com.baidu.ocr.sdk.OnResultListener
-import com.baidu.ocr.sdk.exception.OCRError
-import com.baidu.ocr.sdk.model.AccessToken
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
@@ -34,9 +30,6 @@ class LoginActivity : AuthActivity(){
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(LoginActivityViewModel::class.java) }
 
-    /**
-     * 迫不得已，在这里获取name
-     * */
     private var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +45,9 @@ class LoginActivity : AuthActivity(){
         }
         btn_login.setOnClickListener {
             viewModel.login(number.text.toString(),password.text.toString())
+        }
+        tv_forget_password.setOnClickListener {
+            ForgetPasswordActivity.actionStart(this)
         }
         observe()
     }

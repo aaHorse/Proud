@@ -3,13 +3,9 @@ package com.horse.proud.ui.login
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
-import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.baidu.ocr.sdk.OCR
 import com.baidu.ocr.sdk.OnResultListener
@@ -21,47 +17,36 @@ import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
-import com.horse.core.proud.util.AndroidVersion
 import com.horse.proud.R
 import com.horse.proud.data.model.login.WordsResult
 import com.horse.proud.data.model.regist.Register
-import com.horse.proud.databinding.ActivityRegisterBinding
-import com.horse.proud.event.RegisterSucceedEvent
+import com.horse.proud.databinding.ActivityForgetPasswordBinding
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.util.FileUtil
 import com.horse.proud.util.RecognizeService
-import kotlinx.android.synthetic.main.activity_register.*
-import org.greenrobot.eventbus.EventBus
-import org.json.JSONObject
+import kotlinx.android.synthetic.main.activity_forget_password.*
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
-import java.io.File
-import java.io.IOException
 
 /**
- * 注册界面
+ * 忘记密码界面
  *
  * @author liliyuan
- * @since 2020年5月2日14:21:59
+ * @since 2020年6月1日19:34:14
  * */
-class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
+class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
 
-    private val viewModelFactory by inject<RegisterActivityViewModelFactory>()
+    private val viewModelFactory by inject<ForgetPasswordActivityViewModelFactory>()
 
-    val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(RegisterActivityViewModel::class.java) }
+    val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(ForgetPasswordActivityViewModel::class.java) }
 
     private val register = Register()
 
-    /**
-     * 校园卡拍照验证的图片的临时地址
-     * */
-    private var photoUri: Uri? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = DataBindingUtil.setContentView<ActivityRegisterBinding>(this,R.layout.activity_register)
+        val binding = DataBindingUtil.setContentView<ActivityForgetPasswordBinding>(this,R.layout.activity_forget_password)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
     }
@@ -125,12 +110,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
     }
 
     private fun observe(){
-        viewModel.dataChanged.observe(this, Observer {
-            var event = RegisterSucceedEvent()
-            event.register = register
-            EventBus.getDefault().post(event)
-            finish()
-        })
+        //
     }
 
     /**
@@ -150,7 +130,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
             override fun onError(error: OCRError) {
                 logError(TAG,error)
             }
-        },Proud.getContext())
+        }, Proud.getContext())
     }
 
     /**
@@ -165,7 +145,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         var i3 = 1
         //福，匹配1次,事实有2次，为了提高匹配度，只验证一个
         var i4 = 1
-        val bean = Gson().fromJson(result,WordsResult::class.java)
+        val bean = Gson().fromJson(result, WordsResult::class.java)
         for(item in bean.resultList){
             with(item){
                 if(words.matches(Regex(".*福州大学.*"))){
@@ -187,8 +167,6 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         }
         if(i1+i2+i3+i4 <= 0){
             showToast("认证成功")
-            //连接服务器，注册
-            viewModel.register(register)
         }else{
             showToast("认证失败")
         }
@@ -238,7 +216,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
 
     companion object{
 
-        private const val TAG = "RegisterActivity"
+        private const val TAG = "ForgetPasswordActivity"
 
         /**
          * 图片识别回调
@@ -252,8 +230,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
 
 
         fun actionStart(activity: Activity){
-            val intent = Intent(activity,
-                RegisterActivity::class.java)
+            val intent = Intent(activity, ForgetPasswordActivity::class.java)
             activity.startActivity(intent)
         }
 
