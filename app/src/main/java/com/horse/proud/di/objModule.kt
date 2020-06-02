@@ -1,13 +1,9 @@
 package com.horse.proud.di
 
-import com.horse.proud.data.LoginRepository
-import com.horse.proud.data.LostRepository
-import com.horse.proud.data.RentalRepository
-import com.horse.proud.data.TaskRepository
-import com.horse.proud.data.network.LoginNetwork
-import com.horse.proud.data.network.LostNetwork
-import com.horse.proud.data.network.RentalNetwork
-import com.horse.proud.data.network.TaskNetwork
+import com.horse.proud.data.*
+import com.horse.proud.data.network.*
+import com.horse.proud.ui.init.SplashActivityViewModel
+import com.horse.proud.ui.init.SplashActivityViewModelFactory
 import com.horse.proud.ui.login.ForgetPasswordActivityViewModelFactory
 import com.horse.proud.ui.login.LoginActivityViewModelFactory
 import com.horse.proud.ui.login.RegisterActivityViewModelFactory
@@ -21,6 +17,10 @@ import com.horse.proud.ui.task.TaskFragmentViewModelFactory
 import org.koin.dsl.module
 
 val appModule = module {
+
+    factory{
+        SplashActivityViewModelFactory(SplashRepository.getInstance(SplashNetWork.getInstance()))
+    }
 
     factory{
         LoginActivityViewModelFactory(LoginRepository.getInstance(LoginNetwork.getInstance()))

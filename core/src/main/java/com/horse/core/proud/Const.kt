@@ -11,9 +11,14 @@ interface Const {
     companion object{
 
         /**
-         * 活动间跳转标志位
+         * 活动间跳转，标志位
          * */
         const val ACTIVITY_FLAG = "a_f"
+
+        /**
+         * 活动间跳转，内容标志
+         * */
+        const val ACTIVITY_CONTENT = "a_c"
 
     }
 

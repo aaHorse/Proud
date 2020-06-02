@@ -4,10 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter
@@ -21,15 +18,18 @@ import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.model.other.CommentItem
 import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.ViewLocationActivity
+import com.horse.proud.ui.task.TaskActivity
 import com.horse.proud.ui.task.TaskFragment
 import com.horse.proud.util.DateUtil
 import com.horse.proud.widget.SeeMoreView
+import com.qmuiteam.qmui.widget.dialog.QMUIDialog
 import kotlinx.android.synthetic.main.item_task.view.*
 import org.greenrobot.eventbus.EventBus
 
@@ -37,10 +37,10 @@ import org.greenrobot.eventbus.EventBus
  * @author liliyuan
  * @since 2020年4月30日19:00:15
  * */
-class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerView: RecyclerView?) : BGARecyclerViewAdapter<TaskItem>(recyclerView, R.layout.item_task) {
+class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: RecyclerView?) : BGARecyclerViewAdapter<TaskItem>(recyclerView, R.layout.item_task) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BGARecyclerViewHolder {
-        mInflater = LayoutInflater.from(taskFragment.context)
+        mInflater = LayoutInflater.from(fragment.context)
         return super.onCreateViewHolder(parent, viewType)
     }
 
@@ -48,9 +48,9 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
 
         var adapter:CommentAdapter ?= null
 
-        Glide.with(taskFragment.requireContext()).load(R.drawable.avatar_default)
+        Glide.with(fragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(helper.getImageView(R.id.avatar));
+            .into(helper.getImageView(R.id.avatar))
 
         if(item.title.isNotEmpty()){
             helper.setText(R.id.text, item.title)
@@ -68,6 +68,30 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
             done.setTextColor(Color.parseColor("#19CAAD"))
         }
 
+        if(fragment.activity.flag!=0){
+            with(helper.getImageView(R.id.more)){
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    val items = arrayOf(
+                        GlobalUtil.getString(R.string.edit_personal),
+                        GlobalUtil.getString(R.string.delete_personal))
+                    QMUIDialog.MenuDialogBuilder(fragment.context)
+                        .addItems(items) { dialog, which ->
+                            dialog.dismiss()
+                            when(which){
+                                0 -> {
+                                    showToast("编辑")
+                                    TaskActivity.actionStart(fragment.activity,item)
+                                }
+                                1 -> {
+                                    showToast("删除")
+                                }
+                            }
+                        }.create(R.style.MenuDialog).show()
+                }
+            }
+        }
+
         if(item.startTime.isNotEmpty()){
             helper.getTextView(R.id.publish_time).text = item.startTime
         }
@@ -78,14 +102,15 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
 
         item.image?.let {
             val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
-            ninePhotoLayout.setDelegate(taskFragment)
+            ninePhotoLayout.setDelegate(fragment)
             val photos = ArrayList<String>()
             photos.add(item.image!!)
+            logWarn(TAG,photos[0])
             ninePhotoLayout.data = photos
         }
 
 
-        helper.getImageView(R.id.iv_local).setOnClickListener {
+        helper.getView<LinearLayout>(R.id.ll_local).setOnClickListener {
             if(item.location.isEmpty()){
                 showToast("该任务未标记地点")
             }else{
@@ -95,7 +120,7 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
                 if(locations.size == 2){
                     val latitude:Double = locations[0].toDouble()
                     val longitude:Double = locations[1].toDouble()
-                    ViewLocationActivity.actionStartForResult(latitude,longitude,taskFragment.activity,1)
+                    ViewLocationActivity.actionStartForResult(latitude,longitude,fragment.activity,1)
                 }else{
                     showToast("该地点暂时无法查看")
                 }
@@ -130,7 +155,7 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
             if(types.isNotEmpty()){
                 var rvType:RecyclerView = helper.getView(R.id.rv_type)
                 rvType.setHasFixedSize(true)
-                var linearLayoutManager = LinearLayoutManager(taskFragment.context)
+                var linearLayoutManager = LinearLayoutManager(fragment.context)
                 linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
                 rvType.layoutManager = linearLayoutManager
                 rvType.adapter = TypeAdapter(types)
@@ -143,7 +168,7 @@ class TaskAdapter(private val taskFragment:TaskFragment, private var recyclerVie
         item.comments?.let {
             val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
             rvComment.setHasFixedSize(true)
-            rvComment.layoutManager = LinearLayoutManager(taskFragment.context)
+            rvComment.layoutManager = LinearLayoutManager(fragment.context)
             adapter = CommentAdapter(it.commentList)
             rvComment.adapter = adapter
             helper.getTextView(R.id.tv_comment).text = "${it.commentList.size}"

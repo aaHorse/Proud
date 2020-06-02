@@ -14,7 +14,7 @@ open class Response {
     var status:Int = 600
 
     @SerializedName("msg")
-    lateinit var msg:String
+    var msg:String = ""
 
     /**
      * 上传图片用，成功返回 “1000”

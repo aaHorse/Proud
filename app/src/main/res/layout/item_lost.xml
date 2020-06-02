@@ -56,25 +56,47 @@
                     tools:ignore="SpUsage" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/done"
+            <LinearLayout
+                android:id="@+id/ll_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/item_tv_size_3"
-                android:layout_alignParentRight="true">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/item_tv_size_3"
                 android:layout_alignParentRight="true"
-                android:layout_below="@+id/done"
+                android:orientation="horizontal"
                 >
 
-            </TextView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="right"
+                    >
+
+                    <TextView
+                        android:id="@+id/done"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/item_tv_size_3"
+                        />
+
+                    <TextView
+                        android:id="@+id/end"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/item_tv_size_3"
+                        />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/more"
+                    android:layout_width="@dimen/item_iv_icon"
+                    android:layout_height="@dimen/item_iv_icon"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/more"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
@@ -113,21 +135,28 @@
             android:layout_marginTop="@dimen/size_2"
             >
 
-            <ImageView
-                android:id="@+id/iv_local"
-                android:layout_width="@dimen/item_iv_icon"
-                android:layout_height="@dimen/item_iv_icon"
-                android:src="@drawable/local_click"
-                />
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/ll_local"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/item_iv_icon"
-                android:text="@string/position"
-                android:layout_toRightOf="@id/iv_local"
-                android:gravity="center"
-                android:textSize="@dimen/item_tv_size_4"
-                />
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="@dimen/item_iv_icon"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/local_click"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/position"
+                    android:gravity="center"
+                    android:textSize="@dimen/item_tv_size_4"
+                    />
+
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/iv_comment"

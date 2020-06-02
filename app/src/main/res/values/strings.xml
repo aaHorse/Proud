@@ -39,6 +39,9 @@
     <string name="setting_1">查看个人发布</string>
     <string name="setting_2">退出登录</string>
 
+    <string name="edit_personal">编辑</string>
+    <string name="delete_personal">删除</string>
+
 
     <string name="publish">发表</string>
 
@@ -50,6 +53,7 @@
     <string name="number">学号：</string>
     <string name="number_des">真实学号</string>
     <string name="password">密码：</string>
+    <string name="new_password">新密码：</string>
     <string name="password_sure">确认密码：</string>
 
     <string name="input_error">输入有误</string>

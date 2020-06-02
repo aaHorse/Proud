@@ -62,20 +62,35 @@ class TaskItem : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-//        dest.writeString(name)
-//        dest.writeString(content)
-//        dest.writeStringList(photos)
+        dest.writeString(id)
+        dest.writeInt(userId)
+        dest.writeString(title)
+        dest.writeString(content)
+        dest.writeString(image)
+        dest.writeString(label)
+        dest.writeString(location)
+        dest.writeInt(done)
+        dest.writeString(startTime)
+        dest.writeString(endTime)
     }
 
     constructor() {}
 
-    protected constructor(parcel: Parcel) {
-//        content = parcel.readString()
-//        photos = parcel.createStringArrayList() as ArrayList<String>
+    constructor(parcel: Parcel) {
+        id = parcel.readString() ?: ""
+        userId = parcel.readInt()
+        title = parcel.readString() ?: ""
+        content = parcel.readString() ?: ""
+        image = parcel.readString() ?: ""
+        label = parcel.readString() ?: ""
+        location = parcel.readString() ?: ""
+        done = parcel.readInt()
+        startTime = parcel.readString() ?: ""
+        endTime = parcel.readString() ?: ""
     }
 
     companion object {
-        val CREATOR: Parcelable.Creator<TaskItem?> = object : Parcelable.Creator<TaskItem?> {
+        @JvmField val CREATOR: Parcelable.Creator<TaskItem?> = object : Parcelable.Creator<TaskItem?> {
             override fun createFromParcel(source: Parcel): TaskItem? {
                 return TaskItem(source)
             }

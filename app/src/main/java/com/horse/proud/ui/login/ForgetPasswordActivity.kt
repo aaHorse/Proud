@@ -26,6 +26,14 @@ import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.util.FileUtil
 import com.horse.proud.util.RecognizeService
 import kotlinx.android.synthetic.main.activity_forget_password.*
+import kotlinx.android.synthetic.main.activity_forget_password.bt_phone
+import kotlinx.android.synthetic.main.activity_forget_password.btn_verify
+import kotlinx.android.synthetic.main.activity_forget_password.comfir
+import kotlinx.android.synthetic.main.activity_forget_password.et_name
+import kotlinx.android.synthetic.main.activity_forget_password.et_number
+import kotlinx.android.synthetic.main.activity_forget_password.et_password
+import kotlinx.android.synthetic.main.activity_forget_password.et_phone
+import kotlinx.android.synthetic.main.activity_forget_password.et_repassword
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
@@ -85,9 +93,6 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
             if(checkPermission()){
                 initAccessToken()
             }
-        }
-        btn_visit.setOnClickListener {
-            MainActivity.actionStart(this)
         }
         observe()
     }

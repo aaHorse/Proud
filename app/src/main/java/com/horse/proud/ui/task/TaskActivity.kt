@@ -19,9 +19,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
+import com.horse.proud.data.model.task.TaskItem
 import com.horse.proud.databinding.ActivityTaskBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
@@ -38,6 +40,7 @@ import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
 import java.util.*
 import org.koin.android.ext.android.inject
+import kotlin.collections.ArrayList
 
 
 /**
@@ -49,6 +52,18 @@ import org.koin.android.ext.android.inject
 class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     BGASortableNinePhotoLayout.Delegate {
 
+    /**
+     * 区分当前页面的状态
+     * 0：新增
+     * 1：编辑
+     * */
+    var flag = 0
+
+    /**
+     * 编辑状态，页面持有的信息对象
+     * */
+    var item: TaskItem?=null
+
     private val viewModelFactory by inject<TaskActivityViewModelFactory>()
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(TaskActivityViewModel::class.java) }
@@ -59,6 +74,15 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
         )
+
+        flag = intent.getIntExtra(Const.ACTIVITY_FLAG,0)
+        if (flag!=0){
+            item = intent.getParcelableExtra(Const.ACTIVITY_CONTENT)
+        }
+
+        /*
+        * 这里的$setContentView会调用BaseActivity的$setContentView方法!!!
+        * */
         val binding = DataBindingUtil.setContentView<ActivityTaskBinding>(this,R.layout.activity_task)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -68,10 +92,16 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         setupToolbar()
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
+        val selected = ArrayList<String>()
+        if(item?.image != null){
+            selected.add(item?.image!!)
+            snpl_moment_add_photos.data = selected
+            logWarn(TAG,selected[0])
+        }
         setOnClickListener()
         Glide.with(this).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(avatar);
+            .into(avatar)
     }
 
     override fun onLoad() {
@@ -109,7 +139,14 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
                     viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
                 }
                 RC_PHOTO_PREVIEW ->{
-                    snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)
+                    val selected = ArrayList<String>()
+                    if(item?.image != null){
+                        selected.add(item?.image!!)
+                    }
+                    for(item in BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)){
+                        selected.add(item)
+                    }
+                    snpl_moment_add_photos.data = selected
                 }
                 LOCATION_FOT_RESULT ->{
                     iv_local.setImageResource(R.drawable.local_click)
@@ -162,15 +199,14 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+        grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     //-------------------------------------EasyPermissions----------------------
 
-    //-------------------------------------选择图片------------------------------
+    //-------------------------------------图片------------------------------
 
     /**
      * 选择图片
@@ -184,7 +220,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             val takePhotoDir = File(Proud.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
-                .maxChooseCount(1)
+                .maxChooseCount(9)
                 .selectedPhotos(null)//当前已选择图片的集合
                 .pauseOnScroll(false)//滚动列表时，是否暂停加载图片
                 .build()
@@ -194,8 +230,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
                 this,
                 "图片选择需要以下权限:\n\n1.访问设备上的照片\n\n2.拍照",
                 PRC_PHOTO_PICKER,
-                *perms
-            )
+                *perms)
         }
     }
 
@@ -204,8 +239,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         view: View?,
         position: Int,
         model: String?,
-        models: ArrayList<String>?
-    ) {
+        models: ArrayList<String>?) {
         //预览图片
         var photoPickerPreviewIntent:Intent = BGAPhotoPickerPreviewActivity.IntentBuilder(this)
             .previewPhotos(models)
@@ -221,8 +255,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         sortableNinePhotoLayout: BGASortableNinePhotoLayout?,
         view: View?,
         position: Int,
-        models: ArrayList<String>?
-    ) {
+        models: ArrayList<String>?) {
         choicePhotoWrapper()
     }
 
@@ -230,8 +263,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         sortableNinePhotoLayout: BGASortableNinePhotoLayout?,
         fromPosition: Int,
         toPosition: Int,
-        models: ArrayList<String>?
-    ) {
+        models: ArrayList<String>?) {
         showToast("你调整了图片的顺序！")
     }
 
@@ -240,12 +272,11 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         view: View?,
         position: Int,
         model: String?,
-        models: ArrayList<String>?
-    ) {
+        models: ArrayList<String>?) {
         snpl_moment_add_photos.removeItem(position)
     }
 
-    //-------------------------------------选择图片------------------------------
+    //-------------------------------------图片------------------------------
 
     //-------------------------------------定位----------------------------------
 
@@ -319,23 +350,46 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
 
         private const val TAG = "TaskActivity"
 
-        //申请相册权限回调标志
+        /**
+         * 申请相册权限回调标志
+         * */
         private const val PRC_PHOTO_PICKER: Int = 1
 
-        //点击选择图片，用的回调
+        /**
+         * 点击选择图片，用的回调
+         * */
         private const val RC_CHOOSE_PHOTO: Int = 1
 
-        //点击预览图片，用的回调
+        /**
+         * 点击预览图片，用的回调
+         * */
         private const val RC_PHOTO_PREVIEW: Int = 2
 
-        //定位权限
+        /**
+         * 定位权限
+         * */
         private const val LOCATION: Int = 3
 
-        //定位请求码
+        /**
+         * 定位请求码
+         * */
         private const val LOCATION_FOT_RESULT = 4
 
+        /**
+         * 新增
+         * */
         fun actionStart(activity: Activity){
             val intent = Intent(activity,TaskActivity::class.java)
+            activity.startActivity(intent)
+        }
+
+        /**
+         * 编辑
+         * */
+        fun actionStart(activity:Activity,item:TaskItem){
+            val intent = Intent(activity,TaskActivity::class.java)
+            intent.putExtra(Const.ACTIVITY_FLAG,1)
+            intent.putExtra(Const.ACTIVITY_CONTENT,item)
             activity.startActivity(intent)
         }
 

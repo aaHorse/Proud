@@ -145,7 +145,7 @@ abstract class BaseItemsFragment : BaseFragment(){
 
     fun scrollToTop() {
         if (adapter.itemCount != 0) {
-            recyclerView.smoothScrollToPosition(0)
+            //recyclerView.smoothScrollToPosition(0)
         }
     }
 
