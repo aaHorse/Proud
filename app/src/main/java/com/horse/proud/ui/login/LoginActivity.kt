@@ -90,12 +90,8 @@ class LoginActivity : AuthActivity(){
         @JvmStatic
         val INTENT_VERSION = "intent_version"
 
-        fun actionStart(activity: Activity,hasNewVersion:Boolean,version: Version?){
-            val intent = Intent(activity,
-                LoginActivity::class.java).apply {
-                putExtra(INTENT_HAS_NEW_VERSION,hasNewVersion)
-                putExtra(INTENT_VERSION,version)
-            }
+        fun actionStart(activity: Activity){
+            val intent = Intent(activity, LoginActivity::class.java)
             activity.startActivity(intent)
         }
 

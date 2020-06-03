@@ -14,6 +14,7 @@
     <string name="no_route_to_host">无法连接到服务器</string>
     <string name="network_response_code_error">服务器状态码异常：</string>
     <string name="bad_network_view_tip">您的网络不给力，点击屏幕可重新加载</string>
+    <string name="water_str">太. . .太强了</string>
 
     <!-- 导航栏 -->
     <string name="tab_item_task_text">任务查看</string>

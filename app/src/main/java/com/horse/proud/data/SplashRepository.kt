@@ -12,8 +12,8 @@ import kotlinx.coroutines.withContext
  * */
 class SplashRepository private constructor(private val network: SplashNetWork){
 
-    suspend fun checkNewVersion() = withContext(Dispatchers.IO){
-        network.fetchCheckNewVersion()
+    suspend fun checkNewVersion(tempVersion:String) = withContext(Dispatchers.IO){
+        network.fetchCheckNewVersion(tempVersion)
     }
 
     companion object{

@@ -16,20 +16,25 @@ import kotlinx.coroutines.launch
  * */
 class SplashActivityViewModel(private val respository:SplashRepository):ViewModel() {
 
+    var flag:Int = 0
+
     var newVersoinPath = MutableLiveData<String>()
+
+    var noNewVersion = MutableLiveData<Int>()
 
     fun checkNewVersion(){
         launch({
-            var result = respository.checkNewVersion()
+            var result = respository.checkNewVersion("${GlobalUtil.appVersionCode}")
             if(result.status == 100){
                 //有新版本
-                if(GlobalUtil.appVersionName != result.msg){
-                    newVersoinPath.value = result.data
-                }
+                newVersoinPath.value = result.data
+            }else{
+                noNewVersion.value = flag ++
             }
         },{
             showToast(GlobalUtil.getString(R.string.unknown_error))
             logError(TAG,it)
+            noNewVersion.value = flag ++
         })
     }
 

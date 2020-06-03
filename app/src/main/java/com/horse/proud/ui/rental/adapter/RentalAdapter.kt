@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -25,6 +26,7 @@ import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.common.ViewLocationActivity
+import com.horse.proud.ui.rental.RentalActivity
 import com.horse.proud.ui.rental.RentalFragment
 import com.horse.proud.util.DateUtil
 import com.horse.proud.widget.SeeMoreView
@@ -82,6 +84,7 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
                             when(which){
                                 0 -> {
                                     showToast("编辑")
+                                    RentalActivity.actionStart(fragment.activity,item)
                                 }
                                 1 -> {
                                     showToast("删除")
@@ -101,11 +104,14 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
         }
 
         item.image?.let {
-            val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
-            ninePhotoLayout.setDelegate(fragment)
-            val photos = ArrayList<String>()
-            photos.add(item.image!!)
-            ninePhotoLayout.data = photos
+            if(item.image!!.isNotEmpty()){
+                val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
+                ninePhotoLayout.setDelegate(fragment)
+                val photos = ArrayList<String>()
+                photos.add(item.image!!)
+                logWarn(TAG,photos[0])
+                ninePhotoLayout.data = photos
+            }
         }
 
         helper.getView<LinearLayout>(R.id.ll_local).setOnClickListener {
@@ -166,9 +172,12 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
             val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
             rvComment.setHasFixedSize(true)
             rvComment.layoutManager = LinearLayoutManager(fragment.context)
-            adapter = CommentAdapter(it.commentList)
+            if(it.commentList == null){
+                it.commentList = ArrayList()
+            }
+            adapter = CommentAdapter(it.commentList!!)
             rvComment.adapter = adapter
-            helper.getTextView(R.id.tv_comment).text = "${it.commentList.size}"
+            helper.getTextView(R.id.tv_comment).text = "${it.commentList!!.size}"
         }
 
         helper.getView<Button>(R.id.send).setOnClickListener {
@@ -185,7 +194,7 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
                 event.comment = comment
                 EventBus.getDefault().post(event)
 
-                item.comments!!.commentList.add(comment)
+                item.comments!!.commentList!!.add(comment)
                 if(adapter!=null){
                     helper.getView<EditText>(R.id.et_comment).setText("")
                     notifyItemChanged(position)
@@ -249,6 +258,8 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
     companion object{
 
         lateinit var mInflater:LayoutInflater
+
+        private const val TAG = "RentalAdapter"
 
     }
 

@@ -241,7 +241,7 @@ open class BaseActivity : AppCompatActivity(), RequestLifecycle {
             if (isActive) { // 判断Activity是否在前台，防止非前台的Activity也处理这个事件，造成打开多个LoginActivity的问题。
                 // force to login
                 ActivityCollector.finishAll()
-                LoginActivity.actionStart(this, false, null)
+                LoginActivity.actionStart(this)
             }
         }
     }

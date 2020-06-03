@@ -23,9 +23,9 @@ class LoginActivityViewModel(private val respository:LoginRepository):ViewModel(
 
     lateinit var login:Login
 
-    fun login(number:String?,password:String?) {
+    fun login(number:String,password:String) {
         launch ({
-            if(number.isNullOrBlank()||password.isNullOrBlank()){
+            if(number.isBlank()||password.isBlank()){
                 showToast(GlobalUtil.getString(R.string.input_error))
             }else{
                 login = respository.login(number,password)

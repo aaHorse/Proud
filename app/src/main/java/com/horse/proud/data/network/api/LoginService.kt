@@ -23,11 +23,4 @@ interface LoginService {
     @POST("api/user/register")
     fun register(@Body register:Register): Call<Response>
 
-    @GET("oauth/2.0/token")
-    fun getAccessToken(@Query("grant_type")type:String,@Query("client_id")ak:String,@Query("client_secret")sk:String): Call<Token>
-
-    @FormUrlEncoded
-    @POST("rest/2.0/ocr/v1/handwriting")
-    fun photoToWords(@Field("access_token")token:String,@Field("image")image:String): Call<WordsResult>
-
 }

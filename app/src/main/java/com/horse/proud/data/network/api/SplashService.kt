@@ -3,6 +3,7 @@ package com.horse.proud.data.network.api
 import com.horse.proud.data.model.init.CheckNewVersion
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 /**
  * @author liliyuan
@@ -11,6 +12,6 @@ import retrofit2.http.GET
 interface SplashService {
 
     @GET("api/edition/checkForNew")
-    fun checkNewVersion(): Call<CheckNewVersion>
+    fun checkNewVersion(@Query("edition")tempVersion:String): Call<CheckNewVersion>
 
 }

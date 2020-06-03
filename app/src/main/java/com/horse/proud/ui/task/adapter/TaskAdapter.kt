@@ -101,12 +101,14 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
         }
 
         item.image?.let {
-            val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
-            ninePhotoLayout.setDelegate(fragment)
-            val photos = ArrayList<String>()
-            photos.add(item.image!!)
-            logWarn(TAG,photos[0])
-            ninePhotoLayout.data = photos
+            if(item.image!!.isNotEmpty()){
+                val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
+                ninePhotoLayout.setDelegate(fragment)
+                val photos = ArrayList<String>()
+                photos.add(item.image!!)
+                logWarn(TAG,photos[0])
+                ninePhotoLayout.data = photos
+            }
         }
 
 
@@ -169,9 +171,12 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
             val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
             rvComment.setHasFixedSize(true)
             rvComment.layoutManager = LinearLayoutManager(fragment.context)
-            adapter = CommentAdapter(it.commentList)
+            if(it.commentList == null){
+                it.commentList = ArrayList()
+            }
+            adapter = CommentAdapter(it.commentList!!)
             rvComment.adapter = adapter
-            helper.getTextView(R.id.tv_comment).text = "${it.commentList.size}"
+            helper.getTextView(R.id.tv_comment).text = "${it.commentList!!.size}"
         }
 
         helper.getView<Button>(R.id.send).setOnClickListener {
@@ -188,7 +193,7 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
                 event.comment = comment
                 EventBus.getDefault().post(event)
 
-                item.comments!!.commentList.add(comment)
+                item.comments!!.commentList!!.add(comment)
                 if(adapter!=null){
                     helper.getView<EditText>(R.id.et_comment).setText("")
                     notifyItemChanged(position)

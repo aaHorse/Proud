@@ -19,9 +19,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
+import com.horse.proud.data.model.lost.LostItem
 import com.horse.proud.databinding.ActivityLostBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.LikeEvent
@@ -53,6 +55,18 @@ import java.util.ArrayList
 class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.PermissionCallbacks,
     BGASortableNinePhotoLayout.Delegate {
 
+    /**
+     * 区分当前页面的状态
+     * 0：新增
+     * 1：编辑
+     * */
+    var flag = 0
+
+    /**
+     * 编辑状态，页面持有的信息对象
+     * */
+    lateinit var item: LostItem
+
     private val viewModelFactory by inject<LostActivityViewModelFactory>()
 
     val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(LostActivityViewModel::class.java) }
@@ -63,6 +77,12 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
             WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
         )
+
+        flag = intent.getIntExtra(Const.ACTIVITY_FLAG,0)
+        if (flag!=0){
+            item = intent.getParcelableExtra(Const.ACTIVITY_CONTENT)!!
+        }
+
         val binding = DataBindingUtil.setContentView<ActivityLostBinding>(this,R.layout.activity_lost)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -72,6 +92,14 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         setupToolbar()
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
+        item.image?.run {
+            if(this.isNotEmpty()){
+                val selected = ArrayList<String>()
+                selected.add(item.image!!)
+                snpl_moment_add_photos.data = selected
+                logWarn(TAG,selected[0])
+            }
+        }
         setOnClickListener()
         Glide.with(this).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
@@ -324,7 +352,7 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         private const val TAG = "LostActivity"
 
         //申请相册权限回调标志
-        private const val PRC_PHOTO_PICKER: Int = 1
+        private const val PRC_PHOTO_PICKER: Int = 0
 
         //点击选择图片，用的回调
         private const val RC_CHOOSE_PHOTO: Int = 1
@@ -338,8 +366,21 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         //定位请求码
         private const val LOCATION_FOT_RESULT = 4
 
+        /**
+         * 新增
+         * */
         fun actionStart(activity: Activity){
             val intent = Intent(activity, LostActivity::class.java)
+            activity.startActivity(intent)
+        }
+
+        /**
+         * 编辑
+         * */
+        fun actionStart(activity:Activity,item:LostItem){
+            val intent = Intent(activity,LostActivity::class.java)
+            intent.putExtra(Const.ACTIVITY_FLAG,1)
+            intent.putExtra(Const.ACTIVITY_CONTENT,item)
             activity.startActivity(intent)
         }
 

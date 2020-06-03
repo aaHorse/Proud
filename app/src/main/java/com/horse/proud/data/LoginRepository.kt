@@ -23,14 +23,6 @@ class LoginRepository private constructor(private val network: LoginNetwork){
         network.fetchRegister(register)
     }
 
-    suspend fun getAccessToken(type:String,ak:String,sk:String) = withContext(Dispatchers.IO){
-        network.fetchAccessToken(type,ak,sk)
-    }
-
-    suspend fun photoToWords(token: String,image:String) = withContext(Dispatchers.IO){
-        network.fetchPhotoToWords(token, image)
-    }
-
     companion object{
 
         private lateinit var instance: LoginRepository

@@ -21,8 +21,6 @@ class RegisterActivityViewModel(private val respository: LoginRepository): ViewM
 
     var dataChanged = MutableLiveData<Int>()
 
-    var accessToken = MutableLiveData<String>()
-
     fun register(register: Register) {
         launch ({
             val response = respository.register(register)
@@ -36,33 +34,6 @@ class RegisterActivityViewModel(private val respository: LoginRepository): ViewM
             }
         }, {
             showToast(GlobalUtil.getString(R.string.unknown_error))
-            logError(TAG,it)
-        })
-    }
-
-    fun getAccessToken(type:String,ak:String,sk:String){
-        launch({
-            val response = respository.getAccessToken(type, ak, sk)
-            if(response.error.isEmpty()){
-                accessToken.value = response.token
-            }else{
-                showToast(GlobalUtil.getString(R.string.get_token_failed))
-                logError(TAG,response.des)
-            }
-        },{
-            showToast(GlobalUtil.getString(R.string.get_token_failed))
-            logError(TAG,it)
-        })
-    }
-
-    fun photoToWords(token:String,image:String){
-        launch({
-            val response = respository.photoToWords(token, image)
-            for(item in response.resultList){
-                logWarn(TAG,item.words)
-            }
-        },{
-            showToast(GlobalUtil.getString(R.string.get_token_failed))
             logError(TAG,it)
         })
     }

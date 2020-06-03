@@ -42,19 +42,19 @@ class OverViewPublishedActivity : BaseActivity() {
 
     private fun initGroupListView(){
         val height = QMUIResHelper.getAttrDimen(this, com.qmuiteam.qmui.R.attr.qmui_list_item_height)
-        val task = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
+        val task = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.drawable.sign),
             "任务发布",
             "累计发布任务：8个",
             QMUICommonListItemView.VERTICAL,
             QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
             height)
-        val lost = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
+        val lost = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.drawable.sign),
             "失物招领",
             "累计发布失物招领：8个",
             QMUICommonListItemView.VERTICAL,
             QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
             height)
-        val rental = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.mipmap.icon),
+        val rental = mGroupListView.createItemView(ContextCompat.getDrawable(this, R.drawable.sign),
             "物品租赁",
             "累计发布物品租赁：8个",
             QMUICommonListItemView.VERTICAL,

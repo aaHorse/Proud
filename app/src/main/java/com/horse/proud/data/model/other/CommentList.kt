@@ -10,6 +10,6 @@ import com.horse.proud.data.model.Response
 class CommentList : Response() {
 
     @SerializedName("data")
-    lateinit var commentList: ArrayList<CommentItem>
+    var commentList: ArrayList<CommentItem>? = null
 
 }

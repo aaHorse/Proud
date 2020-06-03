@@ -1,11 +1,14 @@
 package com.horse.proud.ui.init
 
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivitySplashBinding
@@ -15,6 +18,7 @@ import com.horse.proud.network.model.Version
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.login.LoginActivity
+import constant.UiType
 import constant.UiType.PLENTIFUL
 import listener.Md5CheckResultListener
 import listener.UpdateDownloadListener
@@ -22,6 +26,7 @@ import model.UiConfig
 import model.UpdateConfig
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 import update.UpdateAppUtils
 import update.UpdateAppUtils.apkUrl
@@ -64,10 +69,10 @@ class SplashActivity : BaseActivity(){
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
         enterTime = System.currentTimeMillis()
-        delayToForward()
-        //UpdateAppUtils.init(this)
-        //viewModel.checkNewVersion()
-        //observe()
+        //delayToForward()
+        UpdateAppUtils.init(this)
+        viewModel.checkNewVersion()
+        observe()
     }
 
     override fun setupViews() {
@@ -81,37 +86,70 @@ class SplashActivity : BaseActivity(){
     private fun observe(){
         viewModel.newVersoinPath.observe(this, Observer {
             viewModel.newVersoinPath.value?.run{
-                update()
+                update(this)
             }
-
+        })
+        viewModel.noNewVersion.observe(this, Observer {
+            viewModel.noNewVersion.value?.run {
+                LoginActivity.actionStart(this@SplashActivity)
+            }
         })
     }
 
-    private fun update() {
-        val updateConfig = UpdateConfig()
-        updateConfig.needCheckMd5 = true
-        updateConfig.notifyImgRes = R.mipmap.icon
-        updateConfig.alwaysShowDownLoadDialog = true
-        val uiConfig = UiConfig()
-        uiConfig.uiType = PLENTIFUL
+    private fun update(newVersionPath:String) {
+        // ui配置
+        val uiConfig = UiConfig().apply {
+            uiType = PLENTIFUL
+            cancelBtnText = "下次再说"
+            titleTextColor = Color.BLACK
+            titleTextSize = 18f
+            contentTextColor = Color.parseColor("#88e16531")
+        }
+
+        // 更新配置
+        val updateConfig = UpdateConfig().apply {
+            //是否强制更新
+            force = false
+            checkWifi = true
+            alwaysShow = true
+            alwaysShowDownLoadDialog = true
+            val file = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+            if(file == null){
+                //创建文件目录失败，不更新
+                LoginActivity.actionStart(this@SplashActivity)
+            }else{
+                apkSavePath = file.absolutePath + "/downloads"
+            }
+            apkSaveName = "banana"
+        }
+
         getInstance()
-            .apkUrl("http://47.100.251.3/space/edition/20200602/0844c9a38cad4917801e23c022773209.png")
+            .apkUrl(newVersionPath)
             .updateTitle("标题")
             .updateContent("内容")
-            .uiConfig(uiConfig)
             .updateConfig(updateConfig)
-            .setMd5CheckResultListener(object : Md5CheckResultListener {
-                override fun onResult(result: Boolean) {}
-            })
-            .setUpdateDownloadListener(object : UpdateDownloadListener {
-                override fun onStart() {}
-                override fun onDownload(progress: Int) {}
-                override fun onFinish() {
-
+            .uiConfig(uiConfig)
+            .setUpdateDownloadListener(object : UpdateDownloadListener{
+                override fun onDownload(progress: Int) {
+                    //
                 }
-                override fun onError(e: Throwable) {}
+
+                override fun onError(e: Throwable) {
+                    //
+                }
+
+                override fun onFinish() {
+                    showToast("安装包下载完成")
+                }
+
+                override fun onStart() {
+                    //
+                }
+
             })
             .update()
+
+
     }
 
     /**
@@ -152,7 +190,7 @@ class SplashActivity : BaseActivity(){
                     MainActivity.actionStart(this)
                     finish()
                 }else{
-                    LoginActivity.actionStart(this,hasNewVersion,version)
+                    LoginActivity.actionStart(this)
                     finish()
                 }
             }

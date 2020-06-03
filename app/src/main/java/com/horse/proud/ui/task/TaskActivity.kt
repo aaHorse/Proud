@@ -62,7 +62,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     /**
      * 编辑状态，页面持有的信息对象
      * */
-    var item: TaskItem?=null
+    lateinit var item: TaskItem
 
     private val viewModelFactory by inject<TaskActivityViewModelFactory>()
 
@@ -77,7 +77,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
 
         flag = intent.getIntExtra(Const.ACTIVITY_FLAG,0)
         if (flag!=0){
-            item = intent.getParcelableExtra(Const.ACTIVITY_CONTENT)
+            item = intent.getParcelableExtra(Const.ACTIVITY_CONTENT)!!
         }
 
         /*
@@ -93,10 +93,12 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
         val selected = ArrayList<String>()
-        if(item?.image != null){
-            selected.add(item?.image!!)
-            snpl_moment_add_photos.data = selected
-            logWarn(TAG,selected[0])
+        item.image?.run {
+            if(this.isNotEmpty()){
+                selected.add(item.image!!)
+                snpl_moment_add_photos.data = selected
+                logWarn(TAG,selected[0])
+            }
         }
         setOnClickListener()
         Glide.with(this).load(R.drawable.avatar_default)
@@ -139,14 +141,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
                     viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
                 }
                 RC_PHOTO_PREVIEW ->{
-                    val selected = ArrayList<String>()
-                    if(item?.image != null){
-                        selected.add(item?.image!!)
-                    }
-                    for(item in BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)){
-                        selected.add(item)
-                    }
-                    snpl_moment_add_photos.data = selected
+                    snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)
                 }
                 LOCATION_FOT_RESULT ->{
                     iv_local.setImageResource(R.drawable.local_click)
@@ -353,7 +348,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         /**
          * 申请相册权限回调标志
          * */
-        private const val PRC_PHOTO_PICKER: Int = 1
+        private const val PRC_PHOTO_PICKER: Int = 0
 
         /**
          * 点击选择图片，用的回调

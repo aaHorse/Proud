@@ -29,28 +29,6 @@ class LoginNetwork {
 
     suspend fun fetchRegister(register: Register) = service.register(register).await()
 
-    suspend fun fetchAccessToken(type:String,ak:String,sk:String): Token {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://aip.baidubce.com/")
-            .client(OkHttpClient.Builder().build())
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(LoginService::class.java)
-        return service.getAccessToken(type,ak,sk).await()
-    }
-
-    suspend fun fetchPhotoToWords(token:String,image:String):WordsResult{
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://aip.baidubce.com/")
-            .client(OkHttpClient.Builder().build())
-            .addConverterFactory(ScalarsConverterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val service = retrofit.create(LoginService::class.java)
-        return service.photoToWords(token, image).await()
-    }
-
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
@@ -83,5 +61,4 @@ class LoginNetwork {
         }
 
     }
-
 }

@@ -16,7 +16,7 @@ class SplashNetWork {
 
     private val service = ServiceCreator.create(SplashService::class.java)
 
-    suspend fun fetchCheckNewVersion() = service.checkNewVersion().await()
+    suspend fun fetchCheckNewVersion(tempVersion:String) = service.checkNewVersion(tempVersion).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

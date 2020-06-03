@@ -16,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -26,6 +27,8 @@ import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.common.ViewLocationActivity
 import com.horse.proud.ui.home.MainActivity
+import com.horse.proud.ui.lost.FoundActivity
+import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
 import com.horse.proud.util.DateUtil
 import com.horse.proud.widget.SeeMoreView
@@ -80,6 +83,11 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
                             when(which){
                                 0 -> {
                                     showToast("编辑")
+                                    if(item.isLost == 0){
+                                        LostActivity.actionStart(fragment.activity,item)
+                                    }else{
+                                        FoundActivity.actionStart(fragment.activity,item)
+                                    }
                                 }
                                 1 -> {
                                     showToast("删除")
@@ -99,18 +107,21 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
         }
 
         item.image?.let {
-            val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
-            ninePhotoLayout.setDelegate(fragment)
-            val photos = ArrayList<String>()
-            photos.add(item.image!!)
-            ninePhotoLayout.data = photos
+            if(item.image!!.isNotEmpty()){
+                val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
+                ninePhotoLayout.setDelegate(fragment)
+                val photos = ArrayList<String>()
+                photos.add(item.image!!)
+                logWarn(TAG,photos[0])
+                ninePhotoLayout.data = photos
+            }
         }
 
         helper.getView<LinearLayout>(R.id.ll_local).setOnClickListener {
             if(item.location.isEmpty()){
                 showToast("该任务未标记地点")
             }else{
-                var locations = item.location.split(",")
+                val locations = item.location.split(",").toMutableList()
                 locations -= ""
                 if(locations.size == 2){
                     val latitude:Double = locations[0].toDouble()
@@ -164,9 +175,12 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
             val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
             rvComment.setHasFixedSize(true)
             rvComment.layoutManager = LinearLayoutManager(fragment.context)
-            adapter = CommentAdapter(it.commentList)
+            if(it.commentList == null){
+                it.commentList = ArrayList()
+            }
+            adapter = CommentAdapter(it.commentList!!)
             rvComment.adapter = adapter
-            helper.getTextView(R.id.tv_comment).text = "${it.commentList.size}"
+            helper.getTextView(R.id.tv_comment).text = "${it.commentList!!.size}"
         }
 
         helper.getView<Button>(R.id.send).setOnClickListener {
@@ -183,7 +197,7 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
                 event.comment = comment
                 EventBus.getDefault().post(event)
 
-                item.comments!!.commentList.add(comment)
+                item.comments!!.commentList!!.add(comment)
                 if(adapter!=null){
                     helper.getView<EditText>(R.id.et_comment).setText("")
                     notifyItemChanged(position)
@@ -247,6 +261,8 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
     companion object{
 
         lateinit var mInflater:LayoutInflater
+
+        private const val TAG = "LostAdapter"
 
     }
 

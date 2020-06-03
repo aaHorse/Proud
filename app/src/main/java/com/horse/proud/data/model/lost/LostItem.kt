@@ -30,8 +30,12 @@ class LostItem : Parcelable {
 
     lateinit var location:String
 
+    /**
+     * lost:0
+     * found:-1
+     * */
     @SerializedName("isLost")
-    var isLost:Int = -1
+    var isLost:Int = -2
 
     @SerializedName("isDone")
     var done:Int = -1
@@ -58,20 +62,36 @@ class LostItem : Parcelable {
     var comments: CommentList?=null
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-//        dest.writeString(name)
-//        dest.writeString(content)
-//        dest.writeStringList(photos)
+        dest.writeString(id)
+        dest.writeInt(userId)
+        dest.writeString(title)
+        dest.writeString(content)
+        dest.writeString(image)
+        dest.writeString(label)
+        dest.writeString(location)
+        dest.writeInt(isLost)
+        dest.writeInt(done)
+        dest.writeString(time)
     }
 
     constructor() {}
 
-    protected constructor(parcel: Parcel) {
-//        content = parcel.readString()
-//        photos = parcel.createStringArrayList() as ArrayList<String>
+    constructor(parcel: Parcel) {
+        id= parcel.readString() ?: ""
+        userId = parcel.readInt()
+        title = parcel.readString() ?: ""
+        content = parcel.readString() ?: ""
+        image = parcel.readString() ?: ""
+        label = parcel.readString() ?: ""
+        location = parcel.readString() ?: ""
+        isLost = parcel.readInt()
+        done = parcel.readInt()
+        time = parcel.readString() ?: ""
+
     }
 
     companion object {
-        val CREATOR: Parcelable.Creator<LostItem?> = object : Parcelable.Creator<LostItem?> {
+        @JvmField val CREATOR: Parcelable.Creator<LostItem?> = object : Parcelable.Creator<LostItem?> {
             override fun createFromParcel(source: Parcel): LostItem? {
                 return LostItem(source)
             }
