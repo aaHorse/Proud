@@ -38,12 +38,12 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     var time:String = ""
 
-    var imagePath:String? = null
+    var imagePath:String = ""
 
     fun publish(){
         launch({
-            var task = TaskItem()
-            task.userId = Proud.getUserId()
+            val task = TaskItem()
+            task.userId = Proud.userId
             logWarn(TAG,"${task.userId}")
             task.title = "会飞的鱼"
             task.content = content.value.toString()
@@ -78,16 +78,13 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     private fun upLoadImage(id:String){
         launch({
-            if(imagePath!=null){
+            if(imagePath.isNotEmpty()){
                 val file = File(imagePath)
                 val requestFile = RequestBody.create(MediaType.parse("multipart/jpg"), file)
 
                 val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-                val requestBody: RequestBody = RequestBody.create(
-                    MediaType.parse("multipart/form-data"),
-                    id
-                )
+                val requestBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), id)
 
                 val response = repository.upLoadImage(part,requestBody)
                 when(response.code){

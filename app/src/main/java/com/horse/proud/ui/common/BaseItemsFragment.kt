@@ -91,7 +91,7 @@ abstract class BaseItemsFragment : BaseFragment(){
         if(messageEvent is RefreshMainActivityFeedsEvent){
             if(isLoadFailed){
                 //只有在加载失败的时候，才会相应
-                Proud.getHandler().postDelayed(300){
+                Proud.handler.postDelayed(300){
                     reload()
                 }
             }

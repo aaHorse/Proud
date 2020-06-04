@@ -10,6 +10,7 @@ import com.horse.proud.network.model.base.Callback
 import com.horse.proud.network.model.GetBaseinfo
 import com.horse.proud.network.model.base.Response
 import com.horse.proud.R
+import com.horse.proud.data.model.login.Login
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.util.ResponseHandler
 import com.horse.proud.util.UserUtil
@@ -43,12 +44,24 @@ abstract class AuthActivity : BaseActivity(){
      *
      * @param
      * */
-    fun saveAuthData(userId:Int,name:String){
-        SharedUtil.save(Const.Auth.USER_ID,userId)
-        SharedUtil.save(Const.Auth.NAME,name)
-//        SharedUtil.save(Const.Auth.TOKEN,token)
-//        SharedUtil.save(Const.Auth.LOGIN_TYPE,loginType)
-        Proud.refreshLoginState()
+    fun saveAuthData(login:Login){
+        with(login.data){
+            SharedUtil.save(Const.Auth.USER_ID,id)
+            SharedUtil.save(Const.Auth.NUMBER,number)
+            SharedUtil.save(Const.Auth.NAME,name)
+            SharedUtil.save(Const.Auth.PHONE,phoneNumber)
+            SharedUtil.save(Const.Auth.HEAD,head)
+            SharedUtil.save(Const.Auth.INFO,info)
+            SharedUtil.save(Const.Auth.TOKEN,token)
+            Proud.refreshUserMsg()
+        }
+    }
+
+    /**
+     * 存储用户的登录状态。
+     * */
+    fun saveAuthState(state:Int){
+        SharedUtil.save(Const.Auth.LOGIN_TYPE,state)
     }
 
     /**

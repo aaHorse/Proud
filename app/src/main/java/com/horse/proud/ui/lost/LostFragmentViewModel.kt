@@ -49,7 +49,7 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
         }, {
             logWarn(TAG, it.message, it)
             loadFailed.value = flag++
-            Toast.makeText(Proud.getContext(), it.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(Proud.context, it.message, Toast.LENGTH_SHORT).show()
         })
     }
 

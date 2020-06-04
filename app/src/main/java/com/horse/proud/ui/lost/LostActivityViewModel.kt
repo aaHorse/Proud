@@ -40,7 +40,7 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
     fun publish(){
         launch({
             var item = LostItem()
-            item.userId = Proud.getUserId()
+            item.userId = Proud.userId
             logWarn(TAG,"${item.userId}")
             item.title = "会飞的鱼"
             item.content = content.value.toString()

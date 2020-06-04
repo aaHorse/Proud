@@ -185,7 +185,7 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
             if (!content.isBlank()){
                 val comment = CommentItem()
                 comment.id = "1"
-                comment.userId = Proud.getUserId()
+                comment.userId = Proud.userId
                 comment.content = content
                 comment.time = DateUtil.nowDateTime
                 comment.itemId = item.id

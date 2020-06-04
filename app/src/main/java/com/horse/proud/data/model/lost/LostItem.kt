@@ -15,20 +15,20 @@ import java.util.ArrayList
  * */
 class LostItem : Parcelable {
 
-    lateinit var id:String
+    var id = ""
 
     @SerializedName("userId")
     var userId:Int = 0
 
-    lateinit var title:String
+    var title = ""
 
-    lateinit var content:String
+    var content = ""
 
-    var image:String ?= null
+    var image = ""
 
-    lateinit var label:String
+    var label = ""
 
-    lateinit var location:String
+    var location = ""
 
     /**
      * lost:0
@@ -41,7 +41,7 @@ class LostItem : Parcelable {
     var done:Int = -1
 
     @SerializedName("time")
-    lateinit var time:String
+    var time = ""
 
     @SerializedName("thumbUp")
     var thumbUp:Int = 0

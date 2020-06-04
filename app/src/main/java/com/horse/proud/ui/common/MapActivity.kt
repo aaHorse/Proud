@@ -67,6 +67,9 @@ class MapActivity : BaseActivity() {
         return true
     }
 
+    /**
+     * 地图显示设置
+     * */
     private fun setUpMap(){
         //显示地图
         aMap = map.map
@@ -92,23 +95,29 @@ class MapActivity : BaseActivity() {
 
     }
 
+    /**
+     * 获取定位
+     * */
     private fun configLocation(){
-        mLocationClient = AMapLocationClient(Proud.getContext())
+        val locationStr = intent.getStringExtra(Const.ACTIVITY_CONTENT)
+        val array = locationStr?.split(",")
+
+        //使用默认坐标
+        if(array?.size == 2){
+            latitude = array[0].toDouble()
+            longitude = array[1].toDouble()
+            setLocationMap()
+            return
+        }
+
+        //使用定位坐标
+        mLocationClient = AMapLocationClient(Proud.context)
         mLocationListener = AMapLocationListener {
             if(it.errorCode == 0){
                 //定位成功
                 latitude = it.latitude
                 longitude = it.longitude
-
-                aMap.addMarker(MarkerOptions()
-                    .position(LatLng(latitude,longitude))
-                    .draggable(true)
-                    .alpha(0.75f)
-                    .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources,R.drawable.local)))
-                    .setFlat(true))
-
-                aMap.moveCamera(CameraUpdateFactory.changeLatLng(LatLng(latitude,longitude)))
-
+                setLocationMap()
             }else{
                 //定位失败
                 showToast("定位失败：${it.errorInfo}")
@@ -130,6 +139,20 @@ class MapActivity : BaseActivity() {
         mLocationClient.setLocationOption(mLocationOption)
         mLocationClient.stopLocation()
         mLocationClient.startLocation()
+    }
+
+    /**
+     * 设置指定坐标的地图
+     * */
+    private fun setLocationMap(){
+        aMap.addMarker(MarkerOptions()
+            .position(LatLng(latitude,longitude))
+            .draggable(true)
+            .alpha(0.75f)
+            .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory.decodeResource(resources,R.drawable.local)))
+            .setFlat(true))
+
+        aMap.moveCamera(CameraUpdateFactory.changeLatLng(LatLng(latitude,longitude)))
     }
 
     private fun success(){
@@ -173,6 +196,15 @@ class MapActivity : BaseActivity() {
 
         fun actionStartForResult(activity: Activity,requestCode:Int){
             val intent = Intent(activity, MapActivity::class.java)
+            activity.startActivityForResult(intent,requestCode)
+        }
+
+        /**
+         * @param locationStr 默认坐标
+         * */
+        fun actionStartForResult(activity: Activity,requestCode:Int,locationStr:String){
+            val intent = Intent(activity, MapActivity::class.java)
+            intent.putExtra(Const.ACTIVITY_CONTENT,locationStr)
             activity.startActivityForResult(intent,requestCode)
         }
 

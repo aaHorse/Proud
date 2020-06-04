@@ -146,7 +146,7 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
         models: MutableList<String>?
     ) {
         var mCurrentClickNpl: BGANinePhotoLayout? = ninePhotoLayout
-        var photoPreviewIntentBuilder = BGAPhotoPreviewActivity.IntentBuilder(Proud.getContext())
+        var photoPreviewIntentBuilder = BGAPhotoPreviewActivity.IntentBuilder(Proud.context)
         photoPreviewIntentBuilder.previewPhotos(mCurrentClickNpl!!.data)
             .currentPosition(mCurrentClickNpl!!.currentClickItemPosition)
         startActivity(photoPreviewIntentBuilder.build())

@@ -54,12 +54,22 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
      * 0：新增
      * 1：编辑
      * */
-    var flag = 0
+    private var flag = 0
+
+    /**
+     * 默认被选中的类型，编辑
+     * */
+    private var selectedTypes = ArrayList<Int>()
+
+    /**
+     * 默认被选中的时间，编辑
+     * */
+    private var selectedTime  = 0
 
     /**
      * 编辑状态，页面持有的信息对象
      * */
-    lateinit var item: RentalItem
+    private lateinit var item: RentalItem
 
     private val viewModelFactory by inject<RentalActivityViewModelFactory>()
 
@@ -85,18 +95,13 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
         setupToolbar()
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
-        val selected = ArrayList<String>()
-        item.image?.run {
-            if(this.isNotEmpty()){
-                selected.add(item.image!!)
-                snpl_moment_add_photos.data = selected
-                logWarn(TAG,selected[0])
-            }
-        }
         setOnClickListener()
         Glide.with(this).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(avatar);
+            .into(avatar)
+        if(flag != 0){
+            initEditContent()
+        }
     }
 
     override fun onLoad() {
@@ -207,7 +212,7 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
             Manifest.permission.CAMERA
         )
         if(EasyPermissions.hasPermissions(this, *perms)){
-            val takePhotoDir = File(Proud.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
+            val takePhotoDir = File(Proud.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
                 .maxChooseCount(1)
@@ -298,10 +303,9 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
     }
 
     private fun getTime() {
-        val items = arrayOf("1天内过期", "2天内过期", "3天内过期","5天内过期","不过期")
-        val checkedIndex = 1
+        val items = Const.TIME
         QMUIDialog.CheckableDialogBuilder(this)
-            .setCheckedIndex(checkedIndex)
+            .setCheckedIndex(selectedTime)
             .addItems(items) { dialog, which ->
                 dialog.dismiss()
                 viewModel.time = items[which]
@@ -311,8 +315,9 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
     }
 
     private fun getType() {
-        val items = arrayOf("车车", "数码电子", "图书", "衣物", "家电", "其他")
+        val items = Const.RENTAL_TYPE
         val builder = QMUIDialog.MultiCheckableDialogBuilder(this)
+            .setCheckedItems(selectedTypes.toIntArray())
             .addItems(items) { dialog, which -> }
         builder.addAction("取消") { dialog, index -> dialog.dismiss() }
         builder.addAction("提交") { dialog, index ->
@@ -329,13 +334,58 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
         builder.create(com.qmuiteam.qmui.R.style.QMUI_Dialog).show()
     }
 
+    /**
+     * 编辑任务，初始化已编辑的信息
+     * */
+    private fun initEditContent(){
+        viewModel.content.value = item.content
+        item.image.run {
+            if(this.isNotEmpty()){
+                val selected = ArrayList<String>()
+                selected.add(item.image)
+                snpl_moment_add_photos.data = selected
+                logWarn(TAG,selected[0])
+            }
+        }
+        item.location.run {
+            if(this.isNotEmpty()){
+                iv_local.setImageResource(R.drawable.local_click)
+            }
+        }
+        item.label.run {
+            if(this.isNotEmpty()){
+                iv_type.setImageResource(R.drawable.type_click)
+                val array = this.split(",").toMutableList()
+                array -= ""
+                for((index,value) in Const.RENTAL_TYPE.withIndex()){
+                    array.forEach {
+                        if(it == value){
+                            selectedTypes.add(index)
+                        }
+                    }
+                }
+            }
+        }
+        item.endTime.run {
+            if(this.isNotEmpty()){
+                if(this.isNotEmpty()){
+                    iv_time.setImageResource(R.drawable.time_click)
+                    for((index,value) in Const.TIME.withIndex()){
+                        if(this == value){
+                            selectedTime = index
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onMessageEvent(messageEvent: MessageEvent) {
         if (messageEvent is FinishActivityEvent && messageEvent.category == Const.Like.RENTAL) {
             finish()
         }
     }
-
 
     //-------------------------------------定位----------------------------------
 

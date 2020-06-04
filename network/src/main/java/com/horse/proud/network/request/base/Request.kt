@@ -261,7 +261,7 @@ abstract class Request {
                 it.onResponse(response)
                 callback = null
             } else {
-                Proud.getHandler().post {
+                Proud.handler.post {
                     it.onResponse(response)
                     callback = null
                 }
@@ -280,7 +280,7 @@ abstract class Request {
                 it.onFailure(e)
                 callback = null
             } else {
-                Proud.getHandler().post {
+                Proud.handler.post {
                     it.onFailure(e)
                     callback = null
                 }

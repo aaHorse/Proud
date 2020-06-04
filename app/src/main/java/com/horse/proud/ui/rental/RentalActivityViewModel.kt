@@ -40,7 +40,7 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
     fun publish(){
         launch({
             var item = RentalItem()
-            item.userId = Proud.getUserId()
+            item.userId = Proud.userId
             logWarn(TAG,"${item.userId}")
             item.title = "会飞的鱼"
             item.content = content.value.toString()

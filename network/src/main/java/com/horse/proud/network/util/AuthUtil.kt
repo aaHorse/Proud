@@ -39,10 +39,9 @@ object AuthUtil {
      */
     val isLogin: Boolean
         get() {
-            val u = SharedUtil.read(Const.Auth.USER_ID, 0L)
             val t = SharedUtil.read(Const.Auth.TOKEN, "")
             val lt = SharedUtil.read(Const.Auth.LOGIN_TYPE, -1)
-            return u > 0 && !TextUtils.isEmpty(t) && lt >= 0
+            return !TextUtils.isEmpty(t) && lt >= 0
         }
 
     /**
@@ -50,7 +49,7 @@ object AuthUtil {
      * @return 当前登录用户的id。
      */
     val userId: Long
-        get() = SharedUtil.read(Const.Auth.USER_ID, 0L)
+        get() = SharedUtil.read(Const.Auth.NUMBER, 0L)
 
     /**
      * 获取当前登录用户的token。

@@ -188,7 +188,7 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
             if (!content.isBlank()){
                 val comment = CommentItem()
                 comment.id = "1"
-                comment.userId = Proud.getUserId()
+                comment.userId = Proud.userId
                 comment.content = content
                 comment.time = DateUtil.nowDateTime
                 comment.itemId = item.id

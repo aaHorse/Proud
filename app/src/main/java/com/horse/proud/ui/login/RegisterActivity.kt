@@ -5,9 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
-import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,28 +15,25 @@ import com.baidu.ocr.sdk.exception.OCRError
 import com.baidu.ocr.sdk.model.AccessToken
 import com.baidu.ocr.ui.camera.CameraActivity
 import com.google.gson.Gson
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
-import com.horse.core.proud.util.AndroidVersion
 import com.horse.proud.R
 import com.horse.proud.data.model.login.WordsResult
 import com.horse.proud.data.model.regist.Register
 import com.horse.proud.databinding.ActivityRegisterBinding
-import com.horse.proud.event.RegisterSucceedEvent
+import com.horse.proud.event.RegisterEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.util.FileUtil
 import com.horse.proud.util.RecognizeService
 import kotlinx.android.synthetic.main.activity_register.*
 import org.greenrobot.eventbus.EventBus
-import org.json.JSONObject
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
-import java.io.File
-import java.io.IOException
 
 /**
  * 注册界面
@@ -97,12 +92,13 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
             register.password = et_password.text.toString()
             register.phoneNumber = et_phone.text.toString()
 
-            if(checkPermission()){
-                initAccessToken()
-            }
+            checkPermission()
         }
         btn_visit.setOnClickListener {
-            MainActivity.actionStart(this)
+            var event = RegisterEvent()
+            event.loginState = Const.Auth.VISITOR
+            EventBus.getDefault().post(event)
+            finish()
         }
         observe()
     }
@@ -111,7 +107,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_CODE_HANDWRITING -> if(resultCode == Activity.RESULT_OK){
-                RecognizeService.recHandwriting(this, FileUtil.getSaveFile(applicationContext)!!.absolutePath,
+                RecognizeService.recHandwriting(this, FileUtil.getSaveFile(applicationContext)?.absolutePath,
                     object : RecognizeService.ServiceListener {
                         override fun onResult(result: String) {
                             regexCheck(result)
@@ -126,7 +122,8 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
 
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
-            var event = RegisterSucceedEvent()
+            var event = RegisterEvent()
+            event.loginState = Const.Auth.COMFIR
             event.register = register
             EventBus.getDefault().post(event)
             finish()
@@ -150,7 +147,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
             override fun onError(error: OCRError) {
                 logError(TAG,error)
             }
-        },Proud.getContext())
+        },Proud.context)
     }
 
     /**
@@ -198,7 +195,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
      * 检查权限
      */
     @AfterPermissionGranted(PRC_PHOTO_PICKER)
-    private fun checkPermission():Boolean {
+    private fun checkPermission(){
         val perms: Array<String> = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA)
@@ -206,11 +203,9 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
             EasyPermissions.requestPermissions(this,
                 "图片选择需要以下权限:\n\n1.访问设备上的照片\n\n2.拍照",
                 PRC_PHOTO_PICKER, *perms)
+        }else{
+            initAccessToken()
         }
-        if(!EasyPermissions.hasPermissions(this, *perms)){
-            return false
-        }
-        return true
     }
 
     //-------------------------------------EasyPermissions----------------------
@@ -224,7 +219,14 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         }
     }
 
-    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>?) { }
+    /**
+     * 请求权限成功回调
+     * */
+    override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>?) {
+        if(requestCode == PRC_PHOTO_PICKER){
+            //showToast("在这里")
+        }
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

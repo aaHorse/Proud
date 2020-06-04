@@ -29,28 +29,28 @@ object GlobalUtil {
      * @return 当前应用程序的包名。
      */
     val appPackage: String
-        get() = Proud.getContext().packageName
+        get() = Proud.context.packageName
 
     /**
      * 获取当前应用程序的名称。
      * @return 当前应用程序的名称。
      */
     val appName: String
-        get() = Proud.getContext().resources.getString(Proud.getContext().applicationInfo.labelRes)
+        get() = Proud.context.resources.getString(Proud.context.applicationInfo.labelRes)
 
     /**
      * 获取当前应用程序的版本名。
      * @return 当前应用程序的版本名。
      */
     val appVersionName: String
-        get() = Proud.getContext().packageManager.getPackageInfo(appPackage, 0).versionName
+        get() = Proud.context.packageManager.getPackageInfo(appPackage, 0).versionName
 
     /**
      * 获取当前应用程序的版本号。
      * @return 当前应用程序的版本号。
      */
     val appVersionCode: Int
-        get() = Proud.getContext().packageManager.getPackageInfo(appPackage, 0).versionCode
+        get() = Proud.context.packageManager.getPackageInfo(appPackage, 0).versionCode
 
     /**
      * 获取当前时间的字符串，格式为yyyyMMddHHmmss。
@@ -85,7 +85,7 @@ object GlobalUtil {
      * @return 字符串资源id对应的字符串内容。
      */
     fun getString(resId: Int): String {
-        return Proud.getContext().resources.getString(resId)
+        return Proud.context.resources.getString(resId)
     }
 
     /**
@@ -98,7 +98,7 @@ object GlobalUtil {
      * @return 指定资源名的资源id。
      */
     fun getResourceId(name: String, type: String): Int {
-        return Proud.getContext().resources.getIdentifier(name, type, appPackage)
+        return Proud.context.resources.getIdentifier(name, type, appPackage)
     }
 
     /**
@@ -110,7 +110,7 @@ object GlobalUtil {
     fun getApplicationMetaData(key: String): String? {
         var applicationInfo: ApplicationInfo? = null
         try {
-            applicationInfo = Proud.getContext().packageManager.getApplicationInfo(appPackage, PackageManager.GET_META_DATA)
+            applicationInfo = Proud.context.packageManager.getApplicationInfo(appPackage, PackageManager.GET_META_DATA)
         } catch (e: PackageManager.NameNotFoundException) {
             logWarn(TAG, e.message, e)
         }
@@ -218,7 +218,7 @@ object GlobalUtil {
      */
     fun isInstalled(packageName: String): Boolean {
         val packageInfo: PackageInfo? = try {
-            Proud.getContext().packageManager.getPackageInfo(packageName, 0)
+            Proud.context.packageManager.getPackageInfo(packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
             null
         }
@@ -229,7 +229,7 @@ object GlobalUtil {
      * 获取当前应用程序的图标。
      */
     fun getAppIcon(): Drawable {
-        val packageManager = Proud.getContext().packageManager
+        val packageManager = Proud.context.packageManager
         val applicationInfo = packageManager.getApplicationInfo(appPackage, 0)
         return packageManager.getApplicationIcon(applicationInfo)
     }
@@ -252,7 +252,7 @@ object GlobalUtil {
     /**
      * 判断当前版本是否是开源版本。
      */
-    fun isOpenSource() = Proud.getPackageName() == "com.quxianggif.opensource"
+    fun isOpenSource() = Proud.packageName == "com.quxianggif.opensource"
 
 
 }

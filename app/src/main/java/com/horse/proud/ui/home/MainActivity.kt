@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import com.horse.core.proud.Const
+import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -19,6 +20,7 @@ import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.about.AboutActivity
 import com.horse.proud.ui.common.BaseActivity
+import com.horse.proud.ui.init.SplashActivity
 import com.horse.proud.ui.lost.FoundActivity
 import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
@@ -33,6 +35,7 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MessageDialogBuilder
 import com.qmuiteam.qmui.widget.dialog.QMUIDialogAction
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.bottom_navigation.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -82,10 +85,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
-                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
-        )
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
+                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         flag = intent.getIntExtra(Const.ACTIVITY_FLAG,0)
         setContentView(R.layout.activity_main)
         //上面这个方法下面的代码不会被执行
@@ -97,6 +98,9 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tv_task.setOnClickListener(tabClickListener)
         tv_lost_and_found.setOnClickListener(tabClickListener)
         tv_rental.setOnClickListener(tabClickListener)
+        navView.getHeaderView(0).edit_personal_info.setOnClickListener {
+            EditPersonalInfoActivity.actionStart(this)
+        }
 
         navView.setNavigationItemSelectedListener(this)
         navView.viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
@@ -146,7 +150,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     private fun changeFragment(resId: Int){
         changeSelect(resId)
-        var transaction:FragmentTransaction = supportFragmentManager.beginTransaction()
+        val transaction:FragmentTransaction = supportFragmentManager.beginTransaction()
         hideFragments(transaction)
         when (resId) {
             R.id.tv_task -> {
@@ -251,7 +255,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         OverViewPublishedActivity.actionStart(this)
                     }
                     2 -> {
-                        exit()
+                        Proud.logout()
+                        SplashActivity.actionStart(this)
                     }
                 }
             }.create(R.style.MenuDialog).show()

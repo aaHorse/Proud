@@ -34,13 +34,11 @@ import com.qmuiteam.qmui.widget.dialog.QMUIDialog.MultiCheckableDialogBuilder
 import kotlinx.android.synthetic.main.activity_task.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
 import pub.devrel.easypermissions.EasyPermissions.PermissionCallbacks
 import java.io.File
-import java.util.*
-import org.koin.android.ext.android.inject
-import kotlin.collections.ArrayList
 
 
 /**
@@ -57,16 +55,26 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
      * 0：新增
      * 1：编辑
      * */
-    var flag = 0
+    private var flag = 0
+
+    /**
+     * 默认被选中的类型，编辑
+     * */
+    private var selectedTypes = ArrayList<Int>()
+
+    /**
+     * 默认被选中的时间，编辑
+     * */
+    private var selectedTime  = 0
 
     /**
      * 编辑状态，页面持有的信息对象
      * */
-    lateinit var item: TaskItem
+    private lateinit var item: TaskItem
 
     private val viewModelFactory by inject<TaskActivityViewModelFactory>()
 
-    val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(TaskActivityViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProviders.of(this, viewModelFactory).get(TaskActivityViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,18 +100,13 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         setupToolbar()
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
-        val selected = ArrayList<String>()
-        item.image?.run {
-            if(this.isNotEmpty()){
-                selected.add(item.image!!)
-                snpl_moment_add_photos.data = selected
-                logWarn(TAG,selected[0])
-            }
-        }
         setOnClickListener()
         Glide.with(this).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(avatar)
+        if(flag != 0){
+            initEditContent()
+        }
     }
 
     override fun onLoad() {
@@ -175,7 +178,6 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         }
     }
 
-
     //-------------------------------------EasyPermissions----------------------
 
     /**
@@ -212,7 +214,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA)
         if(EasyPermissions.hasPermissions(this, *perms)){
-            val takePhotoDir = File(Proud.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
+            val takePhotoDir = File(Proud.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
                 .maxChooseCount(9)
@@ -273,8 +275,6 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
 
     //-------------------------------------图片------------------------------
 
-    //-------------------------------------定位----------------------------------
-
     @AfterPermissionGranted(LOCATION)
     private fun getLocation(){
         val perms: Array<String> = arrayOf(
@@ -286,7 +286,11 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         )
         if(EasyPermissions.hasPermissions(this, *perms)){
             //权限申请成功
-            MapActivity.actionStartForResult(this, LOCATION_FOT_RESULT)
+            if(flag != 0 && item.location.isNotEmpty()){
+                MapActivity.actionStartForResult(this, LOCATION_FOT_RESULT,item.location)
+            }else{
+                MapActivity.actionStartForResult(this, LOCATION_FOT_RESULT)
+            }
         }else{
             EasyPermissions.requestPermissions(
                 this,
@@ -298,10 +302,9 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     }
 
     private fun getTime() {
-        val items = arrayOf("1天内过期", "2天内过期", "3天内过期","5天内过期","不过期")
-        val checkedIndex = 1
+        val items = Const.TIME
         CheckableDialogBuilder(this)
-            .setCheckedIndex(checkedIndex)
+            .setCheckedIndex(selectedTime)
             .addItems(items) { dialog, which ->
                 dialog.dismiss()
                 viewModel.time = items[which]
@@ -311,8 +314,9 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
     }
 
     private fun getType() {
-        val items = arrayOf("取快递", "找联系方式", "兼职发布", "其他")
+        val items = Const.TASK_TYPE
         val builder = MultiCheckableDialogBuilder(this)
+            .setCheckedItems(selectedTypes.toIntArray())
             .addItems(items) { _, _ -> }
 
         builder.addAction("取消") { dialog, _ -> dialog.dismiss() }
@@ -338,8 +342,51 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         }
     }
 
-
-    //-------------------------------------定位----------------------------------
+    /**
+     * 编辑任务，初始化已编辑的信息
+     * */
+    private fun initEditContent(){
+        viewModel.content.value = item.content
+        item.image.run {
+            if(this.isNotEmpty()){
+                val selected = ArrayList<String>()
+                selected.add(item.image)
+                snpl_moment_add_photos.data = selected
+                logWarn(TAG,selected[0])
+            }
+        }
+        item.location.run {
+            if(this.isNotEmpty()){
+                iv_local.setImageResource(R.drawable.local_click)
+            }
+        }
+        item.label.run {
+            if(this.isNotEmpty()){
+                iv_type.setImageResource(R.drawable.type_click)
+                val array = this.split(",").toMutableList()
+                array -= ""
+                for((index,value) in Const.TASK_TYPE.withIndex()){
+                    array.forEach {
+                        if(it == value){
+                            selectedTypes.add(index)
+                        }
+                    }
+                }
+            }
+        }
+        item.endTime.run {
+            if(this.isNotEmpty()){
+                if(this.isNotEmpty()){
+                    iv_time.setImageResource(R.drawable.time_click)
+                    for((index,value) in Const.TIME.withIndex()){
+                        if(this == value){
+                            selectedTime = index
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     companion object{
 

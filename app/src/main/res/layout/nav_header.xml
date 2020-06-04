@@ -39,11 +39,11 @@
                 android:text="会飞的鱼"
                 />
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/edit_personal_info"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/setting"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/edit"
                 />
 
         </LinearLayout>

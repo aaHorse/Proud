@@ -135,7 +135,7 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
             override fun onError(error: OCRError) {
                 logError(TAG,error)
             }
-        }, Proud.getContext())
+        }, Proud.context)
     }
 
     /**

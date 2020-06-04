@@ -47,8 +47,8 @@ object Utility {
         get() {
             var version = ""
             try{
-                val packageManager = Proud.getContext().packageManager
-                val packInfo = packageManager.getPackageInfo(Proud.getPackageName(), 0)
+                val packageManager = Proud.context.packageManager
+                val packInfo = packageManager.getPackageInfo(Proud.packageName, 0)
                 version = packInfo.versionName
             }catch (e: Exception){
                 logWarn(TAG, "获取应用版本号失败",e)
@@ -80,7 +80,7 @@ object Utility {
             val appChannel =  GlobalUtil.getApplicationMetaData("APP_CHANNEL")
             if ("google" != appChannel || "samsung" != appChannel) {
                 try {
-                    deviceId = Settings.Secure.getString(Proud.getContext().contentResolver, Settings.Secure.ANDROID_ID)
+                    deviceId = Settings.Secure.getString(Proud.context.contentResolver, Settings.Secure.ANDROID_ID)
                 } catch (e: Exception) {
                     logWarn(TAG, "get android_id with error", e)
                 }

@@ -14,20 +14,20 @@ import com.horse.proud.data.model.other.CommentList
  * */
 class RentalItem : Parcelable {
 
-    lateinit var id:String
+    var id = ""
 
     @SerializedName("userId")
     var userId:Int = 0
 
-    lateinit var title:String
+    var title = ""
 
-    lateinit var content:String
+    var content = ""
 
-    var image:String ?= null
+    var image = ""
 
-    lateinit var label:String
+    var label = ""
 
-    lateinit var location:String
+    var location = ""
 
     var unitPrice:Double = 0.00
 
@@ -37,13 +37,13 @@ class RentalItem : Parcelable {
     var done:Int = -1
 
     @SerializedName("reword")
-    lateinit var reword:String
+    var reword = ""
 
     @SerializedName("startTime")
-    lateinit var startTime:String
+    var startTime = ""
 
     @SerializedName("endTime")
-    lateinit var endTime:String
+    var endTime = ""
 
     @SerializedName("thumbUp")
     var thumbUp:Int = 0

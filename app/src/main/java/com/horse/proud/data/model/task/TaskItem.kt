@@ -16,41 +16,41 @@ import kotlin.collections.ArrayList
  * */
 class TaskItem : Parcelable {
 
-    lateinit var id:String
+    var id = ""
 
     @SerializedName("user_id")
-    var userId:Int = 0
+    var userId = 0
 
-    lateinit var title:String
+    var title = ""
 
-    lateinit var content:String
+    var content = ""
 
-    var image:String ?= null
+    var image = ""
 
-    lateinit var label:String
+    var label = ""
 
-    lateinit var location:String
+    var location = ""
 
     @SerializedName("is_done")
     var done:Int = -1
 
     @SerializedName("reword")
-    lateinit var reword:String
+    var reword = ""
 
     @SerializedName("start_time")
-    lateinit var startTime:String
+    var startTime = ""
 
     @SerializedName("end_time")
-    lateinit var endTime:String
+    var endTime = ""
 
     @SerializedName("thumb_up")
-    var thumbUp:Int = 0
+    var thumbUp = 0
 
     @SerializedName("collect")
-    var collect:Int = 0
+    var collect = 0
 
     @SerializedName("comment")
-    var comment:Int = 0
+    var comment = 0
 
     /**
      * 评论内容，在另外一个接口获取到，然后在这里赋值

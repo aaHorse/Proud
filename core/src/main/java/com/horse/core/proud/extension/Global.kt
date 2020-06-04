@@ -3,6 +3,7 @@ package com.horse.core.proud.extension
 import android.annotation.SuppressLint
 import android.os.Looper
 import android.widget.Toast
+import com.horse.core.proud.Proud
 
 /**
  * 定义全局的拓展工具
@@ -21,7 +22,7 @@ private var toast: Toast? = null
 fun showToast(content: String, duration: Int = Toast.LENGTH_SHORT){
     if(Looper.myLooper() == Looper.getMainLooper()){
         if(toast == null){
-            toast = Toast.makeText(com.horse.core.proud.Proud.getContext(),content,duration)
+            toast = Toast.makeText(com.horse.core.proud.Proud.context,content,duration)
         }else{
             toast?.setText(content)
         }
@@ -35,9 +36,9 @@ fun showToast(content: String, duration: Int = Toast.LENGTH_SHORT){
 @SuppressLint("ShowToast")
 @JvmOverloads
 fun showToastOnUiThread(content: String, duration: Int = Toast.LENGTH_SHORT) {
-    com.horse.core.proud.Proud.getHandler().post {
+    Proud.handler.post {
         if (toast == null){
-            toast = Toast.makeText(com.horse.core.proud.Proud.getContext(), content, duration)
+            toast = Toast.makeText(com.horse.core.proud.Proud.context, content, duration)
         }else{
             toast?.setText(content)
         }

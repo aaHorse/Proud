@@ -11,34 +11,38 @@ import com.horse.proud.data.model.Response
  * */
 class Register{
 
+    var id = 0
+
     @SerializedName("accountNumber")
-    lateinit var number:String
+    var number = ""
 
     @SerializedName("password")
-    lateinit var password:String
+    var password = ""
 
     @SerializedName("name")
-    lateinit var name:String
+    var name = ""
 
     @SerializedName("sex")
     var sex:Int = 0
 
     @SerializedName("phoneNumber")
-    var phoneNumber:String = "10086"
+    var phoneNumber = "10086"
 
     /**
      * 头像
      * */
     @SerializedName("head")
-    var head:String = ""
+    var head = ""
 
     @SerializedName("address")
-    var address:String = ""
+    var address = ""
 
     /**
      * 一句话简介
      * */
     @SerializedName("info")
-    var info:String = "太强了"
+    var info = "太强了"
+
+    var token = ""
 
 }

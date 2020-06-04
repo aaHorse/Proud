@@ -1,5 +1,7 @@
 package com.horse.proud.ui.init
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Environment
@@ -7,6 +9,7 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
@@ -21,6 +24,7 @@ import com.horse.proud.ui.login.LoginActivity
 import constant.UiType
 import constant.UiType.PLENTIFUL
 import listener.Md5CheckResultListener
+import listener.OnBtnClickListener
 import listener.UpdateDownloadListener
 import model.UiConfig
 import model.UpdateConfig
@@ -37,8 +41,6 @@ import update.UpdateAppUtils.updateTitle
 
 /**
  * 进入APP的第一个界面，闪屏界面、进行内容初始化。
- *
- * 没有做版本更新。
  *
  * @author liliyuan
  * @since 2020年4月8日06:01:46
@@ -91,7 +93,7 @@ class SplashActivity : BaseActivity(){
         })
         viewModel.noNewVersion.observe(this, Observer {
             viewModel.noNewVersion.value?.run {
-                LoginActivity.actionStart(this@SplashActivity)
+                forwardToNextActivity()
             }
         })
     }
@@ -116,19 +118,26 @@ class SplashActivity : BaseActivity(){
             val file = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
             if(file == null){
                 //创建文件目录失败，不更新
-                LoginActivity.actionStart(this@SplashActivity)
+                forwardToNextActivity()
             }else{
                 apkSavePath = file.absolutePath + "/downloads"
             }
-            apkSaveName = "banana"
+            apkSaveName = GlobalUtil.getString(R.string.apkSaveName)
         }
 
         getInstance()
             .apkUrl(newVersionPath)
-            .updateTitle("标题")
-            .updateContent("内容")
+            .updateTitle(GlobalUtil.getString(R.string.update_title))
+            .updateContent(GlobalUtil.getString(R.string.update_content))
             .updateConfig(updateConfig)
             .uiConfig(uiConfig)
+            .setCancelBtnClickListener(object : OnBtnClickListener{
+                override fun onClick(): Boolean {
+                    forwardToNextActivity()
+                    return false
+                }
+
+            })
             .setUpdateDownloadListener(object : UpdateDownloadListener{
                 override fun onDownload(progress: Int) {
                     //
@@ -168,7 +177,7 @@ class SplashActivity : BaseActivity(){
     private fun delayToForward() {
         Thread(Runnable {
             GlobalUtil.sleep(MAX_WAIT_TIME.toLong())
-            forwardToNextActivity(false, null)
+            forwardToNextActivity()
         }).start()
     }
 
@@ -176,7 +185,7 @@ class SplashActivity : BaseActivity(){
      * 跳转到下一个Activity。
      * */
     @Synchronized
-    fun forwardToNextActivity(hasNewVersion: Boolean, version: Version?) {
+    fun forwardToNextActivity() {
         if(isForwarding){
             //如果正在跳转到下一个界面
             isForwarding = false
@@ -186,7 +195,7 @@ class SplashActivity : BaseActivity(){
                 GlobalUtil.sleep(MIN_WAIT_TIME - timeSpent)
             }
             runOnUiThread {
-                if(Proud.isLogin()){
+                if(Proud.loginState != Const.Auth.UNCHECK){
                     MainActivity.actionStart(this)
                     finish()
                 }else{
@@ -210,6 +219,12 @@ class SplashActivity : BaseActivity(){
          * 应用程序在闪屏界面最长的停留时间。
          */
         const val MAX_WAIT_TIME = 1000
+
+        fun actionStart(activity:Activity){
+            val intent = Intent(activity,SplashActivity::class.java)
+            activity.startActivity(intent)
+        }
+
     }
 
 

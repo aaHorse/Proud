@@ -1,6 +1,9 @@
 <resources>
 
     <string name="app_name">校园芥子空间</string>
+    <string name="apkSaveName">banana</string>
+    <string name="update_title">标题</string>
+    <string name="update_content">内容</string>
 
     <string name="unknown_error">发生未知错误!</string>
     <string name="login_status_expired">登录状态已过期</string>
@@ -34,7 +37,7 @@
     <string name="setting">设置</string>
     <string name="about">关于我们</string>
     <string name="published">个人发布</string>
-    <string name="edit">编辑</string>
+    <string name="edit">个人信息编辑</string>
 
     <string name="setting_0">编辑个人信息</string>
     <string name="setting_1">查看个人发布</string>

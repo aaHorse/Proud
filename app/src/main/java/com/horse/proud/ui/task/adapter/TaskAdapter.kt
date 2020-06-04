@@ -152,12 +152,12 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
         * */
         if(item.label.isNotEmpty()){
             logWarn(TAG,item.label)
-            var types:List<String> = item.label.split(",")
+            val types: MutableList<String> = item.label.split(",").toMutableList()
             types -= ""
             if(types.isNotEmpty()){
-                var rvType:RecyclerView = helper.getView(R.id.rv_type)
+                val rvType:RecyclerView = helper.getView(R.id.rv_type)
                 rvType.setHasFixedSize(true)
-                var linearLayoutManager = LinearLayoutManager(fragment.context)
+                val linearLayoutManager = LinearLayoutManager(fragment.context)
                 linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
                 rvType.layoutManager = linearLayoutManager
                 rvType.adapter = TypeAdapter(types)
@@ -184,7 +184,7 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
             if (!content.isBlank()){
                 val comment = CommentItem()
                 comment.id = "1"
-                comment.userId = Proud.getUserId()
+                comment.userId = Proud.userId
                 comment.content = content
                 comment.time = DateUtil.nowDateTime
                 comment.itemId = item.id

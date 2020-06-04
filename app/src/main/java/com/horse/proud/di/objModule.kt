@@ -12,6 +12,7 @@ import com.horse.proud.ui.lost.LostActivityViewModelFactory
 import com.horse.proud.ui.lost.LostFragmentViewModelFactory
 import com.horse.proud.ui.rental.RentalActivityViewModelFactory
 import com.horse.proud.ui.rental.RentalFragmentViewModelFactory
+import com.horse.proud.ui.setting.EditPersonalInfoViewModelFactory
 import com.horse.proud.ui.task.TaskActivityViewModelFactory
 import com.horse.proud.ui.task.TaskFragmentViewModelFactory
 import org.koin.dsl.module
@@ -28,6 +29,10 @@ val appModule = module {
 
     factory{
         RegisterActivityViewModelFactory(LoginRepository.getInstance(LoginNetwork.getInstance()))
+    }
+
+    factory{
+        EditPersonalInfoViewModelFactory(EditPersonalRepository.getInstance(EditPersonalInfoNetwork.getInstance()))
     }
 
     factory{

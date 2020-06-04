@@ -6,12 +6,12 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.horse.core.proud.Const
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
-import com.horse.proud.event.RegisterSucceedEvent
-import com.horse.proud.network.model.Version
+import com.horse.proud.event.RegisterEvent
 import com.horse.proud.ui.home.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.Subscribe
@@ -60,35 +60,36 @@ class LoginActivity : AuthActivity(){
 
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
-            saveAuthData(viewModel.login.data,name)
+            saveAuthData(viewModel.login)
             forwardToMainActivity()
         })
 
     }
 
-    /**
-     * 登录完成后，销毁这个活动。
-     * */
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onMessageEvent(messageEvent: MessageEvent) {
         if (messageEvent is FinishActivityEvent) {
             finish()
-        }else if(messageEvent is RegisterSucceedEvent){
-            number.setText(messageEvent.register.number)
-            password.setText(messageEvent.register.password)
-            name = messageEvent.register.name
+        }else if(messageEvent is RegisterEvent){
+            with(messageEvent){
+                when(loginState){
+                    Const.Auth.VISITOR -> {
+                        saveAuthState(Const.Auth.VISITOR)
+                        MainActivity.actionStart(this@LoginActivity)
+                    }
+                    Const.Auth.COMFIR -> {
+                        number.setText(register.number)
+                        password.setText(register.password)
+                        name = register.name
+                    }
+                }
+            }
         }
     }
 
     companion object {
 
         private const val TAG = "LoginActivity"
-
-        @JvmStatic
-        val INTENT_HAS_NEW_VERSION = "intent_has_new_version"
-
-        @JvmStatic
-        val INTENT_VERSION = "intent_version"
 
         fun actionStart(activity: Activity){
             val intent = Intent(activity, LoginActivity::class.java)
