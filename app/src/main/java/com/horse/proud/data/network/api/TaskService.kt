@@ -1,11 +1,11 @@
 package com.horse.proud.data.network.api
 
-import com.horse.proud.data.model.Response
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.other.CommentList
-import com.horse.proud.data.model.task.TaskItem
-import com.horse.proud.data.model.task.TaskList
-import com.horse.proud.data.model.task.TaskPublish
+import com.horse.core.proud.model.Response
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.other.CommentList
+import com.horse.core.proud.model.task.TaskItem
+import com.horse.core.proud.model.task.TaskList
+import com.horse.core.proud.model.task.TaskPublish
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -21,7 +21,7 @@ import retrofit2.http.*
 interface TaskService {
 
     @POST("api/task/insert")
-    fun publish(@Body task:TaskItem): Call<TaskPublish>
+    fun publish(@Body task: TaskItem): Call<TaskPublish>
 
     @GET("api/task/query/all")
     fun getAll():Call<TaskList>
@@ -38,6 +38,9 @@ interface TaskService {
     fun getComments(@Path("path")table_id:String):Call<CommentList>
 
     @POST("api/task/comment/insert")
-    fun publishComment(@Body comment:CommentItem):Call<Response>
+    fun publishComment(@Body comment: CommentItem):Call<Response>
+
+    @GET("api/task/query/user_id/{path}")
+    fun userTask(@Path("path")id:Int):Call<TaskList>
 
 }

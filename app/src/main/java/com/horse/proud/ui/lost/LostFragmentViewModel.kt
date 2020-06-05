@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.proud.data.LostRepository
-import com.horse.proud.data.model.Response
-import com.horse.proud.data.model.lost.LostItem
-import com.horse.proud.data.model.other.CommentItem
+import com.horse.core.proud.model.Response
+import com.horse.core.proud.model.lost.LostItem
+import com.horse.core.proud.model.other.CommentItem
 import kotlinx.coroutines.launch
 
 /**
@@ -30,9 +30,40 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
 
     var lostItemsChanged = MutableLiveData<Int>()
 
-    fun getLost() {
+    fun getLost(flag:Int,userID:Int){
+        if(flag == 0){
+            getAllLost()
+        }else{
+            getUserLost(userID)
+        }
+    }
+
+    private fun getAllLost() {
         launch ({
             var lostList = repository.getLostList()
+            when(lostList.status){
+                200 -> {
+                    lostItems.clear()
+                    for(item in lostList.lostList){
+                        lostItems.add(item)
+                    }
+                    getComments()
+                }
+                500 -> {
+                    loadFailed.value = flag++
+                }
+            }
+
+        }, {
+            logWarn(TAG, it.message, it)
+            loadFailed.value = flag++
+            Toast.makeText(Proud.context, it.message, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun getUserLost(userID:Int) {
+        launch ({
+            var lostList = repository.userLost(userID)
             when(lostList.status){
                 200 -> {
                     lostItems.clear()

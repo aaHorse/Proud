@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.proud.data.RentalRepository
-import com.horse.proud.data.model.Response
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.rental.RentalItem
+import com.horse.core.proud.model.Response
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.rental.RentalItem
 import kotlinx.coroutines.launch
 
 class RentalFragmentViewModel(private val repository: RentalRepository) : ViewModel(){
@@ -26,9 +26,39 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
 
     var rentalItemsChanged = MutableLiveData<Int>()
 
-    fun getRentalList() {
+    fun getRental(flag:Int,userID:Int){
+        if(flag == 0){
+            getAllRental()
+        }else{
+            getUserRental(userID)
+        }
+    }
+
+    private fun getAllRental() {
         launch ({
             var rentalList = repository.getRentalList()
+            when(rentalList.status){
+                200 -> {
+                    rentalItems.clear()
+                    for(item in rentalList.rentalList){
+                        rentalItems.add(item)
+                    }
+                    getComments()
+                }
+                500 -> {
+                    loadFailed.value = flag++
+                }
+            }
+
+        }, {
+            logWarn(TAG, it.message, it)
+            loadFailed.value = flag++
+        })
+    }
+
+    private fun getUserRental(userID: Int) {
+        launch ({
+            var rentalList = repository.userRental(userID)
             when(rentalList.status){
                 200 -> {
                     rentalItems.clear()

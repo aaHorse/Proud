@@ -24,8 +24,8 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
-import com.horse.proud.data.model.lost.LostItem
-import com.horse.proud.data.model.rental.RentalItem
+import com.horse.core.proud.model.lost.LostItem
+import com.horse.core.proud.model.rental.RentalItem
 import com.horse.proud.databinding.ActivityRentalBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.LikeEvent
@@ -419,7 +419,7 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
         /**
          * 编辑
          * */
-        fun actionStart(activity: Activity,item:RentalItem){
+        fun actionStart(activity: Activity,item: RentalItem){
             val intent = Intent(activity,RentalActivity::class.java)
             intent.putExtra(Const.ACTIVITY_FLAG,1)
             intent.putExtra(Const.ACTIVITY_CONTENT,item)

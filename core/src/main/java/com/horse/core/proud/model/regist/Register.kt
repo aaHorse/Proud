@@ -1,7 +1,7 @@
-package com.horse.proud.data.model.regist
+package com.horse.core.proud.model.regist
 
 import com.google.gson.annotations.SerializedName
-import com.horse.proud.data.model.Response
+import com.horse.core.proud.model.Response
 
 /**
  * 注册

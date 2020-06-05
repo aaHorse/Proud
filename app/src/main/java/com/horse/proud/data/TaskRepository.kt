@@ -1,7 +1,7 @@
 package com.horse.proud.data
 
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.task.TaskItem
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.task.TaskItem
 import com.horse.proud.data.network.TaskNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -37,8 +37,12 @@ class TaskRepository private constructor(private val network: TaskNetwork){
         network.fetchGetComments(id)
     }
 
-    suspend fun publishComment(comment:CommentItem) = withContext(Dispatchers.IO){
+    suspend fun publishComment(comment: CommentItem) = withContext(Dispatchers.IO){
         network.fetchPublishComment(comment)
+    }
+
+    suspend fun userTask(id:Int) = withContext(Dispatchers.IO){
+        network.fetchUserTask(id)
     }
 
     companion object{

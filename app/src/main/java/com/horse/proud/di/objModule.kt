@@ -2,7 +2,6 @@ package com.horse.proud.di
 
 import com.horse.proud.data.*
 import com.horse.proud.data.network.*
-import com.horse.proud.ui.init.SplashActivityViewModel
 import com.horse.proud.ui.init.SplashActivityViewModelFactory
 import com.horse.proud.ui.login.ForgetPasswordActivityViewModelFactory
 import com.horse.proud.ui.login.LoginActivityViewModelFactory
@@ -13,6 +12,7 @@ import com.horse.proud.ui.lost.LostFragmentViewModelFactory
 import com.horse.proud.ui.rental.RentalActivityViewModelFactory
 import com.horse.proud.ui.rental.RentalFragmentViewModelFactory
 import com.horse.proud.ui.setting.EditPersonalInfoViewModelFactory
+import com.horse.proud.ui.setting.OverViewPublishedViewModelFactory
 import com.horse.proud.ui.task.TaskActivityViewModelFactory
 import com.horse.proud.ui.task.TaskFragmentViewModelFactory
 import org.koin.dsl.module
@@ -32,7 +32,11 @@ val appModule = module {
     }
 
     factory{
-        EditPersonalInfoViewModelFactory(EditPersonalRepository.getInstance(EditPersonalInfoNetwork.getInstance()))
+        EditPersonalInfoViewModelFactory(SettingRepository.getInstance(SettingNetwork.getInstance()))
+    }
+
+    factory{
+        OverViewPublishedViewModelFactory(SettingRepository.getInstance(SettingNetwork.getInstance()))
     }
 
     factory{

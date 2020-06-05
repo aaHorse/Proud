@@ -20,8 +20,8 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
-import com.horse.proud.data.model.lost.LostItem
-import com.horse.proud.data.model.other.CommentItem
+import com.horse.core.proud.model.lost.LostItem
+import com.horse.core.proud.model.other.CommentItem
 import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.MapActivity
@@ -30,6 +30,7 @@ import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.lost.FoundActivity
 import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
+import com.horse.proud.ui.setting.OverViewPublishedActivity
 import com.horse.proud.util.DateUtil
 import com.horse.proud.widget.SeeMoreView
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog
@@ -56,6 +57,10 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
         Glide.with(fragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(helper.getImageView(R.id.avatar))
+
+        helper.getImageView(R.id.avatar).setOnClickListener {
+            OverViewPublishedActivity.actionStart(fragment.activity,item.userId)
+        }
 
         if(!item.title.isNullOrEmpty()){
             helper.setText(R.id.text, item.title)
@@ -188,7 +193,7 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
             if (!content.isBlank()){
                 val comment = CommentItem()
                 comment.id = "1"
-                comment.userId = Proud.userId
+                comment.userId = Proud.register.id
                 comment.content = content
                 comment.time = DateUtil.nowDateTime
                 comment.itemId = item.id

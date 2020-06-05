@@ -54,32 +54,30 @@ class SplashActivity : BaseActivity(){
     /**
      * 记录进入SplashActivity的时间。
      */
-    var enterTime: Long = 0
+    private var enterTime: Long = 0
 
     /**
      * 判断是否正在跳转到下一个界面。
      */
-    var isForwarding = true
-
-    var hasNewVersion = false
-
-    lateinit var logoView: View
+    private var isForwarding = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = DataBindingUtil.setContentView<ActivitySplashBinding>(this,R.layout.activity_splash)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        enterTime = System.currentTimeMillis()
+
         //delayToForward()
         UpdateAppUtils.init(this)
-        viewModel.checkNewVersion()
-        observe()
+
     }
 
     override fun setupViews() {
-        //startInitRequest()
-    }
+        enterTime = System.currentTimeMillis()
+        Proud.refreshUserMsg()
+        viewModel.checkNewVersion()
+        observe()
+}
 
     override fun onBackPressed() {
         // 屏蔽手机的返回键
@@ -196,7 +194,7 @@ class SplashActivity : BaseActivity(){
             }
             runOnUiThread {
                 if(Proud.loginState != Const.Auth.UNCHECK){
-                    MainActivity.actionStart(this)
+                    MainActivity.actionStart(this,userId = Proud.register.id)
                     finish()
                 }else{
                     LoginActivity.actionStart(this)

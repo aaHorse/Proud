@@ -3,12 +3,15 @@ package com.horse.proud.ui.setting
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityEditPersonalInfoBinding
 import com.horse.proud.ui.common.BaseActivity
+import com.horse.proud.ui.login.AuthUtil
 import kotlinx.android.synthetic.main.activity_edit_personal_info.*
 import org.koin.android.ext.android.inject
 
@@ -35,9 +38,21 @@ class EditPersonalInfoActivity : BaseActivity() {
 
     override fun setupViews() {
         setupToolbar()
+        observe()
         sure.setOnClickListener {
             viewModel.update()
         }
+        edit_phone.setOnClickListener {
+            showToast("经费不足，验证码功能只有UI >o<")
+            comfir.visibility = View.VISIBLE
+        }
+    }
+
+    private fun observe(){
+        viewModel.dataUpdate.observe(this, Observer {
+            showToast("修改成功")
+            AuthUtil.saveAuthData(viewModel.register)
+        })
     }
 
     companion object{

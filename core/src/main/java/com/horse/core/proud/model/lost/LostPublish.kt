@@ -1,7 +1,7 @@
-package com.horse.proud.data.model.lost
+package com.horse.core.proud.model.lost
 
 import com.google.gson.annotations.SerializedName
-import com.horse.proud.data.model.Response
+import com.horse.core.proud.model.Response
 
 /**
  * @author liliyuan

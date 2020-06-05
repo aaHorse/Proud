@@ -11,7 +11,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.TaskRepository
-import com.horse.proud.data.model.task.TaskItem
+import com.horse.core.proud.model.task.TaskItem
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.util.DateUtil
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
     fun publish(){
         launch({
             val task = TaskItem()
-            task.userId = Proud.userId
+            task.userId = Proud.register.id
             logWarn(TAG,"${task.userId}")
             task.title = "会飞的鱼"
             task.content = content.value.toString()

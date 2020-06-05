@@ -1,7 +1,7 @@
 package com.horse.proud.data
 
-import com.horse.proud.data.model.login.Token
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.login.Token
+import com.horse.core.proud.model.regist.Register
 import com.horse.proud.data.network.LoginNetwork
 import com.horse.proud.data.network.LostNetwork
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.horse.proud.data.model.other
+package com.horse.core.proud.model.other
 
 /**
  * 类型

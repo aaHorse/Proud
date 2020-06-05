@@ -1,7 +1,7 @@
 package com.horse.proud.data
 
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.rental.RentalItem
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.rental.RentalItem
 import com.horse.proud.data.network.RentalNetwork
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -38,6 +38,10 @@ class RentalRepository private constructor(private val network: RentalNetwork){
 
     suspend fun publishComment(comment: CommentItem) = withContext(Dispatchers.IO){
         network.fetchPublishComment(comment)
+    }
+
+    suspend fun userRental(id:Int) = withContext(Dispatchers.IO){
+        network.fetchUserRental(id)
     }
 
     companion object{

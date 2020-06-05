@@ -1,6 +1,6 @@
 package com.horse.proud.event
 
-import com.horse.proud.data.model.other.CommentItem
+import com.horse.core.proud.model.other.CommentItem
 
 /**
  * 发表评论事件
@@ -12,6 +12,6 @@ class CommentEvent : MessageEvent(){
 
     var category:Int = -1
 
-    lateinit var comment:CommentItem
+    lateinit var comment: CommentItem
 
 }

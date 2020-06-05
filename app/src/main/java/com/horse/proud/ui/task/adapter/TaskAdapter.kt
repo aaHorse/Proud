@@ -20,11 +20,12 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.task.TaskItem
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.task.TaskItem
 import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.ViewLocationActivity
+import com.horse.proud.ui.setting.OverViewPublishedActivity
 import com.horse.proud.ui.task.TaskActivity
 import com.horse.proud.ui.task.TaskFragment
 import com.horse.proud.util.DateUtil
@@ -51,6 +52,10 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
         Glide.with(fragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(helper.getImageView(R.id.avatar))
+
+        helper.getImageView(R.id.avatar).setOnClickListener {
+            OverViewPublishedActivity.actionStart(fragment.activity,item.userId)
+        }
 
         if(item.title.isNotEmpty()){
             helper.setText(R.id.text, item.title)
@@ -184,7 +189,7 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
             if (!content.isBlank()){
                 val comment = CommentItem()
                 comment.id = "1"
-                comment.userId = Proud.userId
+                comment.userId = Proud.register.id
                 comment.content = content
                 comment.time = DateUtil.nowDateTime
                 comment.itemId = item.id

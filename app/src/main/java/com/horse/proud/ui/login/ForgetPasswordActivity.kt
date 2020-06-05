@@ -18,8 +18,8 @@ import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
-import com.horse.proud.data.model.login.WordsResult
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.login.WordsResult
+import com.horse.core.proud.model.regist.Register
 import com.horse.proud.databinding.ActivityForgetPasswordBinding
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.home.MainActivity

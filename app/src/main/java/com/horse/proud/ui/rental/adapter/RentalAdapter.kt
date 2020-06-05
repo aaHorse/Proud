@@ -20,14 +20,15 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.rental.RentalItem
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.rental.RentalItem
 import com.horse.proud.event.CommentEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.common.ViewLocationActivity
 import com.horse.proud.ui.rental.RentalActivity
 import com.horse.proud.ui.rental.RentalFragment
+import com.horse.proud.ui.setting.OverViewPublishedActivity
 import com.horse.proud.util.DateUtil
 import com.horse.proud.widget.SeeMoreView
 import com.qmuiteam.qmui.widget.dialog.QMUIDialog
@@ -53,7 +54,11 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
 
         Glide.with(fragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
-            .into(helper.getImageView(R.id.avatar));
+            .into(helper.getImageView(R.id.avatar))
+
+        helper.getImageView(R.id.avatar).setOnClickListener {
+            OverViewPublishedActivity.actionStart(fragment.activity,item.userId)
+        }
 
         if(item.title.isNotEmpty()){
             helper.setText(R.id.text, item.title)
@@ -185,7 +190,7 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
             if (!content.isBlank()){
                 val comment = CommentItem()
                 comment.id = "1"
-                comment.userId = Proud.userId
+                comment.userId = Proud.register.id
                 comment.content = content
                 comment.time = DateUtil.nowDateTime
                 comment.itemId = item.id

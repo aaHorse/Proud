@@ -11,7 +11,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.LostRepository
-import com.horse.proud.data.model.lost.LostItem
+import com.horse.core.proud.model.lost.LostItem
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.util.DateUtil
 import kotlinx.coroutines.launch
@@ -40,7 +40,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
     fun publish(){
         launch({
             var item = LostItem()
-            item.userId = Proud.userId
+            item.userId = Proud.register.id
             logWarn(TAG,"${item.userId}")
             item.title = "会飞的鱼"
             item.content = content.value.toString()

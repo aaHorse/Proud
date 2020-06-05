@@ -23,7 +23,7 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
-import com.horse.proud.data.model.task.TaskItem
+import com.horse.core.proud.model.task.TaskItem
 import com.horse.proud.databinding.ActivityTaskBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
@@ -428,7 +428,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         /**
          * 编辑
          * */
-        fun actionStart(activity:Activity,item:TaskItem){
+        fun actionStart(activity:Activity,item: TaskItem){
             val intent = Intent(activity,TaskActivity::class.java)
             intent.putExtra(Const.ACTIVITY_FLAG,1)
             intent.putExtra(Const.ACTIVITY_CONTENT,item)

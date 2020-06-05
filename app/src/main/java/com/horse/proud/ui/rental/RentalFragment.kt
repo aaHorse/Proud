@@ -69,11 +69,11 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
     }
 
     override fun loadItems() {
-        viewModel.getRentalList()
+        viewModel.getRental(activity.flag,activity.userID)
     }
 
     override fun refresh() {
-        viewModel.getRentalList()
+        viewModel.getRental(activity.flag,activity.userID)
     }
 
     override fun dataSetSize(): Int {
@@ -98,7 +98,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
-                View.OnClickListener { MainActivity.actionStart(activity) })
+                View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
         } else {
             hideNoContentView()
         }
@@ -116,7 +116,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
                 showNoContentViewWithButton(
                     GlobalUtil.getString(R.string.items_null),
                     GlobalUtil.getString(R.string.items_null_click),
-                    View.OnClickListener { MainActivity.actionStart(activity) })
+                    View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
             }else{
                 loadFinished()
                 hideNoContentView()

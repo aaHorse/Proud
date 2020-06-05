@@ -10,7 +10,7 @@ import com.horse.core.proud.util.GlobalUtil
 import com.horse.core.proud.util.SharedUtil
 import com.horse.proud.R
 import com.horse.proud.data.LoginRepository
-import com.horse.proud.data.model.login.Login
+import com.horse.core.proud.model.login.Login
 import kotlinx.coroutines.launch
 
 /**
@@ -21,7 +21,7 @@ class LoginActivityViewModel(private val respository:LoginRepository):ViewModel(
 
     var dataChanged = MutableLiveData<Int>()
 
-    lateinit var login:Login
+    lateinit var login: Login
 
     fun login(number:String,password:String) {
         launch ({

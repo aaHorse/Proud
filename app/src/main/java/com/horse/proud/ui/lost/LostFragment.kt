@@ -69,11 +69,11 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
     }
 
     override fun loadItems() {
-        viewModel.getLost()
+        viewModel.getLost(activity.flag,activity.userID)
     }
 
     override fun refresh() {
-        viewModel.getLost()
+        viewModel.getLost(activity.flag,activity.userID)
     }
 
     override fun dataSetSize(): Int {
@@ -97,7 +97,7 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
-                View.OnClickListener { MainActivity.actionStart(activity) })
+                View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
         } else {
             hideNoContentView()
         }
@@ -114,7 +114,7 @@ class LostFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 showNoContentViewWithButton(
                     GlobalUtil.getString(R.string.items_null),
                     GlobalUtil.getString(R.string.items_null_click),
-                    View.OnClickListener { MainActivity.actionStart(activity) })
+                    View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
             }else{
                 loadFinished()
                 hideNoContentView()

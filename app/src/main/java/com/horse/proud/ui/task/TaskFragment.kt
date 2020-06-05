@@ -69,11 +69,11 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
     }
 
     override fun loadItems() {
-        viewModel.getTask()
+        viewModel.getTask(activity.flag,activity.userID)
     }
 
     override fun refresh() {
-        viewModel.getTask()
+        viewModel.getTask(activity.flag,activity.userID)
     }
 
     override fun dataSetSize(): Int {
@@ -97,7 +97,7 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
             recyclerView.visibility = View.GONE
             showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
                 GlobalUtil.getString(R.string.app_name),
-                View.OnClickListener { MainActivity.actionStart(activity) })
+                View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
         } else {
             hideNoContentView()
         }
@@ -113,7 +113,7 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 showNoContentViewWithButton(
                     GlobalUtil.getString(R.string.items_null),
                     GlobalUtil.getString(R.string.items_null_click),
-                    View.OnClickListener { refresh() })
+                    View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
             }else{
                 loadFinished()
                 hideNoContentView()

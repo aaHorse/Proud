@@ -1,7 +1,7 @@
-package com.horse.proud.data.model.rental
+package com.horse.core.proud.model.rental
 
 import com.google.gson.annotations.SerializedName
-import com.horse.proud.data.model.Response
+import com.horse.core.proud.model.Response
 
 /**
  * @author liliyuan

@@ -1,19 +1,18 @@
-package com.horse.proud.data.model.lost
+package com.horse.core.proud.model.rental
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.other.CommentList
-import java.util.ArrayList
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.other.CommentList
 
 /**
- * 失物招领实体类
+ * 物品租赁
  *
  * @author liliyuan
- * @since 2020年4月26日15:13:46
+ * @since 2020年4月26日15:14:20
  * */
-class LostItem : Parcelable {
+class RentalItem : Parcelable {
 
     var id = ""
 
@@ -30,18 +29,21 @@ class LostItem : Parcelable {
 
     var location = ""
 
-    /**
-     * lost:0
-     * found:-1
-     * */
-    @SerializedName("isLost")
-    var isLost:Int = -2
+    var unitPrice:Double = 0.00
+
+    var newDegree:Int = 90
 
     @SerializedName("isDone")
     var done:Int = -1
 
-    @SerializedName("time")
-    var time = ""
+    @SerializedName("reword")
+    var reword = ""
+
+    @SerializedName("startTime")
+    var startTime = ""
+
+    @SerializedName("endTime")
+    var endTime = ""
 
     @SerializedName("thumbUp")
     var thumbUp:Int = 0
@@ -52,14 +54,14 @@ class LostItem : Parcelable {
     @SerializedName("comment")
     var comment:Int = 0
 
-    override fun describeContents(): Int {
-        return 0
-    }
-
     /**
      * 评论内容，在另外一个接口获取到，然后在这里赋值
      * */
     var comments: CommentList?=null
+
+    override fun describeContents(): Int {
+        return 0
+    }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(id)
@@ -69,34 +71,37 @@ class LostItem : Parcelable {
         dest.writeString(image)
         dest.writeString(label)
         dest.writeString(location)
-        dest.writeInt(isLost)
+        dest.writeDouble(unitPrice)
+        dest.writeInt(newDegree)
         dest.writeInt(done)
-        dest.writeString(time)
+        dest.writeString(startTime)
+        dest.writeString(endTime)
     }
 
     constructor() {}
 
     constructor(parcel: Parcel) {
-        id= parcel.readString() ?: ""
+        id = parcel.readString() ?: ""
         userId = parcel.readInt()
         title = parcel.readString() ?: ""
         content = parcel.readString() ?: ""
         image = parcel.readString() ?: ""
         label = parcel.readString() ?: ""
         location = parcel.readString() ?: ""
-        isLost = parcel.readInt()
+        unitPrice = parcel.readDouble()
+        newDegree = parcel.readInt()
         done = parcel.readInt()
-        time = parcel.readString() ?: ""
-
+        startTime = parcel.readString() ?: ""
+        endTime = parcel.readString() ?: ""
     }
 
     companion object {
-        @JvmField val CREATOR: Parcelable.Creator<LostItem?> = object : Parcelable.Creator<LostItem?> {
-            override fun createFromParcel(source: Parcel): LostItem? {
-                return LostItem(source)
+        @JvmField val CREATOR: Parcelable.Creator<RentalItem?> = object : Parcelable.Creator<RentalItem?> {
+            override fun createFromParcel(source: Parcel): RentalItem? {
+                return RentalItem(source)
             }
 
-            override fun newArray(size: Int): Array<LostItem?> {
+            override fun newArray(size: Int): Array<RentalItem?> {
                 return arrayOfNulls(size)
             }
         }

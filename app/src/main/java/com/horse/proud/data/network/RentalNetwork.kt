@@ -1,7 +1,7 @@
 package com.horse.proud.data.network
 
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.rental.RentalItem
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.rental.RentalItem
 import com.horse.proud.data.network.api.RentalService
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -31,6 +31,8 @@ class RentalNetwork {
     suspend fun fetchGetComments(id:String) = service.getComments(id).await()
 
     suspend fun fetchPublishComment(comment: CommentItem) = service.publishComment(comment).await()
+
+    suspend fun fetchUserRental(id:Int) = service.userRental(id).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

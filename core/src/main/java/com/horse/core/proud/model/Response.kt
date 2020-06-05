@@ -1,4 +1,4 @@
-package com.horse.proud.data.model
+package com.horse.core.proud.model
 
 import com.google.gson.annotations.SerializedName
 

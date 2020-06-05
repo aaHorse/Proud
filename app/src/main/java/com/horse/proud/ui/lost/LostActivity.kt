@@ -23,7 +23,7 @@ import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
-import com.horse.proud.data.model.lost.LostItem
+import com.horse.core.proud.model.lost.LostItem
 import com.horse.proud.databinding.ActivityLostBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.LikeEvent
@@ -427,7 +427,7 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         /**
          * 编辑
          * */
-        fun actionStart(activity:Activity,item:LostItem){
+        fun actionStart(activity:Activity,item: LostItem){
             val intent = Intent(activity,LostActivity::class.java)
             intent.putExtra(Const.ACTIVITY_FLAG,1)
             intent.putExtra(Const.ACTIVITY_CONTENT,item)

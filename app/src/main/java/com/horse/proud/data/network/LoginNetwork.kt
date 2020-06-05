@@ -1,8 +1,8 @@
 package com.horse.proud.data.network
 
-import com.horse.proud.data.model.login.Token
-import com.horse.proud.data.model.login.WordsResult
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.login.Token
+import com.horse.core.proud.model.login.WordsResult
+import com.horse.core.proud.model.regist.Register
 import com.horse.proud.data.network.api.LoginService
 import okhttp3.OkHttpClient
 import retrofit2.Call

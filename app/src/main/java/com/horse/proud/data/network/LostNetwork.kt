@@ -1,7 +1,7 @@
 package com.horse.proud.data.network
 
-import com.horse.proud.data.model.lost.LostItem
-import com.horse.proud.data.model.other.CommentItem
+import com.horse.core.proud.model.lost.LostItem
+import com.horse.core.proud.model.other.CommentItem
 import com.horse.proud.data.network.api.LostService
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -31,6 +31,8 @@ class LostNetwork {
     suspend fun fetchGetComments(id:String) = service.getComments(id).await()
 
     suspend fun fetchPublishComment(comment: CommentItem) = service.publishComment(comment).await()
+
+    suspend fun fetchUserLost(id:Int) = service.userLostAndFound(id).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

@@ -57,6 +57,14 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     var flag:Int = 0
 
     /**
+     * 界面对应的userId
+     *
+     * 特别注意，活动中不能命名为 userId，这个名字有冲突
+     *
+     * */
+    var userID = 0
+
+    /**
      * 任务发布列表 Fragment
      * */
     var taskFragment: TaskFragment? = null
@@ -88,6 +96,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN or
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
         flag = intent.getIntExtra(Const.ACTIVITY_FLAG,0)
+        userID = intent.getIntExtra(Const.ACTIVITY_CONTENT,Proud.register.id)
         setContentView(R.layout.activity_main)
         //上面这个方法下面的代码不会被执行
     }
@@ -252,11 +261,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         EditPersonalInfoActivity.actionStart(this)
                     }
                     1 -> {
-                        OverViewPublishedActivity.actionStart(this)
+                        OverViewPublishedActivity.actionStart(this,userID)
                     }
                     2 -> {
-                        Proud.logout()
-                        SplashActivity.actionStart(this)
+                        exit()
                     }
                 }
             }.create(R.style.MenuDialog).show()
@@ -273,6 +281,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 dialog.dismiss()
             }
             .addAction(0, "退出", QMUIDialogAction.ACTION_PROP_NEGATIVE) { dialog, index ->
+                Proud.logout()
+                SplashActivity.actionStart(this)
                 dialog.dismiss()
             }.create(R.style.MenuDialog).show()
     }
@@ -295,9 +305,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         private const val TAG = "MainActivity"
 
-        fun actionStart(activity: Activity,flag:Int = 0){
+        fun actionStart(activity: Activity,flag:Int = 0,userId:Int){
             val intent = Intent(activity,MainActivity::class.java)
             intent.putExtra(Const.ACTIVITY_FLAG,flag)
+            intent.putExtra(Const.ACTIVITY_CONTENT,userId)
             activity.startActivity(intent)
         }
 

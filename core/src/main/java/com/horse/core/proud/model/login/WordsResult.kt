@@ -1,4 +1,4 @@
-package com.horse.proud.data.model.login
+package com.horse.core.proud.model.login
 
 import com.google.gson.annotations.SerializedName
 
@@ -23,7 +23,7 @@ class WordsResult {
     class Result{
 
         @SerializedName("location")
-        lateinit var location:Location
+        lateinit var location: Location
 
         @SerializedName("words")
         lateinit var words:String

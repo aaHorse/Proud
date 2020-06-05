@@ -1,6 +1,6 @@
 package com.horse.proud.data.network
 
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.regist.Register
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -1,6 +1,6 @@
 package com.horse.proud.data.network.api
 
-import com.horse.proud.data.model.init.CheckNewVersion
+import com.horse.core.proud.model.init.CheckNewVersion
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

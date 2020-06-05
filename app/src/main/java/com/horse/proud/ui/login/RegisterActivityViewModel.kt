@@ -9,7 +9,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.LoginRepository
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.regist.Register
 import kotlinx.coroutines.launch
 import kotlin.isInitialized as isInitialized
 

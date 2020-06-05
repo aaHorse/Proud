@@ -8,32 +8,36 @@ import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
-import com.horse.proud.data.EditPersonalRepository
-import com.horse.proud.data.model.regist.Register
+import com.horse.proud.data.SettingRepository
 import kotlinx.coroutines.launch
 
 /**
  * @author liliyuan
  * @since 2020年6月4日19:47:28
  * */
-class EditPersonalInfoViewModel(private val repository: EditPersonalRepository):ViewModel() {
+class EditPersonalInfoViewModel(private val repository: SettingRepository):ViewModel() {
 
-    var name = Proud.name
+    var flag:Int = 0
 
-    var phone = Proud.phone
+    val register = Proud.register
 
-    var info = Proud.info
+    var name = register.name
+
+    var phone = register.phoneNumber
+
+    var info = register.info
+
+    var dataUpdate = MutableLiveData<Int>()
 
     fun update(){
         launch({
-            val register = Register()
             register.name = name
             register.phoneNumber = phone
             register.info = info
             val response = repository.update(register)
             when(response.status){
                 200 -> {
-                    showToast("修改成功")
+                    dataUpdate.value = flag ++
                 }
                 else -> {
                     showToast("修改失败")

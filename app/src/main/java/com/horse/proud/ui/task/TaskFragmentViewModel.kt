@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.data.TaskRepository
-import com.horse.proud.data.model.Response
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.task.TaskItem
+import com.horse.core.proud.model.Response
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.task.TaskItem
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -26,7 +26,21 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
 
     var taskItemsChanged = MutableLiveData<Int>()
 
-    fun getTask() {
+    /**
+     * 获取任务列表
+     *
+     * @param flag 标志，0：查看全部
+     * @param userID 用户id，查看用户对应的信息
+     * */
+    fun getTask(flag:Int,userID:Int){
+        if(flag == 0){
+            getAllTask()
+        }else{
+            getUserTask(userID)
+        }
+    }
+
+    private fun getAllTask() {
         launch ({
             var taskList = repository.getTaskList()
             when(taskList.status){
@@ -47,9 +61,32 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
         })
     }
 
-    fun publishComment(comment:CommentItem){
+
+
+    private fun getUserTask(userId:Int){
+        launch ({
+            var taskList = repository.userTask(userId)
+            when(taskList.status){
+                200 -> {
+                    taskItems.clear()
+                    for(item in taskList.taskList){
+                        taskItems.add(item)
+                    }
+                    getComments()
+                }
+                500 -> {
+                    loadFailed.value = flag++
+                }
+            }
+        }, {
+            logWarn(TAG, it.message, it)
+            loadFailed.value = flag++
+        })
+    }
+
+    fun publishComment(comment: CommentItem){
         launch({
-            var response:Response = repository.publishComment(comment)
+            var response: Response = repository.publishComment(comment)
             when(response.status){
                 200 -> {
                     //showToast("成功")

@@ -3,6 +3,7 @@ package com.horse.core.proud
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import com.horse.core.proud.model.regist.Register
 import com.horse.core.proud.util.SharedUtil
 
 /**
@@ -30,7 +31,7 @@ object Proud {
      * */
     var loginState = Const.Auth.UNCHECK
 
-    var register:Register? = null
+    var register = Register()
 
 
     var BASE_URL =
@@ -44,7 +45,7 @@ object Proud {
     fun initialize(c: Context) {
         context = c
         handler = Handler(Looper.getMainLooper())
-        refreshUserMsg()
+        //refreshUserMsg()
     }
 
     val packageName: String
@@ -69,13 +70,15 @@ object Proud {
      * 刷新用户的信息。
      */
     fun refreshUserMsg() {
-        userId = SharedUtil.read(Const.Auth.USER_ID,0)
-        accountNumber = SharedUtil.read(Const.Auth.NUMBER,"NULL")
-        name = SharedUtil.read(Const.Auth.NAME,"NULL")
-        phone = SharedUtil.read(Const.Auth.PHONE,"NULL")
-        head =  SharedUtil.read(Const.Auth.HEAD,"NULL")
-        info = SharedUtil.read(Const.Auth.INFO,"NULL")
-        token = SharedUtil.read(Const.Auth.TOKEN,"NULL")
+        with(register){
+            id = SharedUtil.read(Const.Auth.USER_ID,0)
+            number = SharedUtil.read(Const.Auth.NUMBER,"NULL")
+            name = SharedUtil.read(Const.Auth.NAME,"NULL")
+            phoneNumber = SharedUtil.read(Const.Auth.PHONE,"NULL")
+            head =  SharedUtil.read(Const.Auth.HEAD,"NULL")
+            info = SharedUtil.read(Const.Auth.INFO,"NULL")
+            token = SharedUtil.read(Const.Auth.TOKEN,"NULL")
+        }
         refreshLoginState()
     }
 

@@ -21,8 +21,8 @@ import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
-import com.horse.proud.data.model.login.WordsResult
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.login.WordsResult
+import com.horse.core.proud.model.regist.Register
 import com.horse.proud.databinding.ActivityRegisterBinding
 import com.horse.proud.event.RegisterEvent
 import com.horse.proud.ui.common.BaseActivity
@@ -162,7 +162,8 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         var i3 = 1
         //福，匹配1次,事实有2次，为了提高匹配度，只验证一个
         var i4 = 1
-        val bean = Gson().fromJson(result,WordsResult::class.java)
+        val bean = Gson().fromJson(result,
+            WordsResult::class.java)
         for(item in bean.resultList){
             with(item){
                 if(words.matches(Regex(".*福州大学.*"))){

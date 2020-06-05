@@ -7,11 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.horse.core.proud.Const
+import com.horse.core.proud.Proud
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.RegisterEvent
+import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.home.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import org.greenrobot.eventbus.Subscribe
@@ -24,7 +26,7 @@ import org.koin.android.ext.android.inject
  * @author liliyuan
  * @since 2020年4月21日06:14:51
  * */
-class LoginActivity : AuthActivity(){
+class LoginActivity : BaseActivity(){
 
     private val viewModelFactory by inject<LoginActivityViewModelFactory>()
 
@@ -52,15 +54,16 @@ class LoginActivity : AuthActivity(){
         observe()
     }
 
-    override fun forwardToMainActivity() {
+    private fun forwardToMainActivity() {
         // 登录成功，跳转到应用主界面
-        MainActivity.actionStart(this)
+        MainActivity.actionStart(this,userId = Proud.register.id)
         finish()
     }
 
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
-            saveAuthData(viewModel.login)
+            AuthUtil.saveAuthData(viewModel.login.data)
+            AuthUtil.saveAuthState(Const.Auth.COMFIR)
             forwardToMainActivity()
         })
 
@@ -74,8 +77,8 @@ class LoginActivity : AuthActivity(){
             with(messageEvent){
                 when(loginState){
                     Const.Auth.VISITOR -> {
-                        saveAuthState(Const.Auth.VISITOR)
-                        MainActivity.actionStart(this@LoginActivity)
+                        AuthUtil.saveAuthState(Const.Auth.VISITOR)
+                        MainActivity.actionStart(this@LoginActivity,userId = 0)
                     }
                     Const.Auth.COMFIR -> {
                         number.setText(register.number)

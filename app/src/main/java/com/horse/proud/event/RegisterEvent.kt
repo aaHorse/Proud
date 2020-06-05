@@ -1,6 +1,6 @@
 package com.horse.proud.event
 
-import com.horse.proud.data.model.regist.Register
+import com.horse.core.proud.model.regist.Register
 
 /**
  * 注册成功后，通知登录界面
@@ -17,6 +17,6 @@ class RegisterEvent :MessageEvent() {
      * */
     var loginState = 0
 
-    lateinit var register:Register
+    lateinit var register: Register
 
 }

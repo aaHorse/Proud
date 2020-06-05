@@ -1,11 +1,11 @@
 package com.horse.proud.data.network.api
 
-import com.horse.proud.data.model.Response
-import com.horse.proud.data.model.other.CommentItem
-import com.horse.proud.data.model.other.CommentList
-import com.horse.proud.data.model.rental.RentalItem
-import com.horse.proud.data.model.rental.RentalList
-import com.horse.proud.data.model.rental.RentalPublish
+import com.horse.core.proud.model.Response
+import com.horse.core.proud.model.other.CommentItem
+import com.horse.core.proud.model.other.CommentList
+import com.horse.core.proud.model.rental.RentalItem
+import com.horse.core.proud.model.rental.RentalList
+import com.horse.core.proud.model.rental.RentalPublish
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -37,5 +37,8 @@ interface RentalService {
 
     @POST("api/good/comment/insert")
     fun publishComment(@Body comment: CommentItem):Call<Response>
+
+    @GET("api/rental/query/userId")
+    fun userRental(@Query("userId")id:Int):Call<RentalList>
 
 }
