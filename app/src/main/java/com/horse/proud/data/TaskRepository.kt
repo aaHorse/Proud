@@ -8,6 +8,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
+import java.util.ArrayList
 
 /**
  * 任务功能
@@ -27,6 +28,10 @@ class TaskRepository private constructor(private val network: TaskNetwork){
 
     suspend fun upLoadImage(part: MultipartBody.Part,requestBody: RequestBody) = withContext(Dispatchers.IO){
         network.fetchTaskUpLoadImage(part,requestBody)
+    }
+
+    suspend fun upLoadImages(parts: ArrayList<MultipartBody.Part>, requestBody: RequestBody) = withContext(Dispatchers.IO){
+        network.fetchTaskUpLoadImages(parts,requestBody)
     }
 
     suspend fun like(id:String) = withContext(Dispatchers.IO){

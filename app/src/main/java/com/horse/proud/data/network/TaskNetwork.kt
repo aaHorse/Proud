@@ -8,6 +8,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -25,6 +26,8 @@ class TaskNetwork {
     suspend fun fetchTaskAll() = service.getAll().await()
 
     suspend fun fetchTaskUpLoadImage(part: MultipartBody.Part,requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
+
+    suspend fun fetchTaskUpLoadImages(parts: ArrayList<MultipartBody.Part>, requestBody: RequestBody) = service.uploadImages(parts,requestBody).await()
 
     suspend fun fetchLike(id:String) = service.like(id).await()
 

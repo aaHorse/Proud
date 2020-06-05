@@ -141,7 +141,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             when(requestCode){
                 RC_CHOOSE_PHOTO ->{
                     snpl_moment_add_photos.addMoreData(BGAPhotoPickerActivity.getSelectedPhotos(data))
-                    viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
+                    viewModel.imagesPath = BGAPhotoPickerActivity.getSelectedPhotos(data)
                 }
                 RC_PHOTO_PREVIEW ->{
                     snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)

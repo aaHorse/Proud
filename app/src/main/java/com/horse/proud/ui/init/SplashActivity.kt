@@ -63,13 +63,11 @@ class SplashActivity : BaseActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        UpdateAppUtils.init(this)
         val binding = DataBindingUtil.setContentView<ActivitySplashBinding>(this,R.layout.activity_splash)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-
         //delayToForward()
-        UpdateAppUtils.init(this)
-
     }
 
     override fun setupViews() {
@@ -85,8 +83,10 @@ class SplashActivity : BaseActivity(){
 
     private fun observe(){
         viewModel.newVersoinPath.observe(this, Observer {
-            viewModel.newVersoinPath.value?.run{
-                update(this)
+            if(it.isNullOrEmpty()){
+                forwardToNextActivity()
+            }else{
+                update(it)
             }
         })
         viewModel.noNewVersion.observe(this, Observer {

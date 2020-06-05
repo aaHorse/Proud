@@ -127,7 +127,7 @@ open class BaseFragment: Fragment(), RequestLifecycle {
             return
         }
         if (rootView != null) {
-            val viewStub = rootView?.findViewById<ViewStub>(R.id.noContentViewWithButton)
+            val viewStub = rootView!!.findViewById<ViewStub>(R.id.noContentViewWithButton)
             if (viewStub != null) {
                 noContentView = viewStub.inflate()
                 val noContentText = noContentView?.findViewById<TextView>(R.id.noContentText)

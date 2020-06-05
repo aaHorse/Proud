@@ -34,10 +34,13 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <!--显示加载-->
         <include layout="@layout/loading" />
 
+        <!--显示空、网络加载错误、加载错误-->
         <include layout="@layout/view_stub_holder" />
 
+        <!--显示空，但是有按钮-->
         <ViewStub
             android:id="@+id/noContentViewWithButton"
             android:layout="@layout/no_content_view_with_button"

@@ -25,6 +25,11 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * 任务发布、失物招领、物品租赁对应的列表加载基类。
  *
+ *
+ * 加载状态的切换
+ * 在BaseFragment中，有服务器错误状态、网络错误状态、空布局、加载状态，调用就可以进行切换
+ * 在本类中，有刷新状态
+ *
  * @author liliyuan
  * @since 2020年4月25日05:26:22
  * */
@@ -38,13 +43,12 @@ abstract class BaseItemsFragment : BaseFragment(){
     /**
      * 加载失败
      * */
-    var isLoadFailed: Boolean = false
+    var isLoadFailed = false
 
     /**
      * 判断服务器是否还有更多数据。如果没有了，为 true，否则为 false。
      * */
     var isNoMoreData = false
-        internal set
 
     lateinit var activity: MainActivity
 

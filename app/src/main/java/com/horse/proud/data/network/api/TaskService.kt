@@ -10,6 +10,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.ArrayList
 
 
 /**
@@ -26,9 +27,20 @@ interface TaskService {
     @GET("api/task/query/all")
     fun getAll():Call<TaskList>
 
+    /**
+     * 单张图片上传
+     * */
     @Multipart
     @POST("upload/task/setFileUpload")
     fun uploadImage(@Part part: MultipartBody.Part,@Part("id")requestBody: RequestBody): Call<Response>
+
+    /**
+     * 多张图片上传
+     * */
+    @Multipart
+    @POST("upload/task/setFilesUpload")
+    fun uploadImages(@Part parts: ArrayList<MultipartBody.Part>, @Part("id")requestBody: RequestBody): Call<Response>
+
 
     @FormUrlEncoded
     @POST("api/task/update/thumb_up")

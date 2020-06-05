@@ -19,7 +19,9 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.greenrobot.eventbus.EventBus
+import retrofit2.http.Multipart
 import java.io.File
+import java.util.ArrayList
 
 
 /**
@@ -38,7 +40,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     var time:String = ""
 
-    var imagePath:String = ""
+    var imagesPath = ArrayList<String>()
 
     fun publish(){
         launch({
@@ -61,9 +63,22 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
             when(response.status){
                 200 ->{
-                    upLoadImage(response.data)
+                    when {
+                        imagesPath.isNullOrEmpty() -> {
+                            showToast("任务发布成功")
+                            val finishActivityEvent = FinishActivityEvent()
+                            finishActivityEvent.category = Const.Like.TASK
+                            EventBus.getDefault().post(finishActivityEvent)
+                        }
+                        imagesPath.size == 1 -> {
+                            upLoadImage(response.data,imagesPath[0])
+                        }
+                        imagesPath.size > 1 -> {
+                            upLoadImages(response.data,imagesPath)
+                        }
+                    }
+
                     logWarn(TAG,response.data)
-                    logWarn(TAG,imagePath)
                 }
                 500 ->{
                     showToast("任务发布失败")
@@ -76,7 +91,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
         })
     }
 
-    private fun upLoadImage(id:String){
+    private fun upLoadImage(id:String,imagePath:String){
         launch({
             if(imagePath.isNotEmpty()){
                 val file = File(imagePath)
@@ -95,11 +110,33 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                         EventBus.getDefault().post(finishActivityEvent)
                     }
                 }
-            }else{
-                showToast("任务发布成功")
-                val finishActivityEvent = FinishActivityEvent()
-                finishActivityEvent.category = Const.Like.TASK
-                EventBus.getDefault().post(finishActivityEvent)
+            }
+        },{
+            showToast("图片上传失败")
+            logError(TAG,it)
+        })
+    }
+
+    private fun upLoadImages(id:String,imagesPath:ArrayList<String>){
+        launch({
+            if(!imagesPath.isNullOrEmpty()){
+                val list = ArrayList<MultipartBody.Part>()
+                for(i in 0 until imagesPath.size){
+                    val file = File(imagesPath[i])
+                    val requestFile = RequestBody.create(MediaType.parse("multipart/jpg"), file)
+                    val part = MultipartBody.Part.createFormData("files", file.name, requestFile)
+                    list.add(part)
+                }
+                val requestBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), id)
+                val response = repository.upLoadImages(list,requestBody)
+                when(response.code){
+                    "1000" ->{
+                        showToast("任务发布成功")
+                        val finishActivityEvent = FinishActivityEvent()
+                        finishActivityEvent.category = Const.Like.TASK
+                        EventBus.getDefault().post(finishActivityEvent)
+                    }
+                }
             }
         },{
             showToast("图片上传失败")
