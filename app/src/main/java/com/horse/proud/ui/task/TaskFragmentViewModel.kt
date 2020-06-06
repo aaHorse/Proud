@@ -61,8 +61,6 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
         })
     }
 
-
-
     private fun getUserTask(userId:Int){
         launch ({
             var taskList = repository.userTask(userId)
@@ -128,6 +126,19 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
     fun like(id:String){
         launch({
             repository.like(id)
+        },{
+            logWarn(TAG, it.message, it)
+        })
+    }
+
+    /**
+     * 删除用户发布的任务
+     *
+     * @param id 任务id
+     * */
+    fun delete(id: String){
+        launch({
+            repository.delete(id)
         },{
             logWarn(TAG, it.message, it)
         })

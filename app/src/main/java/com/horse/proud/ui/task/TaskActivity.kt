@@ -118,11 +118,15 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
+        when(menuItem.itemId){
             R.id.publish->{
                 if(content.text.isNotEmpty()){
-                    viewModel.publish()
+                    if(flag == 0){
+                        viewModel.publish()
+                    }else{
+                        viewModel.update(item.id)
+                    }
                 }else{
                     showToast("请添加描述信息")
                 }
@@ -141,7 +145,8 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
             when(requestCode){
                 RC_CHOOSE_PHOTO ->{
                     snpl_moment_add_photos.addMoreData(BGAPhotoPickerActivity.getSelectedPhotos(data))
-                    viewModel.imagesPath = BGAPhotoPickerActivity.getSelectedPhotos(data)
+                    //viewModel.imagesPath = BGAPhotoPickerActivity.getSelectedPhotos(data)
+                    viewModel.imagesPath = snpl_moment_add_photos.data
                 }
                 RC_PHOTO_PREVIEW ->{
                     snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)
@@ -349,10 +354,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         viewModel.content.value = item.content
         item.image.run {
             if(this.isNotEmpty()){
-                val selected = ArrayList<String>()
-                selected.add(item.image)
-                snpl_moment_add_photos.data = selected
-                logWarn(TAG,selected[0])
+                snpl_moment_add_photos.data = item.images
             }
         }
         item.location.run {

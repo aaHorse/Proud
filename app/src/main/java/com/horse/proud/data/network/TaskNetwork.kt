@@ -37,6 +37,10 @@ class TaskNetwork {
 
     suspend fun fetchUserTask(id:Int) = service.userTask(id).await()
 
+    suspend fun fetchUpdate(task: TaskItem) = service.update(task).await()
+
+    suspend fun fetchDelete(id:String) = service.delete(id).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {

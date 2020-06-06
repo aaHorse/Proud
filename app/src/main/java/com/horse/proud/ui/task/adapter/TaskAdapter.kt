@@ -23,6 +23,7 @@ import com.horse.proud.R
 import com.horse.core.proud.model.other.CommentItem
 import com.horse.core.proud.model.task.TaskItem
 import com.horse.proud.event.CommentEvent
+import com.horse.proud.event.DeleteEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.ViewLocationActivity
 import com.horse.proud.ui.setting.OverViewPublishedActivity
@@ -90,6 +91,10 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
                                 }
                                 1 -> {
                                     showToast("删除")
+                                    val event = DeleteEvent()
+                                    event.id = item.id
+                                    event.category = Const.Like.TASK
+                                    EventBus.getDefault().post(event)
                                 }
                             }
                         }.create(R.style.MenuDialog).show()
@@ -106,13 +111,10 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
         }
 
         item.image?.let {
-            if(item.image!!.isNotEmpty()){
+            if(item.image.isNotEmpty()){
                 val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
                 ninePhotoLayout.setDelegate(fragment)
-                val photos = ArrayList<String>()
-                photos.add(item.image!!)
-                logWarn(TAG,photos[0])
-                ninePhotoLayout.data = photos
+                ninePhotoLayout.data = item.images
             }
         }
 
@@ -142,10 +144,10 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
             if(it.iv_like.isChecked){
                 showToast("！ ！ ~ 赞 ~ ！ ！")
                 helper.getTextView(R.id.tv_like).text = "${++item.thumbUp}"
-                val evnet = LikeEvent()
-                evnet.category = Const.Like.TASK
-                evnet.id = item.id
-                EventBus.getDefault().post(evnet)
+                val event = LikeEvent()
+                event.category = Const.Like.TASK
+                event.id = item.id
+                EventBus.getDefault().post(event)
             }else{
                 helper.getTextView(R.id.tv_like).text = "${--item.thumbUp}"
                 showToast("取消点赞")
@@ -248,7 +250,7 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder as CommentItemViewHolder
-            holder.comment_name.text = "${items[position].userId}"
+            holder.comment_name.text = "${items[position].name}"
             holder.comment_content.text = items[position].content
         }
 

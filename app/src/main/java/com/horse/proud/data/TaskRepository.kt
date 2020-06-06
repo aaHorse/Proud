@@ -50,6 +50,14 @@ class TaskRepository private constructor(private val network: TaskNetwork){
         network.fetchUserTask(id)
     }
 
+    suspend fun update(task: TaskItem) = withContext(Dispatchers.IO){
+        network.fetchUpdate(task)
+    }
+
+    suspend fun delete(id:String) = withContext(Dispatchers.IO){
+        network.fetchDelete(id)
+    }
+
     companion object{
 
         private lateinit var instance: TaskRepository

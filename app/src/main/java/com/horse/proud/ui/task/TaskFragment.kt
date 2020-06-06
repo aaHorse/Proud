@@ -15,6 +15,7 @@ import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.model.task.TaskItem
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
@@ -177,6 +178,19 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
             is CommentEvent -> {
                 if(messageEvent.category == Const.Like.TASK){
                     viewModel.publishComment(messageEvent.comment)
+                }
+            }
+            is DeleteEvent -> {
+                if(messageEvent.category == Const.Like.TASK){
+                    viewModel.delete(messageEvent.id)
+                    /*
+                    * 先更新界面
+                    * */
+                    adapter.data = adapter.data.filter {
+                        it as TaskItem
+                        it.id != messageEvent.id
+                    }
+                    adapter.notifyDataSetChanged()
                 }
             }
         }

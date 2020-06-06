@@ -56,18 +56,12 @@ class SplashActivity : BaseActivity(){
      */
     private var enterTime: Long = 0
 
-    /**
-     * 判断是否正在跳转到下一个界面。
-     */
-    private var isForwarding = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         UpdateAppUtils.init(this)
         val binding = DataBindingUtil.setContentView<ActivitySplashBinding>(this,R.layout.activity_splash)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
-        //delayToForward()
     }
 
     override fun setupViews() {
@@ -170,53 +164,21 @@ class SplashActivity : BaseActivity(){
     }
 
     /**
-     * 设置闪屏界面的最大延迟跳转，让用户不至于在闪屏界面等待太久。
-     */
-    private fun delayToForward() {
-        Thread(Runnable {
-            GlobalUtil.sleep(MAX_WAIT_TIME.toLong())
-            forwardToNextActivity()
-        }).start()
-    }
-
-    /**
      * 跳转到下一个Activity。
      * */
-    @Synchronized
     fun forwardToNextActivity() {
-        if(isForwarding){
-            //如果正在跳转到下一个界面
-            isForwarding = false
-            val currentTime = System.currentTimeMillis()
-            val timeSpent = currentTime - enterTime
-            if(timeSpent < MIN_WAIT_TIME){
-                GlobalUtil.sleep(MIN_WAIT_TIME - timeSpent)
-            }
-            runOnUiThread {
-                if(Proud.loginState != Const.Auth.UNCHECK){
-                    MainActivity.actionStart(this,userId = Proud.register.id)
-                    finish()
-                }else{
-                    LoginActivity.actionStart(this)
-                    finish()
-                }
-            }
+        if(Proud.loginState != Const.Auth.UNCHECK){
+            MainActivity.actionStart(this,userId = Proud.register.id)
+            finish()
+        }else{
+            LoginActivity.actionStart(this)
+            finish()
         }
     }
 
     companion object {
 
         private const val TAG = "SplashActivity"
-
-        /**
-         * 应用程序在闪屏界面最短的停留时间。
-         */
-        const val MIN_WAIT_TIME = 1000
-
-        /**
-         * 应用程序在闪屏界面最长的停留时间。
-         */
-        const val MAX_WAIT_TIME = 1000
 
         fun actionStart(activity:Activity){
             val intent = Intent(activity,SplashActivity::class.java)

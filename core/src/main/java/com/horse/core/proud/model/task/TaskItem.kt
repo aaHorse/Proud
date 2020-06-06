@@ -27,6 +27,19 @@ class TaskItem : Parcelable {
 
     var image = ""
 
+    var images = ArrayList<String>()
+    get(){
+        val temp = ArrayList<String>()
+        if(image.contains(Regex(".*,"))){
+            //多图
+            temp.addAll(image.split(",") - "")
+        }else{
+            //单图
+            temp.add(image)
+        }
+        return temp
+    }
+
     var label = ""
 
     var location = ""

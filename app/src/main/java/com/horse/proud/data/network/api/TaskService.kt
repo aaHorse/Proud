@@ -41,7 +41,6 @@ interface TaskService {
     @POST("upload/task/setFilesUpload")
     fun uploadImages(@Part parts: ArrayList<MultipartBody.Part>, @Part("id")requestBody: RequestBody): Call<Response>
 
-
     @FormUrlEncoded
     @POST("api/task/update/thumb_up")
     fun like(@Field("id")id:String):Call<Response>
@@ -54,5 +53,12 @@ interface TaskService {
 
     @GET("api/task/query/user_id/{path}")
     fun userTask(@Path("path")id:Int):Call<TaskList>
+
+    @POST("api/task/update")
+    fun update(@Body task: TaskItem):Call<Response>
+
+    @FormUrlEncoded
+    @POST("api/task/delete")
+    fun delete(@Field("id")id:String):Call<Response>
 
 }

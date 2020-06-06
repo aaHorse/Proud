@@ -91,6 +91,54 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
         })
     }
 
+    fun update(taskId:String){
+        launch({
+            val task = TaskItem()
+            task.id = taskId
+            task.userId = Proud.register.id
+            logWarn(TAG,"${task.userId}")
+            task.title = "会飞的鱼"
+            task.content = content.value.toString()
+            task.label = type
+            task.location = local
+            task.image = ""
+            task.done = 0
+            task.startTime = DateUtil.nowDateTime
+            task.endTime = time
+            task.thumbUp = 0
+            task.collect = 0
+            task.comment = 0
+
+            val response = repository.update(task)
+
+            when(response.status){
+                200 ->{
+                    when {
+                        imagesPath.isNullOrEmpty() -> {
+                            showToast("任务发布成功")
+                            val finishActivityEvent = FinishActivityEvent()
+                            finishActivityEvent.category = Const.Like.TASK
+                            EventBus.getDefault().post(finishActivityEvent)
+                        }
+                        imagesPath.size == 1 -> {
+                            //upLoadImage(response.data,imagesPath[0])
+                        }
+                        imagesPath.size > 1 -> {
+                            //upLoadImages(response.data,imagesPath)
+                        }
+                    }
+                }
+                500 ->{
+                    showToast("任务发布失败")
+                }
+            }
+
+        },{
+            showToast(GlobalUtil.getString(R.string.unknown_error))
+            logError(TAG,it)
+        })
+    }
+
     private fun upLoadImage(id:String,imagePath:String){
         launch({
             if(imagePath.isNotEmpty()){
