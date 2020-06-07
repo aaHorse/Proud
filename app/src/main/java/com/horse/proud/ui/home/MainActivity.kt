@@ -1,5 +1,6 @@
 package com.horse.proud.ui.home
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -16,6 +17,7 @@ import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
+import com.horse.proud.event.ClickEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.about.AboutActivity
@@ -101,6 +103,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         //上面这个方法下面的代码不会被执行
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setupViews() {
         changeFragment(getFragmentResId())
 
@@ -112,6 +115,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             navView.getHeaderView(0).nicknameMe.text = "游客"
         }else{
             navView.getHeaderView(0).nicknameMe.text = Proud.register.name
+            navView.getHeaderView(0).descriptionMe.text = "个性签名：${Proud.register.info}"
         }
         navView.getHeaderView(0).edit_personal_info.setOnClickListener {
             if(Proud.loginState != Const.Auth.COMFIR){
@@ -144,6 +148,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                         bottom.animate().translationY(0.0f)
                     }
                     null
+                }
+            }
+            is ClickEvent -> {
+                if(isBottomShow){
+                    isBottomShow = false
+                    bottom.animate().translationY(bottom.height.toFloat())
+                }else{
+                    isBottomShow = true
+                    bottom.animate().translationY(0.0f)
                 }
             }
         }

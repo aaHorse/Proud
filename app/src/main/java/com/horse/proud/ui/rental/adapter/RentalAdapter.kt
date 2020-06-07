@@ -22,10 +22,7 @@ import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.core.proud.model.other.CommentItem
 import com.horse.core.proud.model.rental.RentalItem
-import com.horse.proud.event.CommentEvent
-import com.horse.proud.event.CommentToOverViewEvent
-import com.horse.proud.event.DeleteEvent
-import com.horse.proud.event.LikeEvent
+import com.horse.proud.event.*
 import com.horse.proud.ui.common.ViewLocationActivity
 import com.horse.proud.ui.rental.RentalActivity
 import com.horse.proud.ui.rental.RentalFragment
@@ -53,6 +50,11 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
 
         var adapter:CommentAdapter ?= null
 
+        helper.getView<LinearLayout>(R.id.ll).setOnClickListener {
+            val event = ClickEvent()
+            EventBus.getDefault().post(event)
+        }
+
         Glide.with(fragment.requireContext()).load(R.drawable.avatar_default)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(helper.getImageView(R.id.avatar))
@@ -77,7 +79,7 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
             done.setTextColor(Color.parseColor("#19CAAD"))
         }
 
-        if(fragment.activity.flag!=0){
+        if(fragment.activity.flag!=0&&fragment.activity.userID == Proud.register.id){
             with(helper.getImageView(R.id.more)){
                 visibility = View.VISIBLE
                 setOnClickListener {
@@ -269,11 +271,16 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
                 event.userId = items[position].userId
                 EventBus.getDefault().post(event)
             }
+            holder.linearLayout.setOnClickListener {
+                val event = ClickEvent()
+                EventBus.getDefault().post(event)
+            }
         }
 
         internal class CommentItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
             var comment_name: TextView = itemView.findViewById(R.id.comment_name)
             var comment_content: TextView = itemView.findViewById(R.id.comment_content)
+            val linearLayout:LinearLayout = itemView.findViewById(R.id.comment_ll)
         }
 
     }

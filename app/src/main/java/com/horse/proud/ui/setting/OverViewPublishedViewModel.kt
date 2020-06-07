@@ -28,22 +28,22 @@ class OverViewPublishedViewModel(private val repository: SettingRepository):View
 
     var done = MutableLiveData<Int>()
 
-    var name = "会飞的鱼"
+    var name = MutableLiveData<String>()
 
-    var info = GlobalUtil.getString(R.string.info)
+    var info = MutableLiveData<String>()
 
     fun userMsg(id:Int){
         launch({
             val login = repository.userMsg(id)
             when(login.status){
                 200 -> {
-                    logWarn(TAG,login.data.toString())
-                    //name = login.data.name
-                    //info = login.data.info
+                    name.value = login.data.name
+                    login.data.info?.run {
+                        info.value = "个性签名：${this}"
+                    }
                 }
             }
         },{
-            done.value = flag ++
             showToast(GlobalUtil.getString(R.string.unknown_error))
             logError(TAG,it)
         })

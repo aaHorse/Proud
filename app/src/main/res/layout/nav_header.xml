@@ -36,7 +36,6 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
-                android:text="会飞的鱼"
                 />
 
             <ImageView

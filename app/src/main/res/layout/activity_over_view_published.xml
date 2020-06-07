@@ -62,10 +62,11 @@
 
                     <ImageView
                         android:id="@+id/avatarMe"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
                         android:src="@mipmap/icon"
                         android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
                         />
 
                     <TextView
@@ -74,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorPrimary"
                         android:textSize="18sp"
-                        android:text="@={viewModel.name}"
+                        android:text="@{viewModel.name}"
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/avatarMe"
                         android:layout_marginTop="10dp"
@@ -89,7 +90,7 @@
                         android:ellipsize="end"
                         android:textColor="@color/colorPrimary"
                         android:textSize="14sp"
-                        android:text="@={viewModel.info}"
+                        android:text="@{viewModel.info}"
                         android:layout_centerHorizontal="true"
                         android:layout_below="@+id/nicknameMe"
                         android:layout_marginTop="10dp"

@@ -2,8 +2,10 @@ package com.horse.proud.ui.common
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import cn.bingoogolapple.baseadapter.BGAOnItemChildClickListener
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud

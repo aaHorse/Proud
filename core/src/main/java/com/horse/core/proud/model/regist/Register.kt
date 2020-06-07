@@ -26,7 +26,7 @@ class Register{
     var sex:Int = 0
 
     @SerializedName("phoneNumber")
-    var phoneNumber = "10086"
+    var phoneNumber = ""
 
     /**
      * 头像
@@ -41,7 +41,7 @@ class Register{
      * 一句话简介
      * */
     @SerializedName("info")
-    var info = "太强了"
+    var info = ""
 
     var token = ""
 
