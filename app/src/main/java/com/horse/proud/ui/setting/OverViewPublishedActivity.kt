@@ -58,11 +58,15 @@ class OverViewPublishedActivity : BaseActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.userMsg(userID)
+        viewModel.getCount(userID)
+    }
+
     override fun setupViews() {
         setupToolbar()
         mGroupListView = published_type
-        viewModel.userMsg(userID)
-        viewModel.getCount(userID)
         observe()
     }
 
@@ -95,6 +99,7 @@ class OverViewPublishedActivity : BaseActivity() {
             QMUICommonListItemView.VERTICAL,
             QMUICommonListItemView.ACCESSORY_TYPE_CHEVRON,
             height)
+        mGroupListView.removeAllViews()
         QMUIGroupListView.newSection(this)
             .addItemView(task){v ->
                 MainActivity.actionStart(this,1,userID)

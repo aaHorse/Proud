@@ -50,6 +50,7 @@ class OverViewPublishedViewModel(private val repository: SettingRepository):View
     }
 
     fun getCount(id:Int){
+        flag = 1
         userTaskCount(id)
         userLostCount(id)
         userRentalCount(id)

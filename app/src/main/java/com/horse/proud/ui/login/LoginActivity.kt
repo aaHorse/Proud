@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
+import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
@@ -66,19 +67,22 @@ class LoginActivity : BaseActivity(){
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onMessageEvent(messageEvent: MessageEvent) {
-        if (messageEvent is FinishActivityEvent) {
-            finish()
-        }else if(messageEvent is RegisterEvent){
-            with(messageEvent){
-                when(loginState){
-                    Const.Auth.VISITOR -> {
-                        AuthUtil.saveAuthState(Const.Auth.VISITOR)
-                        MainActivity.actionStart(this@LoginActivity,userId = 0)
-                    }
-                    Const.Auth.COMFIR -> {
-                        number.setText(register.number)
-                        password.setText(register.password)
-                        name = register.name
+        when {
+            messageEvent is FinishActivityEvent -> {
+                finish()
+            }
+            messageEvent is RegisterEvent -> {
+                with(messageEvent){
+                    when(loginState){
+                        Const.Auth.VISITOR -> {
+                            AuthUtil.saveAuthState(Const.Auth.VISITOR)
+                            MainActivity.actionStart(this@LoginActivity,userId = 0)
+                        }
+                        Const.Auth.COMFIR -> {
+                            number.setText(register.number)
+                            password.setText(register.password)
+                            name = register.name
+                        }
                     }
                 }
             }

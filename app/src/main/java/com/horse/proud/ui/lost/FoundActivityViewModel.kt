@@ -148,7 +148,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                     "1000" ->{
                         showToast("任务发布成功")
                         val finishActivityEvent = FinishActivityEvent()
-                        finishActivityEvent.category = Const.Like.TASK
+                        finishActivityEvent.category = Const.Like.FOUND
                         EventBus.getDefault().post(finishActivityEvent)
                     }
                 }
@@ -175,7 +175,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                     "1000" ->{
                         showToast("任务发布成功")
                         val finishActivityEvent = FinishActivityEvent()
-                        finishActivityEvent.category = Const.Like.TASK
+                        finishActivityEvent.category = Const.Like.FOUND
                         EventBus.getDefault().post(finishActivityEvent)
                     }
                 }

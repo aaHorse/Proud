@@ -119,10 +119,7 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
             if(item.image.isNotEmpty()){
                 val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
                 ninePhotoLayout.setDelegate(fragment)
-                val photos = ArrayList<String>()
-                photos.add(item.image)
-                logWarn(TAG,photos[0])
-                ninePhotoLayout.data = photos
+                ninePhotoLayout.data = item.images
             }
         }
 

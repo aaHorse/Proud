@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.baidu.ocr.sdk.OCR
 import com.baidu.ocr.sdk.OnResultListener
@@ -13,6 +14,7 @@ import com.baidu.ocr.sdk.exception.OCRError
 import com.baidu.ocr.sdk.model.AccessToken
 import com.baidu.ocr.ui.camera.CameraActivity
 import com.google.gson.Gson
+import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logError
 import com.horse.core.proud.extension.logWarn
@@ -21,6 +23,7 @@ import com.horse.proud.R
 import com.horse.core.proud.model.login.WordsResult
 import com.horse.core.proud.model.regist.Register
 import com.horse.proud.databinding.ActivityForgetPasswordBinding
+import com.horse.proud.event.RegisterEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.util.FileUtil
@@ -34,6 +37,7 @@ import kotlinx.android.synthetic.main.activity_forget_password.et_number
 import kotlinx.android.synthetic.main.activity_forget_password.et_password
 import kotlinx.android.synthetic.main.activity_forget_password.et_phone
 import kotlinx.android.synthetic.main.activity_forget_password.et_repassword
+import org.greenrobot.eventbus.EventBus
 import org.koin.android.ext.android.inject
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
@@ -90,9 +94,7 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
             register.password = et_password.text.toString()
             register.phoneNumber = et_phone.text.toString()
 
-            if(checkPermission()){
-                initAccessToken()
-            }
+            checkPermission()
         }
         observe()
     }
@@ -114,10 +116,6 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
         }
     }
 
-    private fun observe(){
-        //
-    }
-
     /**
      * 以license文件方式初始化
      */
@@ -136,6 +134,16 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
                 logError(TAG,error)
             }
         }, Proud.context)
+    }
+
+    private fun observe(){
+        viewModel.dataChanged.observe(this, Observer {
+            val event = RegisterEvent()
+            event.loginState = Const.Auth.COMFIR
+            event.register = register
+            EventBus.getDefault().post(event)
+            finish()
+        })
     }
 
     /**
@@ -171,7 +179,8 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
             }
         }
         if(i1+i2+i3+i4 <= 0){
-            showToast("认证成功")
+            showToast("修改密码成功")
+            viewModel.forgetPassword(register.number,register.phoneNumber,register.password)
         }else{
             showToast("认证失败")
         }
@@ -181,7 +190,7 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
      * 检查权限
      */
     @AfterPermissionGranted(PRC_PHOTO_PICKER)
-    private fun checkPermission():Boolean {
+    private fun checkPermission() {
         val perms: Array<String> = arrayOf(
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA)
@@ -189,11 +198,9 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
             EasyPermissions.requestPermissions(this,
                 "图片选择需要以下权限:\n\n1.访问设备上的照片\n\n2.拍照",
                 PRC_PHOTO_PICKER, *perms)
+        }else{
+            initAccessToken()
         }
-        if(!EasyPermissions.hasPermissions(this, *perms)){
-            return false
-        }
-        return true
     }
 
     //-------------------------------------EasyPermissions----------------------

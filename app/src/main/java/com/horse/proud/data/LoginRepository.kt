@@ -23,6 +23,10 @@ class LoginRepository private constructor(private val network: LoginNetwork){
         network.fetchRegister(register)
     }
 
+    suspend fun forGetPassword(number:String,phoneNumber:String,newPassword:String) = withContext(Dispatchers.IO){
+        network.fetchForGetPassword(number,phoneNumber,newPassword)
+    }
+
     companion object{
 
         private lateinit var instance: LoginRepository

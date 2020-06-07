@@ -121,10 +121,10 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                             EventBus.getDefault().post(finishActivityEvent)
                         }
                         imagesPath.size == 1 -> {
-                            //upLoadImage(response.data,imagesPath[0])
+                            upLoadImage(taskId,imagesPath[0])
                         }
                         imagesPath.size > 1 -> {
-                            //upLoadImages(response.data,imagesPath)
+                            upLoadImages(taskId,imagesPath)
                         }
                     }
                 }

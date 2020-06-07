@@ -23,4 +23,10 @@ interface LoginService {
     @POST("api/user/register")
     fun register(@Body register: Register): Call<Response>
 
+    @FormUrlEncoded
+    @POST("api/user/find/password")
+    fun forGetPassword(@Field("accountNumber")accountNumber:String,
+                       @Field("phoneNumber")phoneNumber:String,
+                       @Field("newPassword")newPassword:String): Call<Response>
+
 }

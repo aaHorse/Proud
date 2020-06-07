@@ -33,6 +33,9 @@ class LoginActivityViewModel(private val respository:LoginRepository):ViewModel(
                     200->{
                         dataChanged.value = dataChanged.value?.plus(1)
                     }
+                    else -> {
+                        showToast(GlobalUtil.getString(R.string.password_error))
+                    }
                 }
             }
         }, {

@@ -29,6 +29,9 @@ class LoginNetwork {
 
     suspend fun fetchRegister(register: Register) = service.register(register).await()
 
+    suspend fun fetchForGetPassword(number:String,phoneNumber:String,newPassword:String)
+            = service.forGetPassword(number,phoneNumber,newPassword).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
