@@ -10,21 +10,21 @@ import com.google.gson.annotations.SerializedName
  * */
 class CommentItem {
 
-    lateinit var id:String
+    var id:String = ""
 
     @SerializedName("user_id")
     var userId:Int = -1
 
-    lateinit var content:String
+    var content:String = ""
 
     @SerializedName("publish_time")
-    lateinit var time:String
+    var time:String = ""
 
     /**
      * 条目对应 id
      */
     @SerializedName("table_id")
-    lateinit var itemId:String
+    var itemId:String = ""
 
     @SerializedName("thumb_up")
     var thumbUp:Int = 0
@@ -32,8 +32,13 @@ class CommentItem {
     var comment:Int = 0
 
     /**
-     * 昵称，后面添加的
+     * 姓名
      * */
-    var name:String = "空空空"
+    var name:String = ""
+
+    /**
+     * 学号
+     * */
+    var accountNumber = ""
 
 }

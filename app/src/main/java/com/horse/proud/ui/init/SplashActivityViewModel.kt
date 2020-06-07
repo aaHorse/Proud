@@ -18,16 +18,19 @@ class SplashActivityViewModel(private val respository:SplashRepository):ViewMode
 
     var flag:Int = 0
 
-    var newVersoinPath = MutableLiveData<String>()
+    var newVersionPath = MutableLiveData<String>()
 
     var noNewVersion = MutableLiveData<Int>()
 
+    /**
+     * 检查是否有新版本发布
+     * */
     fun checkNewVersion(){
         launch({
             var result = respository.checkNewVersion("${GlobalUtil.appVersionCode}")
             if(result.status == 100){
                 //有新版本
-                newVersoinPath.value = result.data
+                newVersionPath.value = result.data
             }else{
                 noNewVersion.value = flag ++
             }

@@ -47,6 +47,7 @@ object AuthUtil{
      * */
     fun saveAuthState(state:Int){
         SharedUtil.save(Const.Auth.LOGIN_TYPE,state)
+        Proud.refreshUserMsg()
     }
 
     private const val TAG = "AuthActivity"

@@ -76,7 +76,7 @@ class SplashActivity : BaseActivity(){
     }
 
     private fun observe(){
-        viewModel.newVersoinPath.observe(this, Observer {
+        viewModel.newVersionPath.observe(this, Observer {
             if(it.isNullOrEmpty()){
                 forwardToNextActivity()
             }else{
@@ -90,6 +90,9 @@ class SplashActivity : BaseActivity(){
         })
     }
 
+    /**
+     * 新版本更新界面
+     * */
     private fun update(newVersionPath:String) {
         // ui配置
         val uiConfig = UiConfig().apply {
@@ -167,7 +170,7 @@ class SplashActivity : BaseActivity(){
      * 跳转到下一个Activity。
      * */
     fun forwardToNextActivity() {
-        if(Proud.loginState != Const.Auth.UNCHECK){
+        if(Proud.loginState == Const.Auth.COMFIR){
             MainActivity.actionStart(this,userId = Proud.register.id)
             finish()
         }else{

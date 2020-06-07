@@ -10,6 +10,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.ArrayList
 
 /**
  * 任务接口
@@ -29,6 +30,10 @@ interface RentalService {
     @POST("upload/good/setFileUpload")
     fun uploadImage(@Part part: MultipartBody.Part, @Part("id")requestBody: RequestBody): Call<Response>
 
+    @Multipart
+    @POST("upload/good/setFilesUpload")
+    fun uploadImages(@Part parts: ArrayList<MultipartBody.Part>, @Part("id")requestBody: RequestBody): Call<Response>
+
     @GET("api/rental/update/thumbUp")
     fun like(@Query("id")id:String):Call<Response>
 
@@ -40,5 +45,11 @@ interface RentalService {
 
     @GET("api/rental/query/userId")
     fun userRental(@Query("userId")id:Int):Call<RentalList>
+
+    @POST("api/rental/update")
+    fun update(@Body task: RentalItem):Call<Response>
+
+    @POST("api/rental/delete")
+    fun delete(@Body item: RentalItem):Call<Response>
 
 }

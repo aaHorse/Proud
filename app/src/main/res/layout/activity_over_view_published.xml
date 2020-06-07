@@ -56,22 +56,47 @@
                 android:orientation="vertical"
                 >
 
-                <ImageView
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:src="@mipmap/icon"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
-                    />
-
-                <TextView
-                    android:id="@+id/label"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/water_str"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/avatarMe"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:src="@mipmap/icon"
+                        android:layout_centerHorizontal="true"
+                        />
+
+                    <TextView
+                        android:id="@+id/nicknameMe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18sp"
+                        android:text="@={viewModel.name}"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/avatarMe"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        />
+
+                    <TextView
+                        android:id="@+id/descriptionMe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:text="@={viewModel.info}"
+                        android:layout_centerHorizontal="true"
+                        android:layout_below="@+id/nicknameMe"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        />
+
+                </RelativeLayout>
 
                 <com.qmuiteam.qmui.widget.grouplist.QMUIGroupListView
                     android:id="@+id/published_type"

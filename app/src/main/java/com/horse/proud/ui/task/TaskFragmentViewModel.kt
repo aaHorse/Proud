@@ -106,6 +106,8 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
                 val commentList = repository.getComments(item.id)
                 when(commentList.status){
                     200 -> {
+                        //将评论列表翻转
+                        commentList.commentList?.reverse()
                         item.comments = commentList
                         logWarn(TAG,"$index")
                         if(index == taskItems.size-1){

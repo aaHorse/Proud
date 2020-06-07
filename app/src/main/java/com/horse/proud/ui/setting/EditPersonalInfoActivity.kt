@@ -7,7 +7,10 @@ import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.horse.core.proud.Const
+import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityEditPersonalInfoBinding
 import com.horse.proud.ui.common.BaseActivity
@@ -40,7 +43,11 @@ class EditPersonalInfoActivity : BaseActivity() {
         setupToolbar()
         observe()
         sure.setOnClickListener {
-            viewModel.update()
+            if(Proud.loginState != Const.Auth.COMFIR){
+                showToast(GlobalUtil.getString(R.string.visitor_reminder))
+            }else{
+                viewModel.update()
+            }
         }
         edit_phone.setOnClickListener {
             showToast("经费不足，验证码功能只有UI >o<")

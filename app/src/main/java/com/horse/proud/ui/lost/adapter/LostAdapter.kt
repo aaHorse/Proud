@@ -23,10 +23,10 @@ import com.horse.proud.R
 import com.horse.core.proud.model.lost.LostItem
 import com.horse.core.proud.model.other.CommentItem
 import com.horse.proud.event.CommentEvent
+import com.horse.proud.event.CommentToOverViewEvent
+import com.horse.proud.event.DeleteEvent
 import com.horse.proud.event.LikeEvent
-import com.horse.proud.ui.common.MapActivity
 import com.horse.proud.ui.common.ViewLocationActivity
-import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.lost.FoundActivity
 import com.horse.proud.ui.lost.LostActivity
 import com.horse.proud.ui.lost.LostFragment
@@ -96,6 +96,10 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
                                 }
                                 1 -> {
                                     showToast("删除")
+                                    val event = DeleteEvent()
+                                    event.id = item.id
+                                    event.category = Const.Like.LOST
+                                    EventBus.getDefault().post(event)
                                 }
                             }
                         }.create(R.style.MenuDialog).show()
@@ -112,11 +116,11 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
         }
 
         item.image?.let {
-            if(item.image!!.isNotEmpty()){
+            if(item.image.isNotEmpty()){
                 val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
                 ninePhotoLayout.setDelegate(fragment)
                 val photos = ArrayList<String>()
-                photos.add(item.image!!)
+                photos.add(item.image)
                 logWarn(TAG,photos[0])
                 ninePhotoLayout.data = photos
             }
@@ -189,26 +193,32 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
         }
 
         helper.getView<Button>(R.id.send).setOnClickListener {
-            val content:String = helper.getView<EditText>(R.id.et_comment).text.toString()
-            if (!content.isBlank()){
-                val comment = CommentItem()
-                comment.id = "1"
-                comment.userId = Proud.register.id
-                comment.content = content
-                comment.time = DateUtil.nowDateTime
-                comment.itemId = item.id
-                val event = CommentEvent()
-                event.category = Const.Like.LOST
-                event.comment = comment
-                EventBus.getDefault().post(event)
-
-                item.comments!!.commentList!!.add(comment)
-                if(adapter!=null){
-                    helper.getView<EditText>(R.id.et_comment).setText("")
-                    notifyItemChanged(position)
-                }
+            if(Proud.loginState != Const.Auth.COMFIR){
+                showToast(GlobalUtil.getString(R.string.visitor_reminder))
             }else{
-                showToast("评论不能为空")
+                val content:String = helper.getView<EditText>(R.id.et_comment).text.toString()
+                if (!content.isBlank()){
+                    val comment = CommentItem()
+                    comment.id = "1"
+                    comment.userId = Proud.register.id
+                    comment.content = content
+                    comment.time = DateUtil.nowDateTime
+                    comment.itemId = item.id
+                    comment.name = Proud.register.name
+
+                    val event = CommentEvent()
+                    event.category = Const.Like.LOST
+                    event.comment = comment
+                    EventBus.getDefault().post(event)
+
+                    item.comments!!.commentList!!.add(comment)
+                    if(adapter!=null){
+                        helper.getView<EditText>(R.id.et_comment).setText("")
+                        notifyItemChanged(position)
+                    }
+                }else{
+                    showToast("评论不能为空")
+                }
             }
         }
     }
@@ -252,8 +262,15 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder as CommentItemViewHolder
-            holder.comment_name.text = "${items[position].userId}"
+            holder.comment_name.text = "${items[position].name}"
+            //holder.comment_name.text = "${items[position].userId}"
             holder.comment_content.text = items[position].content
+            holder.comment_name.setOnClickListener {
+                val event = CommentToOverViewEvent()
+                event.category = Const.Like.LOST
+                event.userId = items[position].userId
+                EventBus.getDefault().post(event)
+            }
         }
 
         internal class CommentItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

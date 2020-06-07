@@ -45,4 +45,8 @@ class Register{
 
     var token = ""
 
+    override fun toString(): String {
+        return "Register(id=$id, number='$number', password='$password', name='$name', sex=$sex, phoneNumber='$phoneNumber', head='$head', address='$address', info='$info', token='$token')"
+    }
+
 }

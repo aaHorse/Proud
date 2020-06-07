@@ -108,6 +108,8 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
                 val commentList = repository.getComments(item.id)
                 when(commentList.status){
                     200 -> {
+                        //将评论列表翻转
+                        commentList.commentList?.reverse()
                         item.comments = commentList
                         logWarn(TAG,"$index")
                         if(index == lostItems.size-1){
@@ -130,6 +132,19 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
             repository.like(id)
         },{
             logWarn(TAG,it)
+        })
+    }
+
+    /**
+     * 删除用户发布的任务
+     *
+     * @param id 任务id
+     * */
+    fun delete(item: LostItem){
+        launch({
+            repository.delete(item)
+        },{
+            logWarn(TAG, it.message, it)
         })
     }
 

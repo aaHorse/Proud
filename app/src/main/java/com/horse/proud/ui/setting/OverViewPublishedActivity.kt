@@ -35,9 +35,9 @@ import org.koin.android.ext.android.inject
 class OverViewPublishedActivity : BaseActivity() {
 
     /**
-     * 界面对应的userId
+     * 界面对应的userID
      * */
-    private var userId = 0
+    private var userID = 0
 
     private val viewModelFactory by inject<OverViewPublishedViewModelFactory>()
 
@@ -51,7 +51,7 @@ class OverViewPublishedActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        userId = intent.getIntExtra(Const.ACTIVITY_CONTENT,0)
+        userID = intent.getIntExtra(Const.ACTIVITY_CONTENT,0)
         val binding = DataBindingUtil.setContentView<ActivityOverViewPublishedBinding>(this,R.layout.activity_over_view_published)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
@@ -61,7 +61,8 @@ class OverViewPublishedActivity : BaseActivity() {
     override fun setupViews() {
         setupToolbar()
         mGroupListView = published_type
-        viewModel.getCount(userId)
+        viewModel.userMsg(userID)
+        viewModel.getCount(userID)
         observe()
     }
 
@@ -96,13 +97,13 @@ class OverViewPublishedActivity : BaseActivity() {
             height)
         QMUIGroupListView.newSection(this)
             .addItemView(task){v ->
-                MainActivity.actionStart(this,1,userId)
+                MainActivity.actionStart(this,1,userID)
             }
             .addItemView(lost){v ->
-                MainActivity.actionStart(this,2,userId)
+                MainActivity.actionStart(this,2,userID)
             }
             .addItemView(rental){v ->
-                MainActivity.actionStart(this,3,userId)
+                MainActivity.actionStart(this,3,userID)
             }
             .addTo(mGroupListView)
     }
@@ -111,9 +112,9 @@ class OverViewPublishedActivity : BaseActivity() {
 
         private const val TAG = "OverViewPublishedActivity"
 
-        fun actionStart(activity: Activity,userId:Int){
+        fun actionStart(activity: Activity,userID:Int){
             val intent = Intent(activity, OverViewPublishedActivity::class.java)
-            intent.putExtra(Const.ACTIVITY_CONTENT,userId)
+            intent.putExtra(Const.ACTIVITY_CONTENT,userID)
             activity.startActivity(intent)
         }
 

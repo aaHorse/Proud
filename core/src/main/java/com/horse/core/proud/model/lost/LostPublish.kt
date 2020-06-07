@@ -10,6 +10,6 @@ import com.horse.core.proud.model.Response
 class LostPublish : Response(){
 
     @SerializedName("data")
-    lateinit var data:String
+    var data:String = ""
 
 }

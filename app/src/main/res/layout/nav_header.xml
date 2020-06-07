@@ -70,7 +70,7 @@
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             android:layout_marginTop="10dp"
-            android:text="个性标签：有理想有志气的大学生。"
+            android:text="@string/info"
             android:gravity="center"
             />
 

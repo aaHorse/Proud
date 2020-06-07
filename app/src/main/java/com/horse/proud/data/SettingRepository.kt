@@ -27,6 +27,10 @@ class SettingRepository private constructor(private val network:SettingNetwork) 
         network.fetchUserRental(id)
     }
 
+    suspend fun userMsg(id:Int) = withContext(Dispatchers.IO){
+        network.fetchUserMsg(id)
+    }
+
     companion object{
 
         private lateinit var instance:SettingRepository

@@ -107,7 +107,16 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         tv_task.setOnClickListener(tabClickListener)
         tv_lost_and_found.setOnClickListener(tabClickListener)
         tv_rental.setOnClickListener(tabClickListener)
+
+        if(Proud.loginState != Const.Auth.COMFIR){
+            navView.getHeaderView(0).nicknameMe.text = "游客"
+        }else{
+            navView.getHeaderView(0).nicknameMe.text = Proud.register.name
+        }
         navView.getHeaderView(0).edit_personal_info.setOnClickListener {
+            if(Proud.loginState != Const.Auth.COMFIR){
+                showToast(GlobalUtil.getString(R.string.visitor_reminder))
+            }
             EditPersonalInfoActivity.actionStart(this)
         }
 
@@ -227,15 +236,27 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.task -> {
+                if(Proud.loginState != Const.Auth.COMFIR){
+                    showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                }
                 TaskActivity.actionStart(this)
             }
             R.id.lost -> {
+                if(Proud.loginState != Const.Auth.COMFIR){
+                    showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                }
                 FoundActivity.actionStart(this)
             }
             R.id.found -> {
+                if(Proud.loginState != Const.Auth.COMFIR){
+                    showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                }
                 LostActivity.actionStart(this)
             }
             R.id.rental -> {
+                if(Proud.loginState != Const.Auth.COMFIR){
+                    showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                }
                 RentalActivity.actionStart(this)
             }
             R.id.setting -> {
@@ -258,9 +279,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 dialog.dismiss()
                 when(which){
                     0 -> {
+                        if(Proud.loginState != Const.Auth.COMFIR){
+                            showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                        }
                         EditPersonalInfoActivity.actionStart(this)
                     }
                     1 -> {
+                        if(Proud.loginState != Const.Auth.COMFIR){
+                            showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                        }
                         OverViewPublishedActivity.actionStart(this,userID)
                     }
                     2 -> {

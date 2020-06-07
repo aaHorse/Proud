@@ -20,6 +20,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.greenrobot.eventbus.EventBus
 import java.io.File
+import java.util.ArrayList
 
 /**
  * @author liliyuan
@@ -35,14 +36,14 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
 
     var time:String = ""
 
-    var imagePath:String? = null
+    var imagesPath = ArrayList<String>()
 
     fun publish(){
         launch({
             var item = LostItem()
             item.userId = Proud.register.id
             logWarn(TAG,"${item.userId}")
-            item.title = "会飞的鱼"
+            item.title = Proud.register.name
             item.content = content.value.toString()
             item.label = type
             item.location = local
@@ -58,9 +59,20 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
 
             when(response.status){
                 200 ->{
-                    upLoadImage(response.data)
-                    logWarn(TAG,response.data)
-                    logWarn(TAG,imagePath)
+                    when {
+                        imagesPath.isNullOrEmpty() -> {
+                            showToast("任务发布成功")
+                            val finishActivityEvent = FinishActivityEvent()
+                            finishActivityEvent.category = Const.Like.TASK
+                            EventBus.getDefault().post(finishActivityEvent)
+                        }
+                        imagesPath.size == 1 -> {
+                            upLoadImage(response.data,imagesPath[0])
+                        }
+                        imagesPath.size > 1 -> {
+                            upLoadImages(response.data,imagesPath)
+                        }
+                    }
                 }
                 500 ->{
                     showToast("任务发布失败")
@@ -73,33 +85,99 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
         })
     }
 
-    private fun upLoadImage(id:String){
+    fun update(id:String){
         launch({
-            if(imagePath!=null){
+            var item = LostItem()
+            item.id = id
+            logWarn(TAG,"${item.userId}")
+            item.title = "会飞的鱼"
+            item.content = content.value.toString()
+            item.label = type
+            item.location = local
+            item.image = ""
+            item.done = 0
+            item.isLost = 0
+            item.time = time
+            item.thumbUp = 0
+            item.collect = 0
+            item.comment = 0
+
+            val response = repository.update(item)
+
+            when(response.status){
+                200 ->{
+                    when {
+                        imagesPath.isNullOrEmpty() -> {
+                            showToast("任务发布成功")
+                            val finishActivityEvent = FinishActivityEvent()
+                            finishActivityEvent.category = Const.Like.TASK
+                            EventBus.getDefault().post(finishActivityEvent)
+                        }
+                        imagesPath.size == 1 -> {
+                            //upLoadImage(response.data,imagesPath[0])
+                        }
+                        imagesPath.size > 1 -> {
+                            //upLoadImages(response.data,imagesPath)
+                        }
+                    }
+                }
+                500 ->{
+                    showToast("任务发布失败")
+                }
+            }
+
+        },{
+            showToast(GlobalUtil.getString(R.string.unknown_error))
+            logError(TAG,it)
+        })
+    }
+
+    private fun upLoadImage(id:String,imagePath:String){
+        launch({
+            if(imagePath.isNotEmpty()){
                 val file = File(imagePath)
                 val requestFile = RequestBody.create(MediaType.parse("multipart/jpg"), file)
 
                 val part = MultipartBody.Part.createFormData("file", file.name, requestFile)
 
-                val requestBody: RequestBody = RequestBody.create(
-                    MediaType.parse("multipart/form-data"),
-                    id
-                )
+                val requestBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), id)
 
                 val response = repository.upLoadImage(part,requestBody)
                 when(response.code){
                     "1000" ->{
                         showToast("任务发布成功")
                         val finishActivityEvent = FinishActivityEvent()
-                        finishActivityEvent.category = Const.Like.LOST
+                        finishActivityEvent.category = Const.Like.TASK
                         EventBus.getDefault().post(finishActivityEvent)
                     }
                 }
-            }else{
-                showToast("任务发布成功")
-                val finishActivityEvent = FinishActivityEvent()
-                finishActivityEvent.category = Const.Like.LOST
-                EventBus.getDefault().post(finishActivityEvent)
+            }
+        },{
+            showToast("图片上传失败")
+            logError(TAG,it)
+        })
+    }
+
+    private fun upLoadImages(id:String,imagesPath:ArrayList<String>){
+        launch({
+            if(!imagesPath.isNullOrEmpty()){
+                val list = ArrayList<MultipartBody.Part>()
+                for(i in 0 until imagesPath.size){
+                    val file = File(imagesPath[i])
+                    val requestFile = RequestBody.create(MediaType.parse("multipart/jpg"), file)
+                    val part = MultipartBody.Part.createFormData("files", file.name, requestFile)
+                    list.add(part)
+                }
+                val requestBody: RequestBody = RequestBody.create(MediaType.parse("multipart/form-data"), id)
+                val response = repository.upLoadImages(list,requestBody)
+                when(response.code){
+                    "1000" ->{
+                        showToast("任务发布成功")
+                        val finishActivityEvent = FinishActivityEvent()
+                        finishActivityEvent.category = Const.Like.TASK
+                        EventBus.getDefault().post(finishActivityEvent)
+                    }
+                }
             }
         },{
             showToast("图片上传失败")

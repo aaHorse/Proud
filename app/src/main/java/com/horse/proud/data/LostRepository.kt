@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.util.ArrayList
 
 /**
  * 失物招领功能
@@ -28,6 +29,10 @@ class LostRepository private constructor(private val network: LostNetwork){
         network.fetchLostUpLoadImage(part,requestBody)
     }
 
+    suspend fun upLoadImages(parts: ArrayList<MultipartBody.Part>, requestBody: RequestBody) = withContext(Dispatchers.IO){
+        network.fetchTaskUpLoadImages(parts,requestBody)
+    }
+
     suspend fun like(id:String) = withContext(Dispatchers.IO){
         network.fetchLike(id)
     }
@@ -42,6 +47,14 @@ class LostRepository private constructor(private val network: LostNetwork){
 
     suspend fun userLost(id:Int) = withContext(Dispatchers.IO){
         network.fetchUserLost(id)
+    }
+
+    suspend fun update(item: LostItem) = withContext(Dispatchers.IO){
+        network.fetchUpdate(item)
+    }
+
+    suspend fun delete(item: LostItem) = withContext(Dispatchers.IO){
+        network.fetchDelete(item)
     }
 
     companion object{

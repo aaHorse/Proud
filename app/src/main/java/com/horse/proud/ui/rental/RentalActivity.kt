@@ -26,6 +26,7 @@ import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.core.proud.model.lost.LostItem
 import com.horse.core.proud.model.rental.RentalItem
+import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.databinding.ActivityRentalBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.LikeEvent
@@ -96,11 +97,16 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
         setOnClickListener()
-        Glide.with(this).load(R.drawable.avatar_default)
+        Glide.with(this).load(R.mipmap.icon)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(avatar)
         if(flag != 0){
             initEditContent()
+        }
+        if(Proud.loginState != Const.Auth.COMFIR){
+            name.text = "游客"
+        }else{
+            name.text = Proud.register.name
         }
     }
 
@@ -113,11 +119,19 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+    override fun onOptionsItemSelected(menuItem: MenuItem): Boolean {
+        when(menuItem.itemId){
             R.id.publish->{
                 if(content.text.isNotEmpty()){
-                    viewModel.publish()
+                    if(Proud.loginState != Const.Auth.COMFIR){
+                        showToast(GlobalUtil.getString(R.string.visitor_reminder))
+                    }else{
+                        if(flag == 0){
+                            viewModel.publish()
+                        }else{
+                            viewModel.update(item.id)
+                        }
+                    }
                 }else{
                     showToast("请添加描述信息")
                 }
@@ -136,7 +150,8 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
             when(requestCode){
                 RC_CHOOSE_PHOTO ->{
                     snpl_moment_add_photos.addMoreData(BGAPhotoPickerActivity.getSelectedPhotos(data))
-                    viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
+                    //viewModel.imagePath = BGAPhotoPickerActivity.getSelectedPhotos(data)[0]
+                    viewModel.imagesPath = snpl_moment_add_photos.data
                 }
                 RC_PHOTO_PREVIEW ->{
                     snpl_moment_add_photos.data = BGAPhotoPickerPreviewActivity.getSelectedPhotos(data)
@@ -215,7 +230,7 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
             val takePhotoDir = File(Proud.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
-                .maxChooseCount(1)
+                .maxChooseCount(9)
                 .selectedPhotos(null)//当前已选择图片的集合
                 .pauseOnScroll(false)//滚动列表时，是否暂停加载图片
                 .build()
@@ -341,10 +356,7 @@ class RentalActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permiss
         viewModel.content.value = item.content
         item.image.run {
             if(this.isNotEmpty()){
-                val selected = ArrayList<String>()
-                selected.add(item.image)
-                snpl_moment_add_photos.data = selected
-                logWarn(TAG,selected[0])
+                snpl_moment_add_photos.data = item.images
             }
         }
         item.location.run {

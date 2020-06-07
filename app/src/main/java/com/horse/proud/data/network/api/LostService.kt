@@ -10,6 +10,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import java.util.ArrayList
 
 /**
  * 失物招领接口
@@ -25,9 +26,22 @@ interface LostService {
     @GET("api/lost_and_found/query/all")
     fun getAll():Call<LostList>
 
+    /**
+     * 单张图片上传
+     *
+     * @param id 任务的id
+     * @param part 图片
+     * */
     @Multipart
     @POST("upload/lostfound/setFileUpload")
     fun uploadImage(@Part part: MultipartBody.Part, @Part("id")requestBody: RequestBody): Call<Response>
+
+    /**
+     * 多张图片上传
+     * */
+    @Multipart
+    @POST("upload/lostfound/setFilesUpload")
+    fun uploadImages(@Part parts: ArrayList<MultipartBody.Part>, @Part("id")requestBody: RequestBody): Call<Response>
 
     @GET("api/lost_and_found/update/thumbUp")
     fun like(@Query("id")id:String):Call<Response>
@@ -40,5 +54,11 @@ interface LostService {
 
     @GET("api/lost_and_found/query/userId")
     fun userLostAndFound(@Query("userId")id:Int):Call<LostList>
+
+    @POST("api/lost_and_found/update")
+    fun update(@Body item: LostItem):Call<Response>
+
+    @POST("api/lost_and_found/delete")
+    fun delete(@Body item: LostItem):Call<Response>
 
 }

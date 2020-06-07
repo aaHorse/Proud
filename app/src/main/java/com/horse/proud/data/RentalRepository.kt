@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.util.ArrayList
 
 /**
  * 物品租赁功能
@@ -28,6 +29,10 @@ class RentalRepository private constructor(private val network: RentalNetwork){
         network.fetchRentalUpLoadImage(part,requestBody)
     }
 
+    suspend fun upLoadImages(parts: ArrayList<MultipartBody.Part>, requestBody: RequestBody) = withContext(Dispatchers.IO){
+        network.fetchTaskUpLoadImages(parts,requestBody)
+    }
+
     suspend fun like(id:String) = withContext(Dispatchers.IO){
         network.fetchLike(id)
     }
@@ -42,6 +47,14 @@ class RentalRepository private constructor(private val network: RentalNetwork){
 
     suspend fun userRental(id:Int) = withContext(Dispatchers.IO){
         network.fetchUserRental(id)
+    }
+
+    suspend fun update(task: RentalItem) = withContext(Dispatchers.IO){
+        network.fetchUpdate(task)
+    }
+
+    suspend fun delete(item: RentalItem) = withContext(Dispatchers.IO){
+        network.fetchDelete(item)
     }
 
     companion object{

@@ -20,14 +20,19 @@ class LostItem : Parcelable {
     @SerializedName("userId")
     var userId:Int = 0
 
+    @SerializedName("title")
     var title = ""
 
+    @SerializedName("content")
     var content = ""
 
+    @SerializedName("image")
     var image = ""
 
+    @SerializedName("label")
     var label = ""
 
+    @SerializedName("location")
     var location = ""
 
     /**
@@ -36,6 +41,22 @@ class LostItem : Parcelable {
      * */
     @SerializedName("isLost")
     var isLost:Int = -2
+
+    var images:ArrayList<String>
+        get(){
+            val temp = ArrayList<String>()
+            if(image.contains(Regex(".*,"))){
+                //多图
+                temp.addAll(image.split(",") - "")
+            }else{
+                //单图
+                temp.add(image)
+            }
+            return temp
+        }
+        set(value) {
+            //
+        }
 
     @SerializedName("isDone")
     var done:Int = -1
@@ -72,6 +93,10 @@ class LostItem : Parcelable {
         dest.writeInt(isLost)
         dest.writeInt(done)
         dest.writeString(time)
+    }
+
+    override fun toString(): String {
+        return "LostItem(id='$id', userId=$userId, title='$title', content='$content', image='$image', label='$label', location='$location', isLost=$isLost, done=$done, time='$time', thumbUp=$thumbUp, collect=$collect, comment=$comment)"
     }
 
     constructor() {}

@@ -54,17 +54,12 @@ class LoginActivity : BaseActivity(){
         observe()
     }
 
-    private fun forwardToMainActivity() {
-        // 登录成功，跳转到应用主界面
-        MainActivity.actionStart(this,userId = Proud.register.id)
-        finish()
-    }
-
     private fun observe(){
         viewModel.dataChanged.observe(this, Observer {
             AuthUtil.saveAuthData(viewModel.login.data)
             AuthUtil.saveAuthState(Const.Auth.COMFIR)
-            forwardToMainActivity()
+            MainActivity.actionStart(this,userId = Proud.register.id)
+            finish()
         })
 
     }

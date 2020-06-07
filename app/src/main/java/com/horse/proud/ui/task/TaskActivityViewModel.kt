@@ -44,22 +44,22 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     fun publish(){
         launch({
-            val task = TaskItem()
-            task.userId = Proud.register.id
-            logWarn(TAG,"${task.userId}")
-            task.title = "会飞的鱼"
-            task.content = content.value.toString()
-            task.label = type
-            task.location = local
-            task.image = ""
-            task.done = 0
-            task.startTime = DateUtil.nowDateTime
-            task.endTime = time
-            task.thumbUp = 0
-            task.collect = 0
-            task.comment = 0
+            val item = TaskItem()
+            item.userId = Proud.register.id
+            logWarn(TAG,"${item.userId}")
+            item.title = Proud.register.name
+            item.content = content.value.toString()
+            item.label = type
+            item.location = local
+            item.image = ""
+            item.done = 0
+            item.startTime = DateUtil.nowDateTime
+            item.endTime = time
+            item.thumbUp = 0
+            item.collect = 0
+            item.comment = 0
 
-            val response = repository.publish(task)
+            val response = repository.publish(item)
 
             when(response.status){
                 200 ->{
@@ -93,23 +93,23 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     fun update(taskId:String){
         launch({
-            val task = TaskItem()
-            task.id = taskId
-            task.userId = Proud.register.id
-            logWarn(TAG,"${task.userId}")
-            task.title = "会飞的鱼"
-            task.content = content.value.toString()
-            task.label = type
-            task.location = local
-            task.image = ""
-            task.done = 0
-            task.startTime = DateUtil.nowDateTime
-            task.endTime = time
-            task.thumbUp = 0
-            task.collect = 0
-            task.comment = 0
+            val item = TaskItem()
+            item.id = taskId
+            item.userId = Proud.register.id
+            logWarn(TAG,"${item.userId}")
+            item.title = "会飞的鱼"
+            item.content = content.value.toString()
+            item.label = type
+            item.location = local
+            item.image = ""
+            item.done = 0
+            item.startTime = DateUtil.nowDateTime
+            item.endTime = time
+            item.thumbUp = 0
+            item.collect = 0
+            item.comment = 0
 
-            val response = repository.update(task)
+            val response = repository.update(item)
 
             when(response.status){
                 200 ->{

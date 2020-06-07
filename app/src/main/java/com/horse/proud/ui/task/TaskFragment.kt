@@ -8,13 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPreviewActivity
 import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
-import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.model.task.TaskItem
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
@@ -23,9 +21,8 @@ import com.horse.proud.databinding.FragmentTaskBindingImpl
 import com.horse.proud.event.*
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
+import com.horse.proud.ui.setting.OverViewPublishedActivity
 import com.horse.proud.ui.task.adapter.TaskAdapter
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_task.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -191,6 +188,11 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                         it.id != messageEvent.id
                     }
                     adapter.notifyDataSetChanged()
+                }
+            }
+            is CommentToOverViewEvent -> {
+                if(messageEvent.category == Const.Like.TASK){
+                    OverViewPublishedActivity.actionStart(activity,messageEvent.userId)
                 }
             }
         }

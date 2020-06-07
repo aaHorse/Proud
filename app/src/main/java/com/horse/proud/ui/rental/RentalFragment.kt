@@ -13,18 +13,16 @@ import cn.bingoogolapple.photopicker.widget.BGANinePhotoLayout
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.logWarn
+import com.horse.core.proud.model.rental.RentalItem
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.FragmentRentalBindingImpl
-import com.horse.proud.event.CommentEvent
-import com.horse.proud.event.LikeEvent
-import com.horse.proud.event.MessageEvent
-import com.horse.proud.event.RefreshEvent
+import com.horse.proud.event.*
 import com.horse.proud.ui.common.BaseItemsFragment
 import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.ui.rental.adapter.RentalAdapter
-import kotlinx.android.synthetic.main.fragment_rental.*
+import com.horse.proud.ui.setting.OverViewPublishedActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -180,6 +178,29 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
             is CommentEvent -> {
                 if(messageEvent.category == Const.Like.RENTAL){
                     viewModel.publishComment(messageEvent.comment)
+                }
+            }
+            is DeleteEvent -> {
+                if(messageEvent.category == Const.Like.RENTAL){
+                    /*
+                    * 这里是一个设计不规范的地方，传了一个json对象给后端，正确的方法应该是id参数
+                    * */
+                    val item = RentalItem()
+                    item.id = messageEvent.id
+                    viewModel.delete(item)
+                    /*
+                    * 先更新界面
+                    * */
+                    adapter.data = adapter.data.filter {
+                        it as RentalItem
+                        it.id != messageEvent.id
+                    }
+                    adapter.notifyDataSetChanged()
+                }
+            }
+            is CommentToOverViewEvent -> {
+                if(messageEvent.category == Const.Like.RENTAL){
+                    OverViewPublishedActivity.actionStart(activity,messageEvent.userId)
                 }
             }
         }

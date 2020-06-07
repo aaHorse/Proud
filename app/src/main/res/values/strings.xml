@@ -1,7 +1,7 @@
 <resources>
 
     <string name="app_name">校园芥子空间</string>
-    <string name="apkSaveName">banana</string>
+    <string name="apkSaveName">Proud(2.0.0)</string>
     <string name="update_title">标题</string>
     <string name="update_content">内容</string>
 
@@ -10,6 +10,7 @@
     <string name="get_baseinfo_failed_user_not_exist">获取用户信息失败，用户不存在</string>
     <string name="get_baseinfo_failed">获取用户信息失败，请重新登录</string>
     <string name="get_token_failed">调用OCR失败</string>
+    <string name="visitor_reminder">该功能不对游客开放，请进行注册。</string>
 
     <!-- 网络 -->
     <string name="network_connect_error">网络连接异常</string>
@@ -30,6 +31,7 @@
     <string name="unfold">展开</string>
     <string name="fold">收起</string>
 
+    <string name="info">个性标签：有理想有志气的大学生。</string>
     <string name="new_task">发布任务</string>
     <string name="new_lost">发布失物招领</string>
     <string name="new_found">发布寻物启事</string>

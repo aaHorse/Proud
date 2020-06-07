@@ -1,6 +1,7 @@
 package com.horse.proud.data.network.api
 
 import com.horse.core.proud.model.Response
+import com.horse.core.proud.model.login.Login
 import com.horse.core.proud.model.lost.LostList
 import com.horse.core.proud.model.regist.Register
 import com.horse.core.proud.model.rental.RentalList
@@ -25,5 +26,8 @@ interface SettingService {
 
     @GET("api/task/query/user_id/{path}")
     fun userTask(@Path("path")id:Int):Call<TaskList>
+
+    @GET("api/user/query/id/{path}")
+    fun userMsg(@Path("path")id:Int):Call<Login>
 
 }

@@ -24,6 +24,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.proud.callback.LoadDataListener
 import com.horse.core.proud.model.task.TaskItem
+import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.databinding.ActivityTaskBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
@@ -101,11 +102,16 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         // 设置拖拽排序控件的代理
         snpl_moment_add_photos.setDelegate(this)
         setOnClickListener()
-        Glide.with(this).load(R.drawable.avatar_default)
+        Glide.with(this).load(R.mipmap.icon)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(avatar)
         if(flag != 0){
             initEditContent()
+        }
+        if(Proud.loginState != Const.Auth.COMFIR){
+            name.text = "游客"
+        }else{
+            name.text = Proud.register.name
         }
     }
 
@@ -122,10 +128,14 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         when(menuItem.itemId){
             R.id.publish->{
                 if(content.text.isNotEmpty()){
-                    if(flag == 0){
-                        viewModel.publish()
+                    if(Proud.loginState != Const.Auth.COMFIR){
+                        showToast(GlobalUtil.getString(R.string.visitor_reminder))
                     }else{
-                        viewModel.update(item.id)
+                        if(flag == 0){
+                            viewModel.publish()
+                        }else{
+                            viewModel.update(item.id)
+                        }
                     }
                 }else{
                     showToast("请添加描述信息")

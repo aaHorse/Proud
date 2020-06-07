@@ -23,6 +23,7 @@ import com.horse.proud.R
 import com.horse.core.proud.model.other.CommentItem
 import com.horse.core.proud.model.task.TaskItem
 import com.horse.proud.event.CommentEvent
+import com.horse.proud.event.CommentToOverViewEvent
 import com.horse.proud.event.DeleteEvent
 import com.horse.proud.event.LikeEvent
 import com.horse.proud.ui.common.ViewLocationActivity
@@ -187,26 +188,31 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
         }
 
         helper.getView<Button>(R.id.send).setOnClickListener {
-            val content:String = helper.getView<EditText>(R.id.et_comment).text.toString()
-            if (!content.isBlank()){
-                val comment = CommentItem()
-                comment.id = "1"
-                comment.userId = Proud.register.id
-                comment.content = content
-                comment.time = DateUtil.nowDateTime
-                comment.itemId = item.id
-                val event = CommentEvent()
-                event.category = Const.Like.TASK
-                event.comment = comment
-                EventBus.getDefault().post(event)
-
-                item.comments!!.commentList!!.add(comment)
-                if(adapter!=null){
-                    helper.getView<EditText>(R.id.et_comment).setText("")
-                    notifyItemChanged(position)
-                }
+            if(Proud.loginState != Const.Auth.COMFIR){
+                showToast(GlobalUtil.getString(R.string.visitor_reminder))
             }else{
-                showToast("评论不能为空")
+                val content:String = helper.getView<EditText>(R.id.et_comment).text.toString()
+                if (!content.isBlank()){
+                    val comment = CommentItem()
+                    comment.userId = Proud.register.id
+                    comment.content = content
+                    comment.time = DateUtil.nowDateTime
+                    comment.itemId = item.id
+                    comment.name = Proud.register.name
+
+                    val event = CommentEvent()
+                    event.category = Const.Like.TASK
+                    event.comment = comment
+                    EventBus.getDefault().post(event)
+
+                    item.comments!!.commentList!!.add(comment)
+                    if(adapter!=null){
+                        helper.getView<EditText>(R.id.et_comment).setText("")
+                        notifyItemChanged(position)
+                    }
+                }else{
+                    showToast("评论不能为空")
+                }
             }
         }
     }
@@ -251,7 +257,14 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
             holder as CommentItemViewHolder
             holder.comment_name.text = "${items[position].name}"
+            //holder.comment_name.text = "${items[position].userId}"
             holder.comment_content.text = items[position].content
+            holder.comment_name.setOnClickListener {
+                val event = CommentToOverViewEvent()
+                event.category = Const.Like.TASK
+                event.userId = items[position].userId
+                EventBus.getDefault().post(event)
+            }
         }
 
         internal class CommentItemViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){

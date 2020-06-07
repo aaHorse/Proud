@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.horse.core.proud.extension.logError
+import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.model.regist.Register
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.data.SettingRepository
@@ -25,6 +27,27 @@ class OverViewPublishedViewModel(private val repository: SettingRepository):View
     var rentalCount = 0
 
     var done = MutableLiveData<Int>()
+
+    var name = "会飞的鱼"
+
+    var info = GlobalUtil.getString(R.string.info)
+
+    fun userMsg(id:Int){
+        launch({
+            val login = repository.userMsg(id)
+            when(login.status){
+                200 -> {
+                    logWarn(TAG,login.data.toString())
+                    //name = login.data.name
+                    //info = login.data.info
+                }
+            }
+        },{
+            done.value = flag ++
+            showToast(GlobalUtil.getString(R.string.unknown_error))
+            logError(TAG,it)
+        })
+    }
 
     fun getCount(id:Int){
         userTaskCount(id)

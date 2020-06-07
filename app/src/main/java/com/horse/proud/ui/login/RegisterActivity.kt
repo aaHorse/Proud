@@ -94,12 +94,17 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
 
             checkPermission()
         }
+
+        /*
+        * 游客进入
+        * */
         btn_visit.setOnClickListener {
             var event = RegisterEvent()
             event.loginState = Const.Auth.VISITOR
             EventBus.getDefault().post(event)
             finish()
         }
+
         observe()
     }
 

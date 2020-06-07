@@ -8,6 +8,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.ArrayList
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -26,6 +27,8 @@ class LostNetwork {
 
     suspend fun fetchLostUpLoadImage(part: MultipartBody.Part, requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
+    suspend fun fetchTaskUpLoadImages(parts: ArrayList<MultipartBody.Part>, requestBody: RequestBody) = service.uploadImages(parts,requestBody).await()
+
     suspend fun fetchLike(id:String) = service.like(id).await()
 
     suspend fun fetchGetComments(id:String) = service.getComments(id).await()
@@ -33,6 +36,10 @@ class LostNetwork {
     suspend fun fetchPublishComment(comment: CommentItem) = service.publishComment(comment).await()
 
     suspend fun fetchUserLost(id:Int) = service.userLostAndFound(id).await()
+
+    suspend fun fetchUpdate(item: LostItem) = service.update(item).await()
+
+    suspend fun fetchDelete(item: LostItem) = service.delete(item).await()
 
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->

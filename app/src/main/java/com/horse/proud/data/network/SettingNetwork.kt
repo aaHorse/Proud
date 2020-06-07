@@ -25,6 +25,8 @@ class SettingNetwork {
 
     suspend fun fetchUserRental(id:Int) = service.userRental(id).await()
 
+    suspend fun fetchUserMsg(id:Int) = service.userMsg(id).await()
+
     private suspend fun <T> Call<T>.await(): T {
         return suspendCoroutine { continuation ->
             enqueue(object : Callback<T> {
