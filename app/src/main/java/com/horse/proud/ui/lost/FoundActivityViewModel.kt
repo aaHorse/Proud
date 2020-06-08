@@ -37,6 +37,8 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
 
     var imagesPath = ArrayList<String>()
 
+    var done:Boolean = false
+
     fun publish(){
         launch({
             val item = LostItem()
@@ -96,7 +98,11 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
             item.label = type
             item.location = local
             item.image = ""
-            item.done = 0
+            if(done){
+                item.done = 1
+            }else{
+                item.done = 0
+            }
             item.isLost = -1
             item.time = time
             item.thumbUp = 0

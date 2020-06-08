@@ -41,7 +41,10 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
                 200 -> {
                     rentalItems.clear()
                     for(item in rentalList.rentalList){
-                        rentalItems.add(item)
+                        if(item.label.startsWith("*")){
+                            item.label = item.label.substring(1,item.label.length)
+                            rentalItems.add(item)
+                        }
                     }
                     getComments()
                 }
@@ -63,7 +66,10 @@ class RentalFragmentViewModel(private val repository: RentalRepository) : ViewMo
                 200 -> {
                     rentalItems.clear()
                     for(item in rentalList.rentalList){
-                        rentalItems.add(item)
+                        if(item.label.startsWith("*")){
+                            item.label = item.label.substring(1,item.label.length)
+                            rentalItems.add(item)
+                        }
                     }
                     getComments()
                 }

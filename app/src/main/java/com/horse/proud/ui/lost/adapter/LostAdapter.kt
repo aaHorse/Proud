@@ -77,6 +77,10 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
             done.setTextColor(Color.parseColor("#19CAAD"))
         }
 
+        if(item.done != 0){
+            helper.getTextView(R.id.end).text = "已解决"
+        }
+
         if(fragment.activity.flag!=0&&fragment.activity.userID == Proud.register.id){
             with(helper.getImageView(R.id.more)){
                 visibility = View.VISIBLE

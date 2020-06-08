@@ -42,6 +42,8 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
 
     var imagesPath = ArrayList<String>()
 
+    var done:Boolean = false
+
     fun publish(){
         launch({
             val item = TaskItem()
@@ -49,7 +51,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
             logWarn(TAG,"${item.userId}")
             item.title = Proud.register.name
             item.content = content.value.toString()
-            item.label = type
+            item.label = "*$type"
             item.location = local
             item.image = ""
             item.done = 0
@@ -97,12 +99,16 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
             item.id = taskId
             item.userId = Proud.register.id
             logWarn(TAG,"${item.userId}")
-            item.title = "会飞的鱼"
+            item.title = Proud.register.name
             item.content = content.value.toString()
-            item.label = type
+            item.label = "*$type"
             item.location = local
             item.image = ""
-            item.done = 0
+            if(done){
+                item.done = 1
+            }else{
+                item.done = 0
+            }
             item.startTime = DateUtil.nowDateTime
             item.endTime = time
             item.thumbUp = 0

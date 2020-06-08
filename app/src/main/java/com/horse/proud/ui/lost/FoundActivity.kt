@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import cn.bingoogolapple.photopicker.activity.BGAPhotoPickerActivity
@@ -109,6 +110,17 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
             name.text = "游客"
         }else{
             name.text = Proud.register.name
+        }
+        ll_state.setOnClickListener{
+            if(iv_state.isChecked){
+                iv_state.isChecked = false
+                tv_state.text = "待领取"
+                tv_state.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+            }else{
+                iv_state.isChecked = true
+                tv_state.text = "已解决"
+                tv_state.setTextColor(ContextCompat.getColor(this,R.color.alpha70_green))
+            }
         }
     }
 

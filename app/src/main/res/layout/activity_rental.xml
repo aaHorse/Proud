@@ -90,6 +90,31 @@
                             android:textStyle="bold"
                             />
 
+                        <LinearLayout
+                            android:id="@+id/ll_state"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:gravity="right"
+                            >
+                            <CheckBox
+                                android:id="@+id/iv_state"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:background="@drawable/state_selector"
+                                android:button="@null"
+                                android:checked="@={viewModel.done}"
+                                />
+                            <TextView
+                                android:id="@+id/tv_state"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="待领取"
+                                />
+
+                        </LinearLayout>
+
                     </LinearLayout>
 
                     <LinearLayout

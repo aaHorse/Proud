@@ -45,7 +45,10 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
                 200 -> {
                     lostItems.clear()
                     for(item in lostList.lostList){
-                        lostItems.add(item)
+                        if(item.label.startsWith("*")){
+                            item.label = item.label.substring(1,item.label.length)
+                            lostItems.add(item)
+                        }
                     }
                     getComments()
                 }
@@ -68,7 +71,10 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
                 200 -> {
                     lostItems.clear()
                     for(item in lostList.lostList){
-                        lostItems.add(item)
+                        if(item.label.startsWith("*")){
+                            item.label = item.label.substring(1,item.label.length)
+                            lostItems.add(item)
+                        }
                     }
                     getComments()
                 }

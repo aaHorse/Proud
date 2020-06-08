@@ -47,7 +47,10 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
                 200 -> {
                     taskItems.clear()
                     for(item in taskList.taskList){
-                        taskItems.add(item)
+                        if(item.label.startsWith("*")){
+                            item.label = item.label.substring(1,item.label.length)
+                            taskItems.add(item)
+                        }
                     }
                     getComments()
                 }
@@ -63,12 +66,15 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
 
     private fun getUserTask(userId:Int){
         launch ({
-            var taskList = repository.userTask(userId)
+            val taskList = repository.userTask(userId)
             when(taskList.status){
                 200 -> {
                     taskItems.clear()
                     for(item in taskList.taskList){
-                        taskItems.add(item)
+                        if(item.label.startsWith("*")){
+                            item.label = item.label.substring(1,item.label.length)
+                            taskItems.add(item)
+                        }
                     }
                     getComments()
                 }

@@ -73,7 +73,7 @@ class TaskAdapter(private val fragment:TaskFragment, private var recyclerView: R
                 helper.getTextView(R.id.end).text = item.endTime
             }
         }else{
-            done.text = "已领取"
+            done.text = "已解决"
             done.setTextColor(Color.parseColor("#19CAAD"))
         }
 
