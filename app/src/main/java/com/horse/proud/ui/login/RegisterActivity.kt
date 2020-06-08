@@ -115,12 +115,17 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_CODE_HANDWRITING -> if(resultCode == Activity.RESULT_OK){
-                RecognizeService.recHandwriting(this, FileUtil.getSaveFile(applicationContext)?.absolutePath,
+//                RecognizeService.recHandwriting(this, FileUtil.getSaveFile(applicationContext)?.absolutePath,
+//                    object : RecognizeService.ServiceListener {
+//                        override fun onResult(result: String) {
+//                            regexCheck(result)
+//                        }
+//                    })
+                RecognizeService.recReceipt(this, FileUtil.getSaveFile(applicationContext)?.absolutePath,
                     object : RecognizeService.ServiceListener {
                         override fun onResult(result: String) {
                             regexCheck(result)
                         }
-
                     })
             }
             else -> {

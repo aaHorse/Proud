@@ -38,6 +38,21 @@ class RecognizeService {
             })
         }
 
+        fun recReceipt(ctx: Context?, filePath: String?, listener: ServiceListener) {
+            val param = OcrRequestParams()
+            param.imageFile = File(filePath)
+            param.putParam("detect_direction", "true")
+            OCR.getInstance(ctx).recognizeReceipt(param, object : OnResultListener<OcrResponseResult> {
+                override fun onResult(result: OcrResponseResult) {
+                    listener.onResult(result.jsonRes)
+                }
+
+                override fun onError(error: OCRError) {
+                    error.message?.let { listener.onResult(it) }
+                }
+            })
+        }
+
     }
 
 }
