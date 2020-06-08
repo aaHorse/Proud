@@ -17,7 +17,7 @@
             android:layout_width="74dp"
             android:layout_height="88dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/bad_network_image" />
+            android:src="@mipmap/icon" />
 
         <TextView
             android:id="@+id/loadErrorText"

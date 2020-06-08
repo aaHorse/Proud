@@ -27,7 +27,6 @@ import com.horse.core.proud.util.FastClickCheck
 import com.horse.proud.databinding.ActivityRegisterBinding
 import com.horse.proud.event.RegisterEvent
 import com.horse.proud.ui.common.BaseActivity
-import com.horse.proud.ui.home.MainActivity
 import com.horse.proud.util.FileUtil
 import com.horse.proud.util.RecognizeService
 import kotlinx.android.synthetic.main.activity_register.*
@@ -176,8 +175,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
         var i3 = 1
         //福，匹配1次,事实有2次，为了提高匹配度，只验证一个
         var i4 = 1
-        val bean = Gson().fromJson(result,
-            WordsResult::class.java)
+        val bean = Gson().fromJson(result,WordsResult::class.java)
         for(item in bean.resultList){
             with(item){
                 if(words.matches(Regex(".*福州大学.*"))){

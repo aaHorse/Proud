@@ -56,7 +56,7 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
             EventBus.getDefault().post(event)
         }
 
-        Glide.with(fragment.requireContext()).load(R.drawable.avatar_default)
+        Glide.with(fragment.requireContext()).load(R.mipmap.icon)
             .apply(RequestOptions.bitmapTransform(CircleCrop()))
             .into(helper.getImageView(R.id.avatar))
 

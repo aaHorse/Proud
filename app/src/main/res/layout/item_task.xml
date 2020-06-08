@@ -23,7 +23,7 @@
                 android:id="@+id/avatar"
                 android:layout_width="@dimen/iv"
                 android:layout_height="@dimen/iv"
-                android:src="@drawable/avatar_default" />
+                android:src="@mipmap/icon" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

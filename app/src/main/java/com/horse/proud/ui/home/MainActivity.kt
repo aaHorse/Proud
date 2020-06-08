@@ -18,6 +18,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.event.ClickEvent
+import com.horse.proud.event.EditInfoEvent
 import com.horse.proud.event.MessageEvent
 import com.horse.proud.event.ScrollEvent
 import com.horse.proud.ui.about.AboutActivity
@@ -105,6 +106,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
     @SuppressLint("SetTextI18n")
     override fun setupViews() {
+        if(flag == 0){
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
+
         changeFragment(getFragmentResId())
 
         tv_task.setOnClickListener(tabClickListener)
@@ -158,6 +163,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                     isBottomShow = true
                     bottom.animate().translationY(0.0f)
                 }
+            }
+            is EditInfoEvent -> {
+                navView.getHeaderView(0).nicknameMe.text = Proud.register.name
+                navView.getHeaderView(0).descriptionMe.text = "个性签名：${Proud.register.info}"
             }
         }
     }

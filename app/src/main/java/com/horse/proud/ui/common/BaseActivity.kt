@@ -16,12 +16,12 @@ import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.horse.proud.R
-import com.horse.proud.event.MessageEvent
-import com.horse.proud.util.ActivityCollector
 import com.horse.proud.callback.PermissionListener
 import com.horse.proud.callback.RequestLifecycle
 import com.horse.proud.event.ForceToLoginEvent
+import com.horse.proud.event.MessageEvent
 import com.horse.proud.ui.login.LoginActivity
+import com.horse.proud.util.ActivityCollector
 import com.umeng.analytics.MobclickAgent
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

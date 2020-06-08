@@ -17,7 +17,7 @@ class WordsResult {
     var resultNum = 0
 
     @SerializedName("words_result")
-    lateinit var resultList:ArrayList<Result>
+    var resultList = ArrayList<Result>()
 
 
     class Result{

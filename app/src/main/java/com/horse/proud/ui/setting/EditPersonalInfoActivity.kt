@@ -13,9 +13,11 @@ import com.horse.core.proud.extension.showToast
 import com.horse.core.proud.util.GlobalUtil
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityEditPersonalInfoBinding
+import com.horse.proud.event.EditInfoEvent
 import com.horse.proud.ui.common.BaseActivity
 import com.horse.proud.ui.login.AuthUtil
 import kotlinx.android.synthetic.main.activity_edit_personal_info.*
+import org.greenrobot.eventbus.EventBus
 import org.koin.android.ext.android.inject
 
 /**
@@ -59,6 +61,7 @@ class EditPersonalInfoActivity : BaseActivity() {
         viewModel.dataUpdate.observe(this, Observer {
             showToast("修改成功")
             AuthUtil.saveAuthData(viewModel.register)
+            EventBus.getDefault().post(EditInfoEvent())
             finish()
         })
     }
