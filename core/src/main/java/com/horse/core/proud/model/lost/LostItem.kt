@@ -93,6 +93,9 @@ class LostItem : Parcelable {
         dest.writeInt(isLost)
         dest.writeInt(done)
         dest.writeString(time)
+        dest.writeInt(thumbUp)
+        dest.writeInt(collect)
+        dest.writeInt(comment)
     }
 
     override fun toString(): String {
@@ -112,7 +115,9 @@ class LostItem : Parcelable {
         isLost = parcel.readInt()
         done = parcel.readInt()
         time = parcel.readString() ?: ""
-
+        thumbUp = parcel.readInt()
+        collect = parcel.readInt()
+        comment = parcel.readInt()
     }
 
     companion object {

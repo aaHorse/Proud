@@ -63,9 +63,9 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
                 200 ->{
                     when {
                         imagesPath.isNullOrEmpty() -> {
-                            showToast("任务发布成功")
+                            showToast("发布成功")
                             val finishActivityEvent = FinishActivityEvent()
-                            finishActivityEvent.category = Const.Like.TASK
+                            finishActivityEvent.category = Const.Like.RENTAL
                             EventBus.getDefault().post(finishActivityEvent)
                         }
                         imagesPath.size == 1 -> {
@@ -77,7 +77,7 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
                     }
                 }
                 500 ->{
-                    showToast("任务发布失败")
+                    showToast("发布失败")
                 }
             }
 
@@ -91,6 +91,7 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
         launch({
             val item = RentalItem()
             item.id = id
+            item.userId = Proud.register.id
             item.title = Proud.register.name
             item.content = content.value.toString()
             item.label = "*$type"
@@ -113,21 +114,23 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
                 200 ->{
                     when {
                         imagesPath.isNullOrEmpty() -> {
-                            showToast("任务发布成功")
+                            showToast("发布成功")
                             val finishActivityEvent = FinishActivityEvent()
-                            finishActivityEvent.category = Const.Like.TASK
+                            finishActivityEvent.category = Const.Like.RENTAL
                             EventBus.getDefault().post(finishActivityEvent)
                         }
                         imagesPath.size == 1 -> {
+                            showToast("发布成功")
                             //upLoadImage(response.data,imagesPath[0])
                         }
                         imagesPath.size > 1 -> {
+                            showToast("发布成功")
                             //upLoadImages(response.data,imagesPath)
                         }
                     }
                 }
                 500 ->{
-                    showToast("任务发布失败")
+                    showToast("发布失败")
                 }
             }
 
@@ -150,9 +153,9 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
                 val response = repository.upLoadImage(part,requestBody)
                 when(response.code){
                     "1000" ->{
-                        showToast("任务发布成功")
+                        showToast("发布成功")
                         val finishActivityEvent = FinishActivityEvent()
-                        finishActivityEvent.category = Const.Like.TASK
+                        finishActivityEvent.category = Const.Like.RENTAL
                         EventBus.getDefault().post(finishActivityEvent)
                     }
                 }
@@ -177,9 +180,9 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
                 val response = repository.upLoadImages(list,requestBody)
                 when(response.code){
                     "1000" ->{
-                        showToast("任务发布成功")
+                        showToast("发布成功")
                         val finishActivityEvent = FinishActivityEvent()
-                        finishActivityEvent.category = Const.Like.TASK
+                        finishActivityEvent.category = Const.Like.RENTAL
                         EventBus.getDefault().post(finishActivityEvent)
                     }
                 }

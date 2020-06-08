@@ -333,7 +333,6 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
 
     private fun getTime() {
         val items = Const.TIME
-        val checkedIndex = 1
         QMUIDialog.CheckableDialogBuilder(this)
             .setCheckedIndex(selectedTime)
             .addItems(items) { dialog, which ->

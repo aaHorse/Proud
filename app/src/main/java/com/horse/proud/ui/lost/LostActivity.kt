@@ -338,7 +338,6 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
 
     private fun getTime() {
         val items = Const.TIME
-        val checkedIndex = 1
         QMUIDialog.CheckableDialogBuilder(this)
             .setCheckedIndex(selectedTime)
             .addItems(items) { dialog, which ->

@@ -67,7 +67,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                 200 ->{
                     when {
                         imagesPath.isNullOrEmpty() -> {
-                            showToast("任务发布成功")
+                            showToast("发布成功")
                             val finishActivityEvent = FinishActivityEvent()
                             finishActivityEvent.category = Const.Like.TASK
                             EventBus.getDefault().post(finishActivityEvent)
@@ -121,21 +121,23 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                 200 ->{
                     when {
                         imagesPath.isNullOrEmpty() -> {
-                            showToast("任务发布成功")
+                            showToast("修改成功")
                             val finishActivityEvent = FinishActivityEvent()
                             finishActivityEvent.category = Const.Like.TASK
                             EventBus.getDefault().post(finishActivityEvent)
                         }
                         imagesPath.size == 1 -> {
-                            upLoadImage(taskId,imagesPath[0])
+                            showToast("修改成功")
+                            //upLoadImage(taskId,imagesPath[0])
                         }
                         imagesPath.size > 1 -> {
-                            upLoadImages(taskId,imagesPath)
+                            showToast("修改成功")
+                            //upLoadImages(taskId,imagesPath)
                         }
                     }
                 }
                 500 ->{
-                    showToast("任务发布失败")
+                    showToast("修改失败")
                 }
             }
 
@@ -158,7 +160,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                 val response = repository.upLoadImage(part,requestBody)
                 when(response.code){
                     "1000" ->{
-                        showToast("任务发布成功")
+                        showToast("发布成功")
                         val finishActivityEvent = FinishActivityEvent()
                         finishActivityEvent.category = Const.Like.TASK
                         EventBus.getDefault().post(finishActivityEvent)
@@ -185,7 +187,7 @@ class TaskActivityViewModel(private val repository: TaskRepository) : ViewModel(
                 val response = repository.upLoadImages(list,requestBody)
                 when(response.code){
                     "1000" ->{
-                        showToast("任务发布成功")
+                        showToast("发布成功")
                         val finishActivityEvent = FinishActivityEvent()
                         finishActivityEvent.category = Const.Like.TASK
                         EventBus.getDefault().post(finishActivityEvent)

@@ -13,6 +13,7 @@ import com.horse.proud.R
 import com.horse.proud.data.LostRepository
 import com.horse.core.proud.model.lost.LostItem
 import com.horse.proud.event.FinishActivityEvent
+import com.horse.proud.util.DateUtil
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -43,7 +44,6 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
         launch({
             val item = LostItem()
             item.userId = Proud.register.id
-            logWarn(TAG,"${item.userId}")
             item.title = Proud.register.name
             item.content = content.value.toString()
             item.label = "*$type"
@@ -51,7 +51,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
             item.image = ""
             item.done = 0
             item.isLost = -1
-            item.time = time
+            item.time = DateUtil.nowDateTime
             item.thumbUp = 0
             item.collect = 0
             item.comment = 0
@@ -64,9 +64,9 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                 200 ->{
                     when {
                         imagesPath.isNullOrEmpty() -> {
-                            showToast("任务发布成功")
+                            showToast("发布成功")
                             val finishActivityEvent = FinishActivityEvent()
-                            finishActivityEvent.category = Const.Like.TASK
+                            finishActivityEvent.category = Const.Like.FOUND
                             EventBus.getDefault().post(finishActivityEvent)
                         }
                         imagesPath.size == 1 -> {
@@ -78,7 +78,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                     }
                 }
                 500 ->{
-                    showToast("任务发布失败")
+                    showToast("发布失败")
                 }
             }
 
@@ -92,7 +92,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
         launch({
             var item = LostItem()
             item.id = id
-            logWarn(TAG,"${item.userId}")
+            item.userId = Proud.register.id
             item.title = Proud.register.name
             item.content = content.value.toString()
             item.label = "*$type"
@@ -104,7 +104,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                 item.done = 0
             }
             item.isLost = -1
-            item.time = time
+            item.time = DateUtil.nowDateTime
             item.thumbUp = 0
             item.collect = 0
             item.comment = 0
@@ -115,21 +115,23 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                 200 ->{
                     when {
                         imagesPath.isNullOrEmpty() -> {
-                            showToast("任务发布成功")
+                            showToast("修改成功")
                             val finishActivityEvent = FinishActivityEvent()
-                            finishActivityEvent.category = Const.Like.TASK
+                            finishActivityEvent.category = Const.Like.FOUND
                             EventBus.getDefault().post(finishActivityEvent)
                         }
                         imagesPath.size == 1 -> {
+                            showToast("修改成功")
                             //upLoadImage(response.data,imagesPath[0])
                         }
                         imagesPath.size > 1 -> {
+                            showToast("修改成功")
                             //upLoadImages(response.data,imagesPath)
                         }
                     }
                 }
                 500 ->{
-                    showToast("任务发布失败")
+                    showToast("修改失败")
                 }
             }
 
@@ -152,7 +154,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                 val response = repository.upLoadImage(part,requestBody)
                 when(response.code){
                     "1000" ->{
-                        showToast("任务发布成功")
+                        showToast("发布成功")
                         val finishActivityEvent = FinishActivityEvent()
                         finishActivityEvent.category = Const.Like.FOUND
                         EventBus.getDefault().post(finishActivityEvent)
@@ -179,7 +181,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
                 val response = repository.upLoadImages(list,requestBody)
                 when(response.code){
                     "1000" ->{
-                        showToast("任务发布成功")
+                        showToast("发布成功")
                         val finishActivityEvent = FinishActivityEvent()
                         finishActivityEvent.category = Const.Like.FOUND
                         EventBus.getDefault().post(finishActivityEvent)
