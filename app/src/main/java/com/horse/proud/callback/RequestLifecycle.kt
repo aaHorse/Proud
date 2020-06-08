@@ -14,4 +14,6 @@ interface RequestLifecycle {
 
     fun loadFailed(msg: String?)
 
+    fun loadNull()
+
 }

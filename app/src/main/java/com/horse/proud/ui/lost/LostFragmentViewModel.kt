@@ -18,11 +18,27 @@ import kotlinx.coroutines.launch
  * */
 class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(){
 
-    var flag:Int = 0
+    /**
+     * 分页用
+     * */
+    var page = 1
 
     var isLoadingMore = MutableLiveData<Boolean>()
 
-    var loadFailed = MutableLiveData<Int>()
+    /**
+     * 服务器错误
+     * */
+    var loadError = MutableLiveData<Int>()
+
+    /**
+     * 网络错误
+     * */
+    var badNetWork = MutableLiveData<Int>()
+
+    /**
+     * 空
+     * */
+    var noContent = MutableLiveData<Int>()
 
     var isNoMoreData = MutableLiveData<Boolean>()
 
@@ -30,7 +46,14 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
 
     var lostItemsChanged = MutableLiveData<Int>()
 
+    /**
+     * 获取任务列表
+     *
+     * @param flag 标志，0：查看全部
+     * @param userID 用户id，查看用户对应的信息
+     * */
     fun getLost(flag:Int,userID:Int){
+        isLoadingMore.value = true
         if(flag == 0){
             getAllLost()
         }else{
@@ -40,53 +63,69 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
 
     private fun getAllLost() {
         launch ({
-            var lostList = repository.getLostList()
+            var lostList = repository.getLostList(page++)
+            //加载结束
+            isLoadingMore.value = false
             when(lostList.status){
                 200 -> {
-                    lostItems.clear()
                     for(item in lostList.lostList){
                         if(item.label.startsWith("*")){
                             item.label = item.label.substring(1,item.label.length)
                             lostItems.add(item)
                         }
                     }
-                    getComments()
+                    if(lostItems.size == 0){
+                        //空布局
+                        noContent.value = noContent.value?.plus(1)
+                    }else{
+                        if(lostItems.size < 15){
+                            isNoMoreData.value = true
+                        }
+                        getComments()
+                    }
                 }
                 500 -> {
-                    loadFailed.value = flag++
+                    isNoMoreData.value = true
                 }
             }
-
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = flag++
-            Toast.makeText(Proud.context, it.message, Toast.LENGTH_SHORT).show()
+            isLoadingMore.value = false
+            badNetWork.value = badNetWork.value?.plus(1)
         })
     }
 
-    private fun getUserLost(userID:Int) {
+    private fun getUserLost(userId:Int){
         launch ({
-            var lostList = repository.userLost(userID)
+            val lostList = repository.userLost(page++,userId)
+            //加载结束
+            isLoadingMore.value = false
             when(lostList.status){
                 200 -> {
-                    lostItems.clear()
                     for(item in lostList.lostList){
                         if(item.label.startsWith("*")){
                             item.label = item.label.substring(1,item.label.length)
                             lostItems.add(item)
                         }
                     }
-                    getComments()
+                    if(lostItems.size == 0){
+                        //空布局
+                        noContent.value = noContent.value?.plus(1)
+                    }else{
+                        if(lostItems.size < 15){
+                            isNoMoreData.value = true
+                        }
+                        getComments()
+                    }
                 }
                 500 -> {
-                    loadFailed.value = flag++
+                    isNoMoreData.value = true
                 }
             }
-
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = flag++
-            Toast.makeText(Proud.context, it.message, Toast.LENGTH_SHORT).show()
+            isLoadingMore.value = false
+            badNetWork.value = badNetWork.value?.plus(1)
         })
     }
 
@@ -108,30 +147,28 @@ class LostFragmentViewModel(private val repository: LostRepository) : ViewModel(
     }
 
     private fun getComments(){
-        for((index,item) in lostItems.withIndex()){
-            launch({
-                logWarn(TAG,item.id)
+        launch({
+            for(item in lostItems){
                 val commentList = repository.getComments(item.id)
                 when(commentList.status){
                     200 -> {
                         //将评论列表翻转
                         commentList.commentList?.reverse()
                         item.comments = commentList
-                        logWarn(TAG,"$index")
-                        if(index == lostItems.size-1){
-                            isLoadingMore.value = false
-                            lostItemsChanged.value = flag++
-                        }
                     }
                     500 -> {
                         logWarn(TAG,commentList.msg)
                     }
                 }
-            },{
-                logWarn(TAG,it)
-            })
-        }
+            }
+            isLoadingMore.value = false
+            lostItemsChanged.value = lostItemsChanged.value?.plus(1)
+        },{
+            logWarn(TAG,it)
+            isLoadingMore.value = false
+        })
     }
+
 
     fun like(id:String){
         launch({

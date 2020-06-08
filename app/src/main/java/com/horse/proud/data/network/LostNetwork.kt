@@ -23,7 +23,7 @@ class LostNetwork {
 
     suspend fun fetchLostPublish(item: LostItem) = service.publish(item).await()
 
-    suspend fun fetchLostAll() = service.getAll().await()
+    suspend fun fetchLostAll(page:Int) = service.getAll(page).await()
 
     suspend fun fetchLostUpLoadImage(part: MultipartBody.Part, requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
@@ -35,7 +35,7 @@ class LostNetwork {
 
     suspend fun fetchPublishComment(comment: CommentItem) = service.publishComment(comment).await()
 
-    suspend fun fetchUserLost(id:Int) = service.userLostAndFound(id).await()
+    suspend fun fetchUserLost(page: Int,id:Int) = service.userLostAndFound(page,id).await()
 
     suspend fun fetchUpdate(item: LostItem) = service.update(item).await()
 

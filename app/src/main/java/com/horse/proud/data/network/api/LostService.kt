@@ -23,8 +23,8 @@ interface LostService {
     @POST("api/lost_and_found/insert")
     fun publish(@Body item: LostItem): Call<LostPublish>
 
-    @GET("api/lost_and_found/query/all")
-    fun getAll():Call<LostList>
+    @GET("api/lost_and_found/query/all/{page}")
+    fun getAll(@Path("page")page:Int):Call<LostList>
 
     /**
      * 单张图片上传
@@ -52,8 +52,8 @@ interface LostService {
     @POST("api/lostfound/comment/insert")
     fun publishComment(@Body comment: CommentItem):Call<Response>
 
-    @GET("api/lost_and_found/query/userId")
-    fun userLostAndFound(@Query("userId")id:Int):Call<LostList>
+    @GET("api/lost_and_found/query/userId/{path}")
+    fun userLostAndFound(@Path("path")page:Int,@Query("userId")id:Int):Call<LostList>
 
     @POST("api/lost_and_found/update")
     fun update(@Body item: LostItem):Call<Response>

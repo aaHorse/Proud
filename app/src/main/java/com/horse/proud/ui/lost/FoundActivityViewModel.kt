@@ -46,7 +46,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
             logWarn(TAG,"${item.userId}")
             item.title = Proud.register.name
             item.content = content.value.toString()
-            item.label = type
+            item.label = "*$type"
             item.location = local
             item.image = ""
             item.done = 0
@@ -95,7 +95,7 @@ class FoundActivityViewModel(private val repository: LostRepository) : ViewModel
             logWarn(TAG,"${item.userId}")
             item.title = Proud.register.name
             item.content = content.value.toString()
-            item.label = type
+            item.label = "*$type"
             item.location = local
             item.image = ""
             if(done){

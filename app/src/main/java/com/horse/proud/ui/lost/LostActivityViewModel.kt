@@ -96,12 +96,16 @@ class LostActivityViewModel(private val repository: LostRepository) : ViewModel(
             var item = LostItem()
             item.id = id
             logWarn(TAG,"${item.userId}")
-            item.title = "会飞的鱼"
+            item.title = Proud.register.name
             item.content = content.value.toString()
             item.label = "*$type"
             item.location = local
             item.image = ""
-            item.done = 0
+            if(done){
+                item.done = 1
+            }else{
+                item.done = 0
+            }
             item.isLost = 0
             item.time = time
             item.thumbUp = 0

@@ -14,11 +14,30 @@ import kotlinx.coroutines.launch
 
 class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(){
 
-    var flag:Int = 0
+    /**
+     * 分页用
+     *
+     * 第一页是0
+     * 第二页是1，以此类推
+     * */
+    var page = 1
 
     var isLoadingMore = MutableLiveData<Boolean>()
 
-    var loadFailed = MutableLiveData<Int>()
+    /**
+     * 服务器错误
+     * */
+    var loadError = MutableLiveData<Int>()
+
+    /**
+     * 网络错误
+     * */
+    var badNetWork = MutableLiveData<Int>()
+
+    /**
+     * 空
+     * */
+    var noContent = MutableLiveData<Int>()
 
     var isNoMoreData = MutableLiveData<Boolean>()
 
@@ -33,6 +52,7 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
      * @param userID 用户id，查看用户对应的信息
      * */
     fun getTask(flag:Int,userID:Int){
+        isLoadingMore.value = true
         if(flag == 0){
             getAllTask()
         }else{
@@ -42,49 +62,69 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
 
     private fun getAllTask() {
         launch ({
-            var taskList = repository.getTaskList()
+            var taskList = repository.getTaskList(page++)
+            //加载结束
+            isLoadingMore.value = false
             when(taskList.status){
                 200 -> {
-                    taskItems.clear()
                     for(item in taskList.taskList){
                         if(item.label.startsWith("*")){
                             item.label = item.label.substring(1,item.label.length)
                             taskItems.add(item)
                         }
                     }
-                    getComments()
+                    if(taskItems.size == 0){
+                        //空布局
+                        noContent.value = noContent.value?.plus(1)
+                    }else{
+                        if(taskItems.size < 15){
+                            isNoMoreData.value = true
+                        }
+                        getComments()
+                    }
                 }
                 500 -> {
-                    loadFailed.value = flag++
+                    isNoMoreData.value = true
                 }
             }
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = flag++
+            isLoadingMore.value = false
+            badNetWork.value = badNetWork.value?.plus(1)
         })
     }
 
     private fun getUserTask(userId:Int){
         launch ({
-            val taskList = repository.userTask(userId)
+            val taskList = repository.userTask(userId,page++)
+            //加载结束
+            isLoadingMore.value = false
             when(taskList.status){
                 200 -> {
-                    taskItems.clear()
                     for(item in taskList.taskList){
                         if(item.label.startsWith("*")){
                             item.label = item.label.substring(1,item.label.length)
                             taskItems.add(item)
                         }
                     }
-                    getComments()
+                    if(taskItems.size == 0){
+                        //空布局
+                        noContent.value = noContent.value?.plus(1)
+                    }else{
+                        if(taskItems.size < 15){
+                            isNoMoreData.value = true
+                        }
+                        getComments()
+                    }
                 }
                 500 -> {
-                    loadFailed.value = flag++
+                    isNoMoreData.value = true
                 }
             }
         }, {
             logWarn(TAG, it.message, it)
-            loadFailed.value = flag++
+            isLoadingMore.value = false
+            badNetWork.value = badNetWork.value?.plus(1)
         })
     }
 
@@ -106,29 +146,26 @@ class TaskFragmentViewModel(private val repository: TaskRepository) : ViewModel(
     }
 
     private fun getComments(){
-        for((index,item) in taskItems.withIndex()){
-            launch({
-                logWarn(TAG,item.id)
+        launch({
+            for(item in taskItems){
                 val commentList = repository.getComments(item.id)
                 when(commentList.status){
                     200 -> {
                         //将评论列表翻转
                         commentList.commentList?.reverse()
                         item.comments = commentList
-                        logWarn(TAG,"$index")
-                        if(index == taskItems.size-1){
-                            isLoadingMore.value = false
-                            taskItemsChanged.value = flag++
-                        }
                     }
                     500 -> {
                         logWarn(TAG,commentList.msg)
                     }
                 }
-            },{
-                logWarn(TAG,it)
-            })
-        }
+            }
+            isLoadingMore.value = false
+            taskItemsChanged.value = taskItemsChanged.value?.plus(1)
+        },{
+            logWarn(TAG,it)
+            isLoadingMore.value = false
+        })
     }
 
     fun like(id:String){

@@ -17,8 +17,8 @@ import java.util.ArrayList
  * */
 class LostRepository private constructor(private val network: LostNetwork){
 
-    suspend fun getLostList() = withContext(Dispatchers.IO){
-        network.fetchLostAll()
+    suspend fun getLostList(page:Int) = withContext(Dispatchers.IO){
+        network.fetchLostAll(page)
     }
 
     suspend fun publish(item: LostItem) = withContext(Dispatchers.IO){
@@ -45,8 +45,8 @@ class LostRepository private constructor(private val network: LostNetwork){
         network.fetchPublishComment(comment)
     }
 
-    suspend fun userLost(id:Int) = withContext(Dispatchers.IO){
-        network.fetchUserLost(id)
+    suspend fun userLost(page:Int,id:Int) = withContext(Dispatchers.IO){
+        network.fetchUserLost(page,id)
     }
 
     suspend fun update(item: LostItem) = withContext(Dispatchers.IO){

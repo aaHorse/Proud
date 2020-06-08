@@ -66,39 +66,40 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
         recyclerView.adapter = adapter
     }
 
-    override fun loadItems() {
-        viewModel.getTask(activity.flag,activity.userID)
-    }
-
-    override fun refresh() {
-        viewModel.getTask(activity.flag,activity.userID)
-    }
-
     override fun dataSetSize(): Int {
         return viewModel.taskItems.size
     }
 
+    /**
+     * 正常加载用
+     * */
     override fun onLoad() {
-        if (!isLoadingMore) {
-            if (viewModel.taskItems.isNotEmpty()) {
-                isLoadingMore = true
-                isLoadFailed = false
-                isNoMoreData = false
-                loadItems()
-            }
+        if (!isLoadingMore && !isNoMoreData) {
+            startLoading()
+            viewModel.getTask(activity.flag,activity.userID)
         }
+    }
+
+    /**
+     * 刷新用
+     * */
+    override fun refresh() {
+        if(!isLoadingMore){
+            startLoading()
+            viewModel.page = 1
+            viewModel.taskItems.clear()
+            viewModel.getTask(activity.flag,activity.userID)
+        }
+    }
+
+    override fun loadItems() {
+
     }
 
     override fun loadFinished() {
         super.loadFinished()
-        if (viewModel.taskItems.isEmpty()) {
-            recyclerView.visibility = View.GONE
-            showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
-                GlobalUtil.getString(R.string.app_name),
-                View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
-        } else {
-            hideNoContentView()
-        }
+        adapter.data = viewModel.taskItems
+        adapter.notifyDataSetChanged()
     }
 
     /**
@@ -106,31 +107,22 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
      * */
     private fun observe(){
         viewModel.taskItemsChanged.observe(activity, Observer {
-            if(viewModel.taskItems.isEmpty()){
-                recyclerView.visibility = View.GONE
-                showNoContentViewWithButton(
-                    GlobalUtil.getString(R.string.items_null),
-                    GlobalUtil.getString(R.string.items_null_click),
-                    View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
-            }else{
-                loadFinished()
-                hideNoContentView()
-                adapter.data = viewModel.taskItems
-                adapter.notifyDataSetChanged()
-                scrollToTop()
-            }
+            loadFinished()
+        })
+
+        viewModel.badNetWork.observe(activity, Observer {
+            loadFailed(null)
+        })
+
+        viewModel.noContent.observe(activity, Observer {
+            loadNull()
         })
 
         viewModel.isLoadingMore.observe(activity, Observer {
             isLoadingMore = viewModel.isLoadingMore.value!!
         })
 
-        viewModel.loadFailed.observe(activity, Observer {
-            loadFailed(null)
-        })
-
         viewModel.isNoMoreData.observe(activity, Observer {
-            logWarn(TAG,"被修改了")
             isNoMoreData = viewModel.isNoMoreData.value!!
         })
     }
@@ -178,7 +170,10 @@ class TaskFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.De
                 }
             }
             is DeleteEvent -> {
-                if(messageEvent.category == Const.Like.TASK){
+                /*
+                * 编辑个人任务的界面才接受删除的消息
+                * */
+                if(messageEvent.category == Const.Like.TASK && activity.flag != 0){
                     viewModel.delete(messageEvent.id)
                     /*
                     * 先更新界面

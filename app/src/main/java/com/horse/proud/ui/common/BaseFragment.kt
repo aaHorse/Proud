@@ -139,24 +139,30 @@ open class BaseFragment: Fragment(), RequestLifecycle {
         }
     }
 
+    private fun hideStateView(){
+        hideLoadErrorView()
+        hideNoContentView()
+        hideBadNetworkView()
+    }
+
     /**
      * 将load error view进行隐藏。
      */
-    protected fun hideLoadErrorView() {
+    private fun hideLoadErrorView() {
         loadErrorView?.visibility = View.GONE
     }
 
     /**
      * 将no content view进行隐藏。
      */
-    protected fun hideNoContentView() {
+    private fun hideNoContentView() {
         noContentView?.visibility = View.GONE
     }
 
     /**
      * 将bad network view进行隐藏。
      */
-    protected fun hideBadNetworkView() {
+    private fun hideBadNetworkView() {
         badNetworkView?.visibility = View.GONE
     }
 
@@ -227,10 +233,8 @@ open class BaseFragment: Fragment(), RequestLifecycle {
      */
     @CallSuper
     override fun startLoading() {
-        loading?.visibility = View.VISIBLE
-        hideBadNetworkView()
-        hideNoContentView()
-        hideLoadErrorView()
+        loading?.visibility = View.GONE
+        hideStateView()
     }
 
     /**
@@ -239,6 +243,7 @@ open class BaseFragment: Fragment(), RequestLifecycle {
     @CallSuper
     override fun loadFinished() {
         loading?.visibility = View.GONE
+        hideStateView()
     }
 
     /**
@@ -246,6 +251,14 @@ open class BaseFragment: Fragment(), RequestLifecycle {
      */
     @CallSuper
     override fun loadFailed(msg: String?) {
+        loading?.visibility = View.GONE
+    }
+
+    /**
+     * 加载数据为空
+     * */
+    @CallSuper
+    override fun loadNull() {
         loading?.visibility = View.GONE
     }
 

@@ -24,8 +24,8 @@ interface TaskService {
     @POST("api/task/insert")
     fun publish(@Body task: TaskItem): Call<TaskPublish>
 
-    @GET("api/task/query/all")
-    fun getAll():Call<TaskList>
+    @GET("api/task/query/all/{page}")
+    fun getAll(@Path("page")page:Int):Call<TaskList>
 
     /**
      * 单张图片上传
@@ -51,8 +51,8 @@ interface TaskService {
     @POST("api/task/comment/insert")
     fun publishComment(@Body comment: CommentItem):Call<Response>
 
-    @GET("api/task/query/user_id/{path}")
-    fun userTask(@Path("path")id:Int):Call<TaskList>
+    @GET("api/task/query/user_id/{userID}/{page}")
+    fun userTask(@Path("userID")id:Int,@Path("page")page:Int):Call<TaskList>
 
     @POST("api/task/update")
     fun update(@Body task: TaskItem):Call<Response>

@@ -43,12 +43,7 @@ abstract class BaseItemsFragment : BaseFragment(){
     internal var isLoadingMore = false
 
     /**
-     * 加载失败
-     * */
-    var isLoadFailed = false
-
-    /**
-     * 判断服务器是否还有更多数据。如果没有了，为 true，否则为 false。
+     * 判断服务器是否还有更多数据
      * */
     var isNoMoreData = false
 
@@ -78,30 +73,29 @@ abstract class BaseItemsFragment : BaseFragment(){
 
         recyclerView.addOnScrollListener(object: InfiniteScrollListener(layoutManager) {
             override fun onLoadMore() {
-                //loadDataListener.onLoad()
+                loadDataListener.onLoad()
             }
 
             override fun isDataLoading() = isLoadingMore
 
             override fun isNoMoreData() = isNoMoreData
         })
-        scrollChangeListener()
+
         swipeRefreshLayout.setOnRefreshListener {
             refresh()
         }
-        refresh()
+
+        scrollChangeListener()
+
+        /*
+        * 加载第一手数据
+        * */
+        loadDataListener.onLoad()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     open fun onMessageEvent(messageEvent: MessageEvent){
-        if(messageEvent is RefreshMainActivityFeedsEvent){
-            if(isLoadFailed){
-                //只有在加载失败的时候，才会相应
-                Proud.handler.postDelayed(300){
-                    reload()
-                }
-            }
-        }else if(messageEvent is CleanCacheEvent){
+        if(messageEvent is CleanCacheEvent){
             reload()
         }else if(messageEvent is UnknownErrorEvent){
             activity.runOnUiThread {
@@ -111,32 +105,34 @@ abstract class BaseItemsFragment : BaseFragment(){
         }
     }
 
+    override fun startLoading() {
+        super.startLoading()
+        swipeRefreshLayout.isRefreshing = true
+        swipeRefreshLayout.visibility = View.VISIBLE
+    }
+
     override fun loadFinished() {
         super.loadFinished()
-        isLoadFailed = false
         recyclerView.visibility = View.VISIBLE
-        swipeRefreshLayout.visibility = View.VISIBLE
-        if(swipeRefreshLayout.isRefreshing){
-            swipeRefreshLayout.isRefreshing = false
-        }
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun loadFailed(msg: String?) {
         super.loadFailed(msg)
-        isLoadFailed = true
-        if(dataSetSize() == 0){
-            if(msg == null){
-                swipeRefreshLayout.visibility = View.GONE
-                showBadNetworkView(View.OnClickListener {
-                    val event = RefreshEvent()
-                    EventBus.getDefault().post(event)
-                    hideBadNetworkView()
-                })
-            }
-        }else{
-            showToast(GlobalUtil.getString(R.string.network_connect_error))
-            adapter.notifyItemChanged(adapter.itemCount - 1)
-        }
+        recyclerView.visibility = View.GONE
+        swipeRefreshLayout.visibility = View.GONE
+        showBadNetworkView(View.OnClickListener { refresh() })
+        swipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun loadNull() {
+        super.loadNull()
+        recyclerView.visibility = View.GONE
+        swipeRefreshLayout.visibility = View.GONE
+        showNoContentViewWithButton(
+            GlobalUtil.getString(R.string.items_null),
+            GlobalUtil.getString(R.string.items_null_click),
+            View.OnClickListener { refresh() })
         swipeRefreshLayout.isRefreshing = false
     }
 

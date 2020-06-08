@@ -278,6 +278,11 @@ open class BaseActivity : AppCompatActivity(), RequestLifecycle {
         loading?.visibility = View.GONE
     }
 
+    @CallSuper
+    override fun loadNull() {
+        loading?.visibility = View.GONE
+    }
+
     companion object{
         private const val TAG = "BaseActivity"
     }

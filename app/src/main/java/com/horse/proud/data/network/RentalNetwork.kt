@@ -23,7 +23,7 @@ class RentalNetwork {
 
     suspend fun fetchRentalPublish(item: RentalItem) = service.publish(item).await()
 
-    suspend fun fetchRentalAll() = service.getAll().await()
+    suspend fun fetchRentalAll(page:Int) = service.getAll(page).await()
 
     suspend fun fetchRentalUpLoadImage(part: MultipartBody.Part, requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
@@ -35,7 +35,7 @@ class RentalNetwork {
 
     suspend fun fetchPublishComment(comment: CommentItem) = service.publishComment(comment).await()
 
-    suspend fun fetchUserRental(id:Int) = service.userRental(id).await()
+    suspend fun fetchUserRental(page:Int,id:Int) = service.userRental(page,id).await()
 
     suspend fun fetchUpdate(task: RentalItem) = service.update(task).await()
 

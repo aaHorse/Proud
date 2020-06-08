@@ -17,8 +17,8 @@ import java.util.ArrayList
  * */
 class RentalRepository private constructor(private val network: RentalNetwork){
 
-    suspend fun getRentalList() = withContext(Dispatchers.IO){
-        network.fetchRentalAll()
+    suspend fun getRentalList(page:Int) = withContext(Dispatchers.IO){
+        network.fetchRentalAll(page)
     }
 
     suspend fun publish(item: RentalItem) = withContext(Dispatchers.IO){
@@ -45,8 +45,8 @@ class RentalRepository private constructor(private val network: RentalNetwork){
         network.fetchPublishComment(comment)
     }
 
-    suspend fun userRental(id:Int) = withContext(Dispatchers.IO){
-        network.fetchUserRental(id)
+    suspend fun userRental(page:Int,id:Int) = withContext(Dispatchers.IO){
+        network.fetchUserRental(page,id)
     }
 
     suspend fun update(task: RentalItem) = withContext(Dispatchers.IO){

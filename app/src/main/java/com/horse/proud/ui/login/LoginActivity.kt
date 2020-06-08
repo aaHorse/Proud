@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
 import com.horse.core.proud.extension.showToast
+import com.horse.core.proud.util.FastClickCheck
 import com.horse.proud.R
 import com.horse.proud.databinding.ActivityLoginBinding
 import com.horse.proud.event.FinishActivityEvent
@@ -47,7 +48,9 @@ class LoginActivity : BaseActivity(){
             RegisterActivity.actionStart(this)
         }
         btn_login.setOnClickListener {
-            viewModel.login(number.text.toString(),password.text.toString())
+            if(FastClickCheck.isNotFastClick()){
+                viewModel.login(number.text.toString(),password.text.toString())
+            }
         }
         tv_forget_password.setOnClickListener {
             ForgetPasswordActivity.actionStart(this)

@@ -18,8 +18,8 @@ import java.util.ArrayList
  * */
 class TaskRepository private constructor(private val network: TaskNetwork){
 
-    suspend fun getTaskList() = withContext(Dispatchers.IO){
-        network.fetchTaskAll()
+    suspend fun getTaskList(page:Int) = withContext(Dispatchers.IO){
+        network.fetchTaskAll(page)
     }
 
     suspend fun publish(task: TaskItem) = withContext(Dispatchers.IO){
@@ -46,8 +46,8 @@ class TaskRepository private constructor(private val network: TaskNetwork){
         network.fetchPublishComment(comment)
     }
 
-    suspend fun userTask(id:Int) = withContext(Dispatchers.IO){
-        network.fetchUserTask(id)
+    suspend fun userTask(id:Int,page:Int) = withContext(Dispatchers.IO){
+        network.fetchUserTask(id,page)
     }
 
     suspend fun update(task: TaskItem) = withContext(Dispatchers.IO){

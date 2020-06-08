@@ -66,40 +66,40 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
         recyclerView.adapter = adapter
     }
 
-    override fun loadItems() {
-        viewModel.getRental(activity.flag,activity.userID)
-    }
-
-    override fun refresh() {
-        viewModel.getRental(activity.flag,activity.userID)
-    }
-
     override fun dataSetSize(): Int {
         return viewModel.rentalItems.size
     }
 
+    /**
+     * 正常加载用
+     * */
     override fun onLoad() {
-        if (!isLoadingMore) {
-            if (viewModel.rentalItems.isNotEmpty()) {
-                isLoadingMore = true
-                isLoadFailed = false
-                isNoMoreData = false
-                loadItems()
-            }
+        if (!isLoadingMore && !isNoMoreData) {
+            startLoading()
+            viewModel.getRental(activity.flag,activity.userID)
         }
+    }
+
+    /**
+     * 刷新用
+     * */
+    override fun refresh() {
+        if(!isLoadingMore){
+            startLoading()
+            viewModel.page = 1
+            viewModel.rentalItems.clear()
+            viewModel.getRental(activity.flag,activity.userID)
+        }
+    }
+
+    override fun loadItems() {
+
     }
 
     override fun loadFinished() {
         super.loadFinished()
-        if (viewModel.rentalItems.isEmpty()) {
-            //swipeRefresh.visibility = View.GONE
-            recyclerView.visibility = View.GONE
-            showNoContentViewWithButton(GlobalUtil.getString(R.string.app_name),
-                GlobalUtil.getString(R.string.app_name),
-                View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
-        } else {
-            hideNoContentView()
-        }
+        adapter.data = viewModel.rentalItems
+        adapter.notifyDataSetChanged()
     }
 
     /**
@@ -107,33 +107,22 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
      * */
     private fun observe(){
         viewModel.rentalItemsChanged.observe(activity, Observer {
-            if(viewModel.rentalItems.isEmpty()){
-                //swipeRefresh.visibility = View.GONE
-                recyclerView.visibility = View.GONE
-                //暂时回到主界面
-                showNoContentViewWithButton(
-                    GlobalUtil.getString(R.string.items_null),
-                    GlobalUtil.getString(R.string.items_null_click),
-                    View.OnClickListener { MainActivity.actionStart(activity,userId = activity.userID) })
-            }else{
-                loadFinished()
-                hideNoContentView()
-                adapter.data = viewModel.rentalItems
-                adapter.notifyDataSetChanged()
-                scrollToTop()
-            }
+            loadFinished()
+        })
+
+        viewModel.badNetWork.observe(activity, Observer {
+            loadFailed(null)
+        })
+
+        viewModel.noContent.observe(activity, Observer {
+            loadNull()
         })
 
         viewModel.isLoadingMore.observe(activity, Observer {
             isLoadingMore = viewModel.isLoadingMore.value!!
         })
 
-        viewModel.loadFailed.observe(activity, Observer {
-            loadFailed(null)
-        })
-
         viewModel.isNoMoreData.observe(activity, Observer {
-            logWarn(TAG,"被修改了")
             isNoMoreData = viewModel.isNoMoreData.value!!
         })
     }
@@ -181,7 +170,7 @@ class RentalFragment : BaseItemsFragment(),LoadDataListener, BGANinePhotoLayout.
                 }
             }
             is DeleteEvent -> {
-                if(messageEvent.category == Const.Like.RENTAL){
+                if(messageEvent.category == Const.Like.RENTAL && activity.flag != 0){
                     /*
                     * 这里是一个设计不规范的地方，传了一个json对象给后端，正确的方法应该是id参数
                     * */

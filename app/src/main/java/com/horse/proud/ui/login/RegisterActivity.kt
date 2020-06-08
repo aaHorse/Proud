@@ -23,6 +23,7 @@ import com.horse.core.proud.extension.showToast
 import com.horse.proud.R
 import com.horse.core.proud.model.login.WordsResult
 import com.horse.core.proud.model.regist.Register
+import com.horse.core.proud.util.FastClickCheck
 import com.horse.proud.databinding.ActivityRegisterBinding
 import com.horse.proud.event.RegisterEvent
 import com.horse.proud.ui.common.BaseActivity
@@ -67,32 +68,34 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
             comfir.visibility = View.VISIBLE
         }
         btn_verify.setOnClickListener {
-            if(et_name.text.toString().isEmpty()){
-                showToast("姓名不能为空")
-                return@setOnClickListener
-            }
-            if(et_number.text.toString().isEmpty()){
-                showToast("学号不能为空")
-                return@setOnClickListener
-            }
-            if(et_password.text.toString().isEmpty()||et_repassword.text.toString().isEmpty()){
-                showToast("密码不能为空")
-                return@setOnClickListener
-            }
-            if(et_password.text.toString() != et_repassword.text.toString()){
-                showToast("两次输入的密码不一致")
-                return@setOnClickListener
-            }
-            if(et_phone.text.toString().isEmpty()){
-                showToast("手机号码不能为空")
-                return@setOnClickListener
-            }
-            register.name = et_name.text.toString()
-            register.number = et_number.text.toString()
-            register.password = et_password.text.toString()
-            register.phoneNumber = et_phone.text.toString()
+            if(FastClickCheck.isNotFastClick()){
+                if(et_name.text.toString().isEmpty()){
+                    showToast("姓名不能为空")
+                    return@setOnClickListener
+                }
+                if(et_number.text.toString().isEmpty()){
+                    showToast("学号不能为空")
+                    return@setOnClickListener
+                }
+                if(et_password.text.toString().isEmpty()||et_repassword.text.toString().isEmpty()){
+                    showToast("密码不能为空")
+                    return@setOnClickListener
+                }
+                if(et_password.text.toString() != et_repassword.text.toString()){
+                    showToast("两次输入的密码不一致")
+                    return@setOnClickListener
+                }
+                if(et_phone.text.toString().isEmpty()){
+                    showToast("手机号码不能为空")
+                    return@setOnClickListener
+                }
+                register.name = et_name.text.toString()
+                register.number = et_number.text.toString()
+                register.password = et_password.text.toString()
+                register.phoneNumber = et_phone.text.toString()
 
-            checkPermission()
+                checkPermission()
+            }
         }
 
         /*

@@ -23,7 +23,7 @@ class TaskNetwork {
 
     suspend fun fetchTaskPublish(task: TaskItem) = service.publish(task).await()
 
-    suspend fun fetchTaskAll() = service.getAll().await()
+    suspend fun fetchTaskAll(page:Int) = service.getAll(page).await()
 
     suspend fun fetchTaskUpLoadImage(part: MultipartBody.Part,requestBody: RequestBody) = service.uploadImage(part,requestBody).await()
 
@@ -35,7 +35,7 @@ class TaskNetwork {
 
     suspend fun fetchPublishComment(comment: CommentItem) = service.publishComment(comment).await()
 
-    suspend fun fetchUserTask(id:Int) = service.userTask(id).await()
+    suspend fun fetchUserTask(id:Int,page:Int) = service.userTask(id,page).await()
 
     suspend fun fetchUpdate(task: TaskItem) = service.update(task).await()
 

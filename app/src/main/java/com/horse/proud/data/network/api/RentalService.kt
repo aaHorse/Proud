@@ -23,8 +23,8 @@ interface RentalService {
     @POST("api/rental/insert")
     fun publish(@Body item: RentalItem): Call<RentalPublish>
 
-    @GET("api/rental/query/all")
-    fun getAll():Call<RentalList>
+    @GET("api/rental/query/all/{page}")
+    fun getAll(@Path("page")page:Int):Call<RentalList>
 
     @Multipart
     @POST("upload/good/setFileUpload")
@@ -43,8 +43,8 @@ interface RentalService {
     @POST("api/good/comment/insert")
     fun publishComment(@Body comment: CommentItem):Call<Response>
 
-    @GET("api/rental/query/userId")
-    fun userRental(@Query("userId")id:Int):Call<RentalList>
+    @GET("api/rental/query/userId/{page}")
+    fun userRental(@Path("page")page:Int,@Query("userId")id:Int):Call<RentalList>
 
     @POST("api/rental/update")
     fun update(@Body task: RentalItem):Call<Response>

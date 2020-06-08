@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
  * */
 class EditPersonalInfoViewModel(private val repository: SettingRepository):ViewModel() {
 
-    var flag:Int = 0
+    var flag:Int = 1
 
     val register = Proud.register
 
