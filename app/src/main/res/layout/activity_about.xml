@@ -127,7 +127,7 @@
                 android:textSize="16sp"
                 android:gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="推广：刘志勇 关敏"
+                android:text="推广：刘志勇 关敏 许光清"
                 />
 
             <TextView
