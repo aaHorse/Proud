@@ -332,6 +332,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .addAction(0, "退出", QMUIDialogAction.ACTION_PROP_NEGATIVE) { dialog, index ->
                 Proud.logout()
                 SplashActivity.actionStart(this)
+                finish()
                 dialog.dismiss()
             }.create(R.style.MenuDialog).show()
     }

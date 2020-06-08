@@ -67,6 +67,8 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
 
         if(item.title.isNotEmpty()){
             helper.setText(R.id.text, item.title)
+        }else{
+            helper.setText(R.id.text, " ")
         }
 
         val done = helper.getTextView(R.id.done)
@@ -111,18 +113,23 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
 
         if(item.startTime.isNotEmpty()){
             helper.getTextView(R.id.publish_time).text = item.startTime
+        }else{
+            helper.getTextView(R.id.publish_time).text = "  "
         }
 
         if(item.content.isNotEmpty()){
             helper.getView<SeeMoreView>(R.id.seemore).setText(item.content)
+        }else{
+            helper.getView<SeeMoreView>(R.id.seemore).setText("  ")
         }
 
-        item.image?.let {
-            if(item.image.isNotEmpty()){
-                val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
-                ninePhotoLayout.setDelegate(fragment)
-                ninePhotoLayout.data = item.images
-            }
+        val ninePhotoLayout = helper.getView<BGANinePhotoLayout>(R.id.npl_item_moment_photos)
+        if(item.image != null && item.image.isNotEmpty()){
+            ninePhotoLayout.setDelegate(fragment)
+            ninePhotoLayout.data = item.images
+            ninePhotoLayout.visibility = View.VISIBLE
+        }else{
+            ninePhotoLayout.visibility = View.GONE
         }
 
         helper.getView<LinearLayout>(R.id.ll_local).setOnClickListener {
@@ -163,32 +170,38 @@ class RentalAdapter(private val fragment: RentalFragment, private var recyclerVi
         /*
         * 嵌套类型对应的 RecyclerView
         * */
-        if(!item.label.isNullOrEmpty()){
-            var types:List<String> = item.label.split(",")
+        val rvType:RecyclerView = helper.getView(R.id.rv_type)
+        if(item.label.isNotEmpty()){
+            logWarn(TAG,item.label)
+            val types: MutableList<String> = item.label.split(",").toMutableList()
             types -= ""
-            if(types.isNotEmpty()){
-                var rvType:RecyclerView = helper.getView(R.id.rv_type)
-                rvType.setHasFixedSize(true)
-                var linearLayoutManager = LinearLayoutManager(fragment.context)
-                linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
-                rvType.layoutManager = linearLayoutManager
-                rvType.adapter = TypeAdapter(types)
-            }
+            rvType.setHasFixedSize(true)
+            val linearLayoutManager = LinearLayoutManager(fragment.context)
+            linearLayoutManager.orientation = LinearLayoutManager.HORIZONTAL
+            rvType.layoutManager = linearLayoutManager
+            rvType.adapter = TypeAdapter(types)
+            rvType.visibility = View.VISIBLE
+        }else{
+            rvType.visibility = View.GONE
         }
 
         /*
        * 嵌套评论对应的 RecyclerView
        * */
-        item.comments?.let {
-            val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
+        val rvComment:RecyclerView = helper.getView(R.id.rv_comment)
+        if(item.comments != null){
             rvComment.setHasFixedSize(true)
             rvComment.layoutManager = LinearLayoutManager(fragment.context)
-            if(it.commentList == null){
-                it.commentList = ArrayList()
+            if(item.comments!!.commentList == null){
+                item.comments!!.commentList = ArrayList()
             }
-            adapter = CommentAdapter(it.commentList!!)
+            adapter = CommentAdapter(item.comments!!.commentList!!)
             rvComment.adapter = adapter
-            helper.getTextView(R.id.tv_comment).text = "${it.commentList!!.size}"
+            helper.getTextView(R.id.tv_comment).text = "${item.comments!!.commentList!!.size}"
+            rvComment.visibility = View.VISIBLE
+        }else{
+            helper.getTextView(R.id.tv_comment).text = "0"
+            rvComment.visibility = View.GONE
         }
 
         helper.getView<Button>(R.id.send).setOnClickListener {
