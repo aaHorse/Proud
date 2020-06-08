@@ -20,12 +20,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.request.RequestOptions
 import com.horse.core.proud.Const
 import com.horse.core.proud.Proud
-import com.horse.core.proud.extension.logWarn
 import com.horse.core.proud.extension.showToast
-import com.horse.proud.R
-import com.horse.proud.callback.LoadDataListener
 import com.horse.core.proud.model.task.TaskItem
 import com.horse.core.proud.util.GlobalUtil
+import com.horse.proud.R
+import com.horse.proud.callback.LoadDataListener
 import com.horse.proud.databinding.ActivityTaskBinding
 import com.horse.proud.event.FinishActivityEvent
 import com.horse.proud.event.MessageEvent
@@ -369,7 +368,7 @@ class TaskActivity : BaseActivity(), LoadDataListener, PermissionCallbacks,
         builder.addAction("提交") { dialog, _ ->
             var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + items[i] + ","
+                result += "" + items[builder.checkedItemIndexes[i]] + ","
             }
             dialog.dismiss()
             viewModel.type = result

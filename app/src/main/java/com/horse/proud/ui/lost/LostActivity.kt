@@ -372,7 +372,7 @@ class LostActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissio
         builder.addAction("提交") { dialog, index ->
             var result = ""
             for (i in builder.checkedItemIndexes.indices) {
-                result += "" + items[i] + ","
+                result += "" + items[builder.checkedItemIndexes[i]] + ","
             }
             dialog.dismiss()
             viewModel.type = result
