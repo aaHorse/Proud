@@ -46,6 +46,7 @@ class LoginActivity : BaseActivity(){
     override fun setupViews() {
         tv_register_account.setOnClickListener {
             RegisterActivity.actionStart(this)
+            //不要finish
         }
         btn_login.setOnClickListener {
             if(FastClickCheck.isNotFastClick()){
@@ -54,6 +55,7 @@ class LoginActivity : BaseActivity(){
         }
         tv_forget_password.setOnClickListener {
             ForgetPasswordActivity.actionStart(this)
+            //不要finish
         }
         observe()
     }

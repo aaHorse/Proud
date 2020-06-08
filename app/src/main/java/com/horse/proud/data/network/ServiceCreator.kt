@@ -19,9 +19,9 @@ object ServiceCreator {
     private const val BASE_URL = "http://47.100.251.3/space/"
 
     private val httpClient = OkHttpClient.Builder()
-        .readTimeout(3, TimeUnit.MINUTES)
-        .connectTimeout(3, TimeUnit.MINUTES)
-        .writeTimeout(5, TimeUnit.MINUTES)
+//        .readTimeout(5, TimeUnit.MINUTES)
+//        .connectTimeout(5, TimeUnit.MINUTES)
+//        .writeTimeout(300, TimeUnit.MINUTES)
 
     private val builder = Retrofit.Builder()
         .baseUrl(BASE_URL)

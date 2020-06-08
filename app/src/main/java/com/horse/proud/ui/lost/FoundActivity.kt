@@ -111,6 +111,22 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
         }else{
             name.text = Proud.register.name
         }
+
+        if(flag == 0){
+            tv_state.text = "待领取"
+            tv_state.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+        }else{
+            if(item.done == 0){
+                iv_state.isChecked = false
+                tv_state.text = "待领取"
+                tv_state.setTextColor(ContextCompat.getColor(this,R.color.colorPrimaryDark))
+            }else{
+                iv_state.isChecked = true
+                tv_state.text = "已解决"
+                tv_state.setTextColor(ContextCompat.getColor(this,R.color.alpha70_green))
+            }
+        }
+
         ll_state.setOnClickListener{
             if(iv_state.isChecked){
                 iv_state.isChecked = false
@@ -244,7 +260,7 @@ class FoundActivity : BaseActivity(), LoadDataListener, EasyPermissions.Permissi
             val takePhotoDir = File(Proud.context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "Proud")
             var photoPickerIntent:Intent = BGAPhotoPickerActivity.IntentBuilder(this)
                 .cameraFileDir(takePhotoDir)
-                .maxChooseCount(9)
+                .maxChooseCount(3)
                 .selectedPhotos(null)//当前已选择图片的集合
                 .pauseOnScroll(false)//滚动列表时，是否暂停加载图片
                 .build()

@@ -52,7 +52,13 @@ class RentalActivityViewModel(private val repository: RentalRepository) : ViewMo
             item.image = ""
             item.done = 0
             item.startTime = DateUtil.nowDateTime
-            item.endTime = time
+
+            if(time.isEmpty()){
+                item.endTime = "不过期"
+            }else{
+                item.endTime = time
+            }
+
             item.thumbUp = 0
             item.collect = 0
             item.comment = 0

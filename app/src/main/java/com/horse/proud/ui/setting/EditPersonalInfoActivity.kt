@@ -59,6 +59,7 @@ class EditPersonalInfoActivity : BaseActivity() {
         viewModel.dataUpdate.observe(this, Observer {
             showToast("修改成功")
             AuthUtil.saveAuthData(viewModel.register)
+            finish()
         })
     }
 

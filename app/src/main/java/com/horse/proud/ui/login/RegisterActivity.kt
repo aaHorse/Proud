@@ -93,6 +93,7 @@ class RegisterActivity : BaseActivity() , EasyPermissions.PermissionCallbacks {
                 register.number = et_number.text.toString()
                 register.password = et_password.text.toString()
                 register.phoneNumber = et_phone.text.toString()
+                //register.info = "有理想有志气的大学生。"
 
                 checkPermission()
             }

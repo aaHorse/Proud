@@ -61,7 +61,9 @@ class LostAdapter(private val fragment: LostFragment, private var recyclerView: 
             .into(helper.getImageView(R.id.avatar))
 
         helper.getImageView(R.id.avatar).setOnClickListener {
-            OverViewPublishedActivity.actionStart(fragment.activity,item.userId)
+            if(fragment.activity.flag == 0){
+                OverViewPublishedActivity.actionStart(fragment.activity,item.userId)
+            }
         }
 
         if(!item.title.isNullOrEmpty()){

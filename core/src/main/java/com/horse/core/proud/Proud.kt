@@ -77,6 +77,9 @@ object Proud {
             phoneNumber = SharedUtil.read(Const.Auth.PHONE,"NULL")
             head =  SharedUtil.read(Const.Auth.HEAD,"NULL")
             info = SharedUtil.read(Const.Auth.INFO,"NULL")
+            if(info.isEmpty()){
+                info = "有理想有志气的大学生。"
+            }
             token = SharedUtil.read(Const.Auth.TOKEN,"NULL")
         }
         refreshLoginState()

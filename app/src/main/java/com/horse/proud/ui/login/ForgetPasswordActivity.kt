@@ -108,7 +108,6 @@ class ForgetPasswordActivity : BaseActivity() , EasyPermissions.PermissionCallba
                         override fun onResult(result: String) {
                             regexCheck(result)
                         }
-
                     })
             }
             else -> {

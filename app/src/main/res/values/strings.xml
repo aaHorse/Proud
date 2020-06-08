@@ -2,8 +2,8 @@
 
     <string name="app_name">校园芥子空间</string>
     <string name="apkSaveName">Proud(2.0.0)</string>
-    <string name="update_title">标题</string>
-    <string name="update_content">内容</string>
+    <string name="update_title">版本升级</string>
+    <string name="update_content">修复发布任务、失物招领、物品租赁模块的BUG，修复若干小BUG</string>
 
     <string name="unknown_error">发生未知错误!</string>
     <string name="login_status_expired">登录状态已过期</string>
